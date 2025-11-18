@@ -1,3 +1,3 @@
 export interface Possession {
-    shot: Array<"three" | "layup" | "miss">
+    shot: Array<"3pt" | "2pt" | "miss">
 }
