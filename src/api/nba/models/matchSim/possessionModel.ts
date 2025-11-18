@@ -1,12 +1,11 @@
 import { Player } from "../people/playerModel";
 import { Team } from "../teamModel";
-import { Possession } from "./possessionModel";
+import { Shot } from "./shotModel";
 
-
-export interface Match {
+export interface Possession {
     currentTeam: Team,
     shooter: Player,
     defender: Player,
-    outcome: Possession,
-    rebounder: Player
+    shot: Shot,
+    rebound: Player
 }
