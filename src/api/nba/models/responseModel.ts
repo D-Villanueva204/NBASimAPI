@@ -15,11 +15,11 @@ export const successResponse = <T>(
     message,
 });
 
-export const errorResponse = (
-    message: string,
-    code?: string
-): ApiResponse<null> => ({
-    status: "Error",
-    error: message,
-    code,
+export const errorResponse = (message: string, code: string) => ({
+    success: false,
+    error: {
+        message,
+        code,
+    },
+    timestamp: new Date().toISOString(),
 });
