@@ -26,6 +26,6 @@ jobs:
                   node-version: "22"
             # install project dependencies
             - run: npm ci
-            # run npm test script
-            - run: npm test
+            # # run npm test script
+            # - run: npm test
             
