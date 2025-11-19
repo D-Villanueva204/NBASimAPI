@@ -9,19 +9,15 @@ export const createPlayer = async (req: Request, res: Response): Promise<void> =
         // POST nba/player/
 };
 
-export const updatePlayerById = async (req: Request, res: Response): Promise<void> => {
-
-        // PUT nba/player/status/:id
-};
 
 export const getAllPlayers = async (req: Request, res: Response): Promise<void> => {
-
-        // GET nba/player/
+    
+    // GET nba/player/
 };
 
 export const getPlayerById = async (req: Request, res: Response): Promise<void> => {
-
-        // GET nba/player/:id
+    
+    // GET nba/player/:id
 };
 
 export const reviewPlayer = async (req: Request, res: Response): Promise<void> => {
@@ -29,7 +25,7 @@ export const reviewPlayer = async (req: Request, res: Response): Promise<void> =
         // PUT nba/player/review/:id
 };
 
-export const updatePlayerStatus = async (req: Request, res: Response): Promise<void> => {
+export const updatePlayer = async (req: Request, res: Response): Promise<void> => {
 
         // PUT nba/player/status/:id
 };
