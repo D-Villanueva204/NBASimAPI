@@ -1,11 +1,9 @@
-import { Team } from "../teamModel";
-
 export interface Player {
     id: string,
     status: boolean,
     name: string,
     position: string,
-    currentTeam?: Team,
+    currentTeam?: string,
     possession: number,
     three: number,
     layup: number,

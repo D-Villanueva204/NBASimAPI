@@ -11,7 +11,6 @@ import {
     updateDocument,
     getDocumentsByFieldValues
 } from "../repositories/firestoreRepositories";
-import { Team } from "../models/teamModel";
 
 const playerCollection: string = "players";
 
@@ -26,7 +25,7 @@ const dateNow = new Date();
  */
 export const createPlayer = async (playerData: {
     name: string,
-    currentTeam: Team,
+    currentTeam: string,
     position: string,
     possession: number,
     three: number,
