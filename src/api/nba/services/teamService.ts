@@ -1,4 +1,4 @@
-import { Player } from "../models/people/playerModel";
+import { Player, Position } from "../models/people/playerModel";
 import { Team } from "../models/teamModel";
 import {
     QuerySnapshot,
@@ -12,6 +12,7 @@ import {
     updateDocument
 } from "../repositories/firestoreRepositories";
 import { Coach } from "../models/people/coachModel";
+import * as playerService from "./playerService";
 
 const COLLECTION: string = "teams";
 
@@ -55,7 +56,7 @@ export const getTeams = async (): Promise<Team[]> => {
                 ...data,
                 createdAt: data.createdAt,
                 updatedAt: data.updatedAt,
-            } as Player;
+            } as Team;
         });
 
         if (teams.length == 0) {
@@ -99,3 +100,125 @@ export const updateTeamName = async (teamId: string, newName: string): Promise<T
         throw error;
     }
 };
+
+export const updatePlayer = async (teamId: string, playerId: string): Promise<Team> => {
+
+    try {
+        // This gets a team
+        const doc: DocumentSnapshot | null = await getDocumentById(
+            COLLECTION,
+            teamId
+        );
+
+        if (!doc) {
+            throw new Error(`No team with id ${teamId} found.`);
+        }
+
+        const data: DocumentData | undefined = doc.data();
+        const team: Team = {
+            id: doc.id,
+            ...data
+        } as Team;
+
+        //This gets a player
+
+        const updatedPlayer: Player = await playerService.getPlayerById(playerId);
+
+        const updatedTeam: Team = {
+            ...team,
+            updatedAt: new Date()
+        };
+
+
+        switch (updatedPlayer.position) {
+            case Position.PointGuard:
+                updatedTeam.pointGuard = updatedPlayer;
+                break;
+
+            case Position.ShootingGuard:
+                updatedTeam.shootingGuard = updatedPlayer;
+                break;
+
+            case Position.SmallForward:
+                updatedTeam.smallForward = updatedPlayer;
+                break;
+
+            case Position.PowerForward:
+                updatedTeam.powerForward = updatedPlayer;
+                break;
+
+            case Position.Centre:
+                updatedTeam.centre = updatedPlayer;
+                break;
+        }
+
+
+        await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
+        return structuredClone(updatedTeam);
+
+    } catch (error: unknown) {
+        throw error;
+    }
+};
+
+export const deletePlayer = async (teamId: string, playerId: string): Promise<Team> => {
+    try {
+        // This gets a team
+        const doc: DocumentSnapshot | null = await getDocumentById(
+            COLLECTION,
+            teamId
+        );
+
+        if (!doc) {
+            throw new Error(`No team with id ${teamId} found.`);
+        }
+
+        const data: DocumentData | undefined = doc.data();
+        const team: Team = {
+            id: doc.id,
+            ...data
+        } as Team;
+
+        //This gets a player
+
+        const removedPlayer: Player = await playerService.getPlayerById(playerId);
+
+        const updatedTeam: Team = {
+            ...team,
+            updatedAt: new Date()
+        };
+
+        switch (removedPlayer.position) {
+            case Position.PointGuard:
+                updatedTeam.pointGuard = null;
+                break;
+
+            case Position.ShootingGuard:
+                updatedTeam.shootingGuard = null;
+                break;
+
+            case Position.SmallForward:
+                updatedTeam.smallForward = null;
+                break;
+
+            case Position.PowerForward:
+                updatedTeam.powerForward = null;
+                break;
+
+            case Position.Centre:
+                updatedTeam.centre = null;
+                break;
+        }
+
+        await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
+
+        await playerService.updatePlayer(playerId, {currentTeam: null});
+
+        return structuredClone(updatedTeam);
+
+
+    } catch (error: unknown) {
+        throw error;
+    }
+
+}

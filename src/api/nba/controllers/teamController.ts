@@ -49,32 +49,44 @@ export const getTeams = async (req: Request, res: Response, next: NextFunction):
 
 };
 
-// export const updateTeamName = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-//     try {
+export const updateTeamName = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
 
-//         let id = String(req.params.id);
+        let id = String(req.params.id);
 
-//         const { name } = req.body;
+        const { newName } = req.body;
 
-//         const updatedTeam: Team = await teamService.updateTeamName(id, { name });
+        const updatedTeam: Team = await teamService.updateTeamName(id, newName);
 
-//         res.status(HTTP_STATUS.OK).json(
-//             successResponse({ updatedTeam }, "Team name updated")
-//         );
-//     }
-//     catch (error: unknown) {
-//         next(error);
-//     }
-// };
+        res.status(HTTP_STATUS.OK).json(
+            successResponse({ updatedTeam }, "Team name updated")
+        );
+    }
+    catch (error: unknown) {
+        next(error);
+    }
+};
 
-// export const updatePlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-//     let id = String(req.params.id);
+export const updatePlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    let id = String(req.params.id);
 
-//     const { playerId } = req.body;
+    const { playerId } = req.body;
 
-//     const updatedTeam: Team = await teamService.updatePlayer(id, { name });
+    const updatedTeam: Team = await teamService.updatePlayer(id, playerId);
 
-//     res.status(HTTP_STATUS.OK).json(
-//         successResponse({ updatedTeam }, "Team updated")
-//     );
-// }
+    res.status(HTTP_STATUS.OK).json(
+        successResponse({ updatedTeam }, "Team updated")
+    );
+}
+
+export const deletePlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    let id = String(req.params.id);
+
+    const { playerId } = req.body;
+
+    const updatedTeam: Team = await teamService.deletePlayer(id, playerId);
+
+    res.status(HTTP_STATUS.OK).json(
+        successResponse({ updatedTeam }, "Team updated")
+    );
+}

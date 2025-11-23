@@ -3,7 +3,7 @@ export interface Player {
     status: boolean,
     name: string,
     position: Position,
-    currentTeam?: string,
+    currentTeam: string | null,
     possession: number,
     three: number,
     layup: number,

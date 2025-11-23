@@ -87,11 +87,9 @@ export const updateCoach = async (
 
         const updatedCoach: Coach = {
             ...coach,
+            ...coachData,
             updatedAt: new Date()
         };
-
-        if (coachData.name !== undefined) updatedCoach.name = coachData.name;
-        if (coachData.currentTeam !== undefined) updatedCoach.currentTeam = coachData.currentTeam;
 
         await updateDocument<Coach>(COLLECTION, coachId, updatedCoach);
         return structuredClone(updatedCoach);
