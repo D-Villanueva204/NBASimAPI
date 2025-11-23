@@ -3,8 +3,12 @@ import { Player } from "./people/playerModel";
 
 export interface Team {
     name: string,
-    players: Player[],
-    record: Record,
+    pointGuard?: Player,
+    shootingGuard?: Player,
+    smallForward?: Player,
+    powerForward?: Player,
+    centre?: Player,
+    record?: Record,
     coach?: Coach,
     createdAt: Date;
     updatedAt: Date;

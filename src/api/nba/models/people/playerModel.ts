@@ -2,7 +2,7 @@ export interface Player {
     id: string,
     status: boolean,
     name: string,
-    position: string,
+    position: Position,
     currentTeam?: string,
     possession: number,
     three: number,
@@ -11,3 +11,11 @@ export interface Player {
     createdAt: Date;
     updatedAt: Date;
 };
+
+export enum Position {
+    PointGuard = "PG",   
+    ShootingGuard = "SG",
+    SmallForward = "SF",  
+    PowerForward = "PF",  
+    Centre = "C"        
+}

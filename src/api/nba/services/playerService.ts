@@ -1,4 +1,4 @@
-import { Player } from "../models/people/playerModel";
+import { Player, Position } from "../models/people/playerModel";
 import {
     QuerySnapshot,
     DocumentData,
@@ -26,7 +26,7 @@ const dateNow = new Date();
 export const createPlayer = async (playerData: {
     name: string,
     currentTeam: string,
-    position: string,
+    position: Position,
     possession: number,
     three: number,
     layup: number,
