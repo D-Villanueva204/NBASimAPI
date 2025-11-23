@@ -7,6 +7,10 @@ router.post("/", playerController.createPlayer);
 
 router.get("/", playerController.getAllPlayers);
 
+router.get("/", playerController.getPlayers);
+
+router.get("/", playerController.getPendingPlayers);
+
 router.get("/:id", playerController.getPlayerById);
 
 router.put("/review/:id", playerController.reviewPlayer);
