@@ -5,20 +5,13 @@ import { Team } from "../models/teamModel";
 import * as teamService from "../services/teamService"
 
 
-
 export const createTeam = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
-        const { name, pointGuard, shootingGuard, smallForward, powerForward, centre, coach } = req.body;
+        const { name} = req.body;
 
         const createdTeam: Team = await teamService.createTeam({
-            name: name,
-            pointGuard: pointGuard,
-            shootingGuard: shootingGuard,
-            smallForward: smallForward,
-            powerForward: powerForward,
-            centre: centre,
-            coach: coach
+            name: name
         })
 
 

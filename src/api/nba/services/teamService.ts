@@ -11,7 +11,6 @@ import {
     getDocumentById,
     updateDocument
 } from "../repositories/firestoreRepositories";
-import { Coach } from "../models/people/coachModel";
 import * as playerService from "./playerService";
 
 const COLLECTION: string = "teams";
@@ -19,18 +18,18 @@ const COLLECTION: string = "teams";
 const dateNow = new Date();
 
 export const createTeam = async (teamData: {
-    name: string,
-    pointGuard: Player,
-    shootingGuard: Player,
-    smallForward: Player,
-    powerForward: Player,
-    centre: Player,
-    coach: Coach
+    name: string
 }): Promise<Team> => {
     try {
 
         const newTeam: Partial<Team> = {
             ...teamData,
+            pointGuard: null,
+            shootingGuard: null,
+            smallForward: null,
+            powerForward: null,
+            centre: null,
+            coach: null,
             createdAt: dateNow,
             updatedAt: dateNow
         };
@@ -89,9 +88,10 @@ export const updateTeamName = async (teamId: string, newName: string): Promise<T
 
         const updatedTeam: Team = {
             ...team,
-            name: newName,
             updatedAt: new Date()
         };
+
+        updatedTeam.name = newName;
 
         await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
         return structuredClone(updatedTeam);
@@ -151,6 +151,8 @@ export const updatePlayer = async (teamId: string, playerId: string): Promise<Te
                 updatedTeam.centre = updatedPlayer;
                 break;
         }
+
+        await playerService.updatePlayer(playerId, { currentTeam: teamId });
 
 
         await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
@@ -212,7 +214,7 @@ export const deletePlayer = async (teamId: string, playerId: string): Promise<Te
 
         await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
 
-        await playerService.updatePlayer(playerId, {currentTeam: null});
+        await playerService.updatePlayer(playerId, { currentTeam: null });
 
         return structuredClone(updatedTeam);
 

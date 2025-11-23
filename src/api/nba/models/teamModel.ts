@@ -10,7 +10,7 @@ export interface Team {
     powerForward: Player | null;
     centre: Player | null;
     record?: Record;
-    coach?: Coach;
+    coach: Coach | null;
     createdAt: Date;
     updatedAt: Date;
 }
