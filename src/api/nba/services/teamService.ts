@@ -68,6 +68,33 @@ export const getTeams = async (): Promise<Team[]> => {
     }
 };
 
+export const getTeamById = async (teamId: string): Promise<Team> => {
+
+    try {
+        const doc: DocumentSnapshot | null = await getDocumentById(
+            COLLECTION,
+            teamId
+        );
+
+        if (!doc) {
+            throw new Error(`No team with id ${teamId} found.`);
+        }
+
+        const data: DocumentData | undefined = doc.data();
+        const team: Team = {
+            id: doc.id,
+            ...data
+        } as Team;
+
+        return structuredClone(team);
+
+    }
+    catch (error: unknown) {
+        throw error;
+    }
+
+};
+
 export const updateTeamName = async (teamId: string, newName: string): Promise<Team> => {
 
     try {
