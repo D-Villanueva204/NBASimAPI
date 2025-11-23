@@ -39,20 +39,65 @@ export const createPlayer = async (req: Request, res: Response, next: NextFuncti
 
 export const getAllPlayers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        res.status(HTTP_STATUS.OK).json(
-            successResponse({}, "Player created")
-        );
+        const playerData: Player[] = await playerService.getAllPlayers();
+
+        if (playerData.length > 0) {
+            res.status(HTTP_STATUS.OK).json(
+                successResponse(playerData, "Players found and returned.")
+            );
+        }
+
     }
-    catch (error: unknown) {
+    catch (error) {
         next(error);
+
     }
 };
 
+export const getPlayers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const playerData: Player[] = await playerService.getPlayers();
+
+        if (playerData.length > 0) {
+            res.status(HTTP_STATUS.OK).json(
+                successResponse(playerData, "Players found and returned.")
+            );
+        }
+
+    }
+    catch (error) {
+        next(error);
+
+    }
+};
+
+export const getPendingPlayers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const playerData: Player[] = await playerService.getPlayers();
+
+        if (playerData.length > 0) {
+            res.status(HTTP_STATUS.OK).json(
+                successResponse(playerData, "Pending Players found and returned.")
+            );
+        }
+
+    }
+    catch (error) {
+        next(error);
+
+    }
+};
+
+
 export const getPlayerById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        res.status(HTTP_STATUS.OK).json(
-            successResponse({}, "Player created")
-        );
+        let id = String(req.params.id);
+
+        const retrievedPlayer: Player = await playerService.getPlayerById(id);
+
+        res.status(HTTP_STATUS.OK).json(successResponse(
+            retrievedPlayer,
+            "Player found"));
     }
     catch (error: unknown) {
         next(error);
@@ -61,9 +106,13 @@ export const getPlayerById = async (req: Request, res: Response, next: NextFunct
 
 export const reviewPlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        res.status(HTTP_STATUS.OK).json(
-            successResponse({}, "Player created")
-        );
+        let id = String(req.params.id);
+        const { approved } = req.body;
+
+        const approvedPlayer: Player = await playerService.reviewPlayer(id, approved);
+
+        res.status(HTTP_STATUS.OK).json
+            (successResponse(approvedPlayer, "Player status set."));
     }
     catch (error: unknown) {
         next(error);
@@ -72,8 +121,17 @@ export const reviewPlayer = async (req: Request, res: Response, next: NextFuncti
 
 export const updatePlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+
+        let id = String(req.params.id);
+
+        const { name, position, currentTeam, possession, three, layup, defense } = req.body;
+
+        const updatedPlayer: Player = await playerService.updatePlayer(id, {
+            name, position, currentTeam, possession, three, layup, defense
+        })
+
         res.status(HTTP_STATUS.OK).json(
-            successResponse({}, "Player created")
+            successResponse({updatedPlayer}, "Player updated")
         );
     }
     catch (error: unknown) {

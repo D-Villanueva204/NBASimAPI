@@ -11,6 +11,7 @@ import {
     updateDocument,
     getDocumentsByFieldValues
 } from "../repositories/firestoreRepositories";
+import { error } from "console";
 
 const playerCollection: string = "players";
 
@@ -72,7 +73,34 @@ export const getAllPlayers = async (): Promise<Player[]> => {
             } as Player;
         });
 
+        if (players.length == 0) {
+            throw error;
+        }
+
         return players;
+    } catch (error: unknown) {
+        throw error;
+    }
+};
+
+export const getPlayers = async (): Promise<Player[]> => {
+    try {
+        const snapshot: QuerySnapshot = await getDocumentsByFieldValues(playerCollection,
+            [{ fieldName: "status", fieldValue: true }]);
+        const players: Player[] = snapshot.docs.map(doc => {
+            const data: DocumentData = doc.data();
+            return {
+                id: doc.id,
+                ...data
+            } as Player;
+        });
+
+        if (players.length == 0) {
+            throw error;
+        }
+
+        return players;
+
     } catch (error: unknown) {
         throw error;
     }
@@ -90,24 +118,10 @@ export const getPendingPlayers = async (): Promise<Player[]> => {
             } as Player;
         });
 
-        return pendingPlayers;
-
-    } catch (error: unknown) {
-        throw error;
-    }
-};
-
-export const getPlayers = async (): Promise<Player[]> => {
-    try {
-        const snapshot: QuerySnapshot = await getDocumentsByFieldValues(playerCollection,
-            [{ fieldName: "status", fieldValue: true }]);
-        const pendingPlayers: Player[] = snapshot.docs.map(doc => {
-            const data: DocumentData = doc.data();
-            return {
-                id: doc.id,
-                ...data
-            } as Player;
-        });
+        
+        if (pendingPlayers.length == 0) {
+            throw error;
+        }
 
         return pendingPlayers;
 
@@ -115,6 +129,7 @@ export const getPlayers = async (): Promise<Player[]> => {
         throw error;
     }
 };
+
 
 /**
  * 
