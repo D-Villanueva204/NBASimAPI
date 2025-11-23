@@ -8,6 +8,6 @@ const router: Router = express.Router();
 
 router.post("/", coachController.createCoach);
 router.get("/", coachController.getCoaches);
-router.put("/", coachController.updateCoach);
+router.put("/:id", coachController.updateCoach);
 
 export default router;
