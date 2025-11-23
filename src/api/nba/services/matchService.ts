@@ -121,6 +121,12 @@ export const getMatch = async (matchId: string): Promise<Match> => {
 
 };
 
+export const playMatch = async (matchId: string): Promise<Match> => {
+    // add game logic here.
+
+}
+
+
 export const reviewMatch = async (matchId: string, approved: boolean): Promise<Match | archivedMatch> => {
 
     try {

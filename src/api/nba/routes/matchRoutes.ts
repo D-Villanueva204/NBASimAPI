@@ -3,13 +3,13 @@ import * as matchController from "../controllers/matchController";
 
 const router = Router();
 
-router.post("/setup", matchController.setupMatch);
+router.post("/", matchController.setupMatch);
 
 router.get("/pending", matchController.getMatches);
 
-router.get("/games", matchController.getGames);
+router.get("/", matchController.getGames);
 
-router.get("/:id", matchController.getMatch);
+router.get("/pending/:id", matchController.getMatch);
 
 router.post("/play/:id", matchController.playMatch);
 
