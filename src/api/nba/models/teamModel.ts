@@ -2,10 +2,15 @@ import { Coach } from "./people/coachModel";
 import { Player } from "./people/playerModel";
 
 export interface Team {
-    name: string,
-    players: Player[],
-    record: Record,
-    coach?: Coach,
+    id: string;
+    name: string;
+    pointGuard: Player | null;
+    shootingGuard: Player | null;
+    smallForward: Player | null;
+    powerForward: Player | null;
+    centre: Player | null;
+    record?: Record;
+    coach: Coach | null;
     createdAt: Date;
     updatedAt: Date;
 }

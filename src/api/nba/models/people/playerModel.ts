@@ -1,10 +1,9 @@
-import { Team } from "../teamModel";
-
 export interface Player {
     id: string,
+    status: boolean,
     name: string,
-    position: string,
-    currentTeam?: Team,
+    position: Position,
+    currentTeam: string | null,
     possession: number,
     three: number,
     layup: number,
@@ -12,3 +11,11 @@ export interface Player {
     createdAt: Date;
     updatedAt: Date;
 };
+
+export enum Position {
+    PointGuard = "PG",   
+    ShootingGuard = "SG",
+    SmallForward = "SF",  
+    PowerForward = "PF",  
+    Centre = "C"        
+}

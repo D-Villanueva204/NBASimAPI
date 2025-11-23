@@ -8,4 +8,6 @@ export interface LeagueStandings {
     westernConference: Conference,
     topSeed: Team
     pointsLeader: Player
+    createdAt: Date,
+    updatedAt: Date
 }
