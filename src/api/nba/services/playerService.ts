@@ -11,7 +11,6 @@ import {
     updateDocument,
     getDocumentsByFieldValues
 } from "../repositories/firestoreRepositories";
-import { error } from "console";
 
 const playerCollection: string = "players";
 
@@ -74,7 +73,7 @@ export const getAllPlayers = async (): Promise<Player[]> => {
         });
 
         if (players.length == 0) {
-            throw error;
+            throw new Error("No players found");
         }
 
         return players;
@@ -96,7 +95,7 @@ export const getPlayers = async (): Promise<Player[]> => {
         });
 
         if (players.length == 0) {
-            throw error;
+            throw new Error("No players found");
         }
 
         return players;
@@ -120,7 +119,7 @@ export const getPendingPlayers = async (): Promise<Player[]> => {
 
         
         if (pendingPlayers.length == 0) {
-            throw error;
+           throw new Error("No players found");
         }
 
         return pendingPlayers;

@@ -5,11 +5,11 @@ const router: Router = express.Router();
 
 router.post("/", playerController.createPlayer);
 
-router.get("/", playerController.getAllPlayers);
+router.get("/admin/", playerController.getAllPlayers);
 
 router.get("/", playerController.getPlayers);
 
-router.get("/", playerController.getPendingPlayers);
+router.get("/pending/", playerController.getPendingPlayers);
 
 router.get("/:id", playerController.getPlayerById);
 
