@@ -12,4 +12,6 @@ initializeApp({
 // get a reference to the firestore database
 const db: Firestore = getFirestore();
 
+db.settings({ ignoreUndefinedProperties: true });
+
 export { db };

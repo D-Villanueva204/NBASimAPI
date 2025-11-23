@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/httpConstants";
 import { successResponse } from "../models/responseModel";
 import { Team } from "../models/teamModel";
+import * as teamService from "../services/teamService"
+
 
 
 export const createTeam = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -9,7 +11,7 @@ export const createTeam = async (req: Request, res: Response, next: NextFunction
 
         const { name, pointGuard, shootingGuard, smallForward, powerForward, centre, coach } = req.body;
 
-        const createdCoach: Team = await teamService.createTeam({
+        const createdTeam: Team = await teamService.createTeam({
             name: name,
             pointGuard: pointGuard,
             shootingGuard: shootingGuard,
@@ -21,7 +23,7 @@ export const createTeam = async (req: Request, res: Response, next: NextFunction
 
 
         res.status(HTTP_STATUS.CREATED).json(
-            successResponse(createdCoach, "Team created.")
+            successResponse(createdTeam, "Team created.")
         );
     }
     catch (error: unknown) {
@@ -47,20 +49,32 @@ export const getTeams = async (req: Request, res: Response, next: NextFunction):
 
 };
 
-export const updateTeamName = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
+// export const updateTeamName = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+//     try {
 
-        let id = String(req.params.id);
+//         let id = String(req.params.id);
 
-        const { name } = req.body;
+//         const { name } = req.body;
 
-        const updatedTeam: Team = await teamService.updateCoach(id, { name });
+//         const updatedTeam: Team = await teamService.updateTeamName(id, { name });
 
-        res.status(HTTP_STATUS.OK).json(
-            successResponse({ updatedTeam }, "Team name updated")
-        );
-    }
-    catch (error: unknown) {
-        next(error);
-    }
-};
+//         res.status(HTTP_STATUS.OK).json(
+//             successResponse({ updatedTeam }, "Team name updated")
+//         );
+//     }
+//     catch (error: unknown) {
+//         next(error);
+//     }
+// };
+
+// export const updatePlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+//     let id = String(req.params.id);
+
+//     const { playerId } = req.body;
+
+//     const updatedTeam: Team = await teamService.updatePlayer(id, { name });
+
+//     res.status(HTTP_STATUS.OK).json(
+//         successResponse({ updatedTeam }, "Team updated")
+//     );
+// }

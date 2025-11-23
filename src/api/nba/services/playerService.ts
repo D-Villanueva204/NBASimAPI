@@ -213,16 +213,17 @@ export const updatePlayer = async (
 
         const updatedPlayer: Player = {
             ...player,
+            ...playerData,
             updatedAt: new Date()
         };
 
-        if (playerData.name !== undefined) updatedPlayer.name = playerData.name;
-        if (playerData.position !== undefined) updatedPlayer.position = playerData.position;
-        if (playerData.currentTeam !== undefined) updatedPlayer.currentTeam = playerData.currentTeam;
-        if (playerData.possession !== undefined) updatedPlayer.possession = playerData.possession;
-        if (playerData.three !== undefined) updatedPlayer.three = playerData.three;
-        if (playerData.layup !== undefined) updatedPlayer.layup = playerData.layup;
-        if (playerData.defense !== undefined) updatedPlayer.defense = playerData.defense;
+        // if (playerData.name !== undefined) updatedPlayer.name = playerData.name;
+        // if (playerData.position !== undefined) updatedPlayer.position = playerData.position;
+        // if (playerData.currentTeam !== undefined) updatedPlayer.currentTeam = playerData.currentTeam;
+        // if (playerData.possession !== undefined) updatedPlayer.possession = playerData.possession;
+        // if (playerData.three !== undefined) updatedPlayer.three = playerData.three;
+        // if (playerData.layup !== undefined) updatedPlayer.layup = playerData.layup;
+        // if (playerData.defense !== undefined) updatedPlayer.defense = playerData.defense;
 
         updatedPlayer.status = false;
 

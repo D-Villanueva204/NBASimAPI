@@ -2,6 +2,7 @@ import { Coach } from "./people/coachModel";
 import { Player } from "./people/playerModel";
 
 export interface Team {
+    id: string,
     name: string,
     pointGuard?: Player,
     shootingGuard?: Player,
