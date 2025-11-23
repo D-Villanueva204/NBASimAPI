@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import morgan from "morgan";
 import playerRoutes from "../src/api/nba/routes/playerRoutes"
+import coachRoutes from "../src/api/nba/routes/coachRoutes";
 
 const app: Express = express();
 
@@ -11,5 +12,6 @@ app.use(morgan("combined"));
 
 // Add Routes here
 app.use("/api/nba/player", playerRoutes);
+app.use("/api/nba/coach", coachRoutes);
 
 export default app;

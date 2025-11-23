@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/httpConstants";
 import { successResponse } from "../models/responseModel";
 import { Coach } from "../models/people/coachModel";
+import * as coachService from "../services/coachService"
 
 export const createCoach = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -45,14 +46,12 @@ export const updateCoach = async (req: Request, res: Response, next: NextFunctio
 
         let id = String(req.params.id);
 
-        const { currentTeam } = req.body;
+        const { name, currentTeam } = req.body;
 
-        const updatedCoach: Coach = await coachService.updateCoach(id, {
-            name, currentTeam
-        })
+        const updatedCoach: Coach = await coachService.updateCoach(id, { name, currentTeam });
 
         res.status(HTTP_STATUS.OK).json(
-            successResponse({updatedCoach}, "Coach updated")
+            successResponse({ updatedCoach }, "Coach updated")
         );
     }
     catch (error: unknown) {
