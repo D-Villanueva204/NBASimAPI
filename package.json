@@ -8,7 +8,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "start": "ts-node src/server.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "generate-docs": "ts-node scripts/generate-openapi.ts && npx @redocly/cli build-docs openapi.json --output docs/index.html"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/D-Villanueva204/NBASimAPI/#readme",
   "devDependencies": {
+    "@redocly/cli": "^2.11.1",
     "@types/jest": "^30.0.0",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.5.2",

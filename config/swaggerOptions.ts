@@ -4,7 +4,7 @@ const swaggerOptions: swaggerJsdoc.Options = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "Task Management API Documentation",
+            title: "NBA SIM API Documentation",
             version: "1.0.0",
             description:
                 "This is the API documentation for the NBA SIM PROJECT.",
