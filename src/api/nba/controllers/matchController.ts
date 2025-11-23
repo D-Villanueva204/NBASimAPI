@@ -25,7 +25,24 @@ export const setupMatch = async (req: Request, res: Response, next: NextFunction
 
 export const getMatches = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const matchData: archivedMatch[] = await matchService.getMatches();
+        const matchData: Match[] = await matchService.getMatches();
+
+        if (matchData.length > 0) {
+            res.status(HTTP_STATUS.OK).json(
+                successResponse(matchData, "All pending matches found and returned.")
+            );
+        }
+
+    }
+    catch (error) {
+        next(error);
+
+    }
+};
+
+export const getGames = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const matchData: archivedMatch[] = await matchService.getGames();
 
         if (matchData.length > 0) {
             res.status(HTTP_STATUS.OK).json(
@@ -40,11 +57,13 @@ export const getMatches = async (req: Request, res: Response, next: NextFunction
     }
 };
 
+
+
 export const getMatch = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         let id = String(req.params.id);
 
-        const returnedMatch: archivedMatch = await matchService.getMatch(id);
+        const returnedMatch: Match = await matchService.getMatch(id);
 
         res.status(HTTP_STATUS.OK).json(successResponse(
             returnedMatch,
@@ -76,7 +95,7 @@ export const reviewMatch = async (req: Request, res: Response, next: NextFunctio
         let id = String(req.params.id);
         const { approved } = req.body;
 
-        const reviewedMatch: Match = await matchService.reviewedMatch(id, approved);
+        const reviewedMatch: Match = await matchService.reviewMatch(id, approved);
 
         res.status(HTTP_STATUS.OK).json
             (successResponse(reviewedMatch, "Game reviewed."));

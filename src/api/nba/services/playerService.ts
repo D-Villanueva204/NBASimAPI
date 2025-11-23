@@ -59,7 +59,6 @@ export const createPlayer = async (playerData: {
  * 
  */
 export const getAllPlayers = async (): Promise<Player[]> => {
-
     try {
         const snapshot: QuerySnapshot = await getDocuments(playerCollection);
         const players: Player[] = snapshot.docs.map(doc => {
@@ -216,14 +215,6 @@ export const updatePlayer = async (
             ...playerData,
             updatedAt: new Date()
         };
-
-        // if (playerData.name !== undefined) updatedPlayer.name = playerData.name;
-        // if (playerData.position !== undefined) updatedPlayer.position = playerData.position;
-        // if (playerData.currentTeam !== undefined) updatedPlayer.currentTeam = playerData.currentTeam;
-        // if (playerData.possession !== undefined) updatedPlayer.possession = playerData.possession;
-        // if (playerData.three !== undefined) updatedPlayer.three = playerData.three;
-        // if (playerData.layup !== undefined) updatedPlayer.layup = playerData.layup;
-        // if (playerData.defense !== undefined) updatedPlayer.defense = playerData.defense;
 
         updatedPlayer.status = false;
 

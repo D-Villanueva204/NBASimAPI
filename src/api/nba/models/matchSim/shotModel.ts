@@ -1,3 +1,5 @@
-export interface Shot {
-    shot: Array<"3pt" | "2pt" | "miss">
+export enum Shot {
+    THREE = 3,
+    LAYUP = 2,
+    MISS = 0
 }
