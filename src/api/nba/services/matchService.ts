@@ -121,7 +121,7 @@ export const getMatch = async (matchId: string): Promise<Match> => {
 
 };
 
-export const playMatch = async (matchId: string): Promise<Match> => {
+export const playMatch = async (matchId: string): Promise<void> => {
     // add game logic here.
 
 }
