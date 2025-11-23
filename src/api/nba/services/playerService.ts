@@ -106,6 +106,7 @@ export const getPlayers = async (): Promise<Player[]> => {
 };
 
 export const getPendingPlayers = async (): Promise<Player[]> => {
+    
     try {
         const snapshot: QuerySnapshot = await getDocumentsByFieldValues(playerCollection,
             [{ fieldName: "status", fieldValue: false }]);
@@ -117,7 +118,7 @@ export const getPendingPlayers = async (): Promise<Player[]> => {
             } as Player;
         });
 
-        
+
         if (pendingPlayers.length == 0) {
            throw new Error("No players found");
         }

@@ -73,7 +73,7 @@ export const getPlayers = async (req: Request, res: Response, next: NextFunction
 
 export const getPendingPlayers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const playerData: Player[] = await playerService.getPlayers();
+        const playerData: Player[] = await playerService.getPendingPlayers();
 
         if (playerData.length > 0) {
             res.status(HTTP_STATUS.OK).json(

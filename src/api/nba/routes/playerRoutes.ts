@@ -15,6 +15,6 @@ router.get("/:id", playerController.getPlayerById);
 
 router.put("/review/:id", playerController.reviewPlayer);
 
-router.put("/status/:id", playerController.updatePlayer);
+router.put("/update/:id", playerController.updatePlayer);
 
 export default router;
