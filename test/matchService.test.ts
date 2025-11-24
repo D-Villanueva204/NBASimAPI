@@ -60,7 +60,7 @@ describe("matchService", () => {
             expect.objectContaining({
                 awayTeam: mockAwayTeam,
                 homeTeam: mockHomeTeam,
-                status: false
+                played: false
             })
         );
 
@@ -73,7 +73,7 @@ describe("matchService", () => {
 
         const mockMatch = {
             matchId: "match1",
-            status: true,
+            played: true,
             approved: false,
             homeTeam: mockHomeTeam,
             awayTeam: mockAwayTeam,
@@ -102,7 +102,7 @@ describe("matchService", () => {
 
         const mockMatch = {
             matchId: "match1",
-            status: true,
+            played: true,
             approved: false,
             homeTeam: mockHomeTeam,
             awayTeam: mockAwayTeam,
@@ -132,7 +132,7 @@ describe("matchService", () => {
     it("should return a Match type object and change status when refused", async () => {
         const mockMatch = {
             matchId: "match1",
-            status: true,
+            played: true,
             approved: true,
             homeTeam: mockHomeTeam,
             awayTeam: mockAwayTeam,
@@ -154,7 +154,7 @@ describe("matchService", () => {
         expect(firestoreRepository.getDocumentById).toHaveBeenCalledWith("matches", "match1");
         expect(result).toEqual(expect.objectContaining({
             matchId: "match1",
-            status: true,
+            played: true,
             approved: false,
             homeTeam: mockHomeTeam,
             awayTeam: mockAwayTeam,
