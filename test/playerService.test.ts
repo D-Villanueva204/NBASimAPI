@@ -74,7 +74,7 @@ describe("playerService", () => {
 
     });
 
-    it("should retrieve an player by id if exists", async () => {
+    it("should retrieve a player by id if exists", async () => {
         const mockId = "johnwall";
         const mockPlayer = {
             name: "John Wall",
