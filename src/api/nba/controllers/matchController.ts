@@ -77,9 +77,9 @@ export const getMatch = async (req: Request, res: Response, next: NextFunction):
 
 export const playMatch = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        // let id = String(req.params.id);
+        let id = String(req.params.id);
 
-        // const returnedMatch: Match = await matchService.playMatch(id);
+        const returnedMatch: Match = await matchService.playMatch(id);
 
         res.status(HTTP_STATUS.OK).json(successResponse(
             // returnedMatch,

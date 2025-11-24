@@ -3,7 +3,7 @@ import { Possession } from "./possessionModel";
 
 export interface Match {
     matchId: string,
-    status: boolean,
+    played: boolean,
     approved: boolean,
     homeTeam: Team,
     awayTeam: Team,

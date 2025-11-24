@@ -35,7 +35,7 @@ export const setupMatch = async (matchData: {
         const newMatch: Partial<Match> = {
             awayTeam: returnedAwayTeam,
             homeTeam: returnedHomeTeam,
-            status: false,
+            played: false,
             createdAt: dateNow
         };
 
@@ -123,10 +123,22 @@ export const getMatch = async (matchId: string): Promise<Match> => {
 
 };
 
-export const playMatch = async (matchId: string): Promise<void> => {
+export const playMatch = async (matchId: string): Promise<Match> => {
     try {
         const playedMatch: Match = await getMatch(matchId);
 
+        playedMatch.possessions = generatePossessions(playedMatch);
+
+        playedMatch.approved = false;
+        playedMatch.played = true;
+
+        await updateDocument<Match>(MATCHES_COLLECTION, matchId, playedMatch);
+
+        return structuredClone(playedMatch);
+
+    }
+    catch (error: unknown) {
+        throw error
     }
 
 };
@@ -253,11 +265,11 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
 
             const approvedMatch: archivedMatch = {
                 ...calculatedMatch,
-                status: approved
+                approved: approved
 
             }
 
-            pendingMatch.status = approved;
+            pendingMatch.approved = approved;
 
             await updateDocument<archivedMatch>(ARCHIVED_MATCHES_COLLECTION, matchId, approvedMatch);
 
