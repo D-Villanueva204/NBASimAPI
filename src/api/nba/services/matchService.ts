@@ -150,7 +150,7 @@ const generatePossessions = (match: Match): Possession[] => {
     // Jumpball, random number I think.
     let currentTeam: Team = Math.random() < 0.5 ? match.homeTeam : match.awayTeam;;
 
-    for (let i = 0; i <= 12; i++) {
+    for (let i = 0; i <= 110; i++) {
 
         let secondTeam = (currentTeam.id === match.homeTeam.id) ? match.awayTeam : match.homeTeam;
 
@@ -215,11 +215,11 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
             break;
         case 2:
             shot = Shot.LAYUP
-            shotProbability = (shooter!.layup - (defender!.defense * 0.45));
+            shotProbability = (shooter!.layup - (defender!.defense * 0.15));
             break;
         case 3:
             shot = Shot.THREE
-            shotProbability = (shooter!.three - (defender!.defense * 0.65));
+            shotProbability = (shooter!.three - (defender!.defense * 0.25));
             break;
     };
 
@@ -301,7 +301,7 @@ const calculateScore = (match: Match): archivedMatch => {
 
     const gameEvents: Possession[] = match.possessions ?? [];
     for (const gameEvent of gameEvents) {
-        if (gameEvent.currentTeam == match.awayTeam) {
+        if (gameEvent.currentTeam.id == match.awayTeam.id) {
             awayScore += gameEvent.shot;
         }
         else {
