@@ -14,6 +14,8 @@ import {
     deleteDocument
 } from "../repositories/firestoreRepositories";
 import * as teamService from "../services/teamService"
+import { Player } from "../models/people/playerModel";
+import { Shot } from "../models/matchSim/shotModel";
 
 
 const MATCHES_COLLECTION: string = "matches";
@@ -33,7 +35,7 @@ export const setupMatch = async (matchData: {
         const newMatch: Partial<Match> = {
             awayTeam: returnedAwayTeam,
             homeTeam: returnedHomeTeam,
-            status: false,
+            played: false,
             createdAt: dateNow
         };
 
@@ -121,11 +123,132 @@ export const getMatch = async (matchId: string): Promise<Match> => {
 
 };
 
-export const playMatch = async (matchId: string): Promise<void> => {
-    // add game logic here.
+export const playMatch = async (matchId: string): Promise<Match> => {
+    try {
+        const playedMatch: Match = await getMatch(matchId);
+
+        playedMatch.possessions = generatePossessions(playedMatch);
+
+        playedMatch.approved = false;
+        playedMatch.played = true;
+
+        await updateDocument<Match>(MATCHES_COLLECTION, matchId, playedMatch);
+
+        return structuredClone(playedMatch);
+
+    }
+    catch (error: unknown) {
+        throw error
+    }
+
+};
+
+const generatePossessions = (match: Match): Possession[] => {
+    // Will be returned at the end
+    const gameEvents: Possession[] = [];
+
+    // Jumpball, random number I think.
+    let currentTeam: Team = Math.random() < 0.5 ? match.homeTeam : match.awayTeam;;
+
+    for (let i = 0; i <= 110; i++) {
+
+        let secondTeam = (currentTeam.id === match.homeTeam.id) ? match.awayTeam : match.homeTeam;
+
+        gameEvents.push(generatePossession(currentTeam, secondTeam));
+
+        currentTeam = (currentTeam.id === match.homeTeam.id) ? match.awayTeam : match.homeTeam;
+    }
+
+    return gameEvents;
+
+};
+
+const generatePossession = (offense: Team, defense: Team): Possession => {
+
+    let shooter;
+    let defender;
+    let rebounder;
+    let shot: Shot = Shot.MISS;
+    let shotProbability: number;
+
+    // Who shoots 
+
+    const offensePlayers: Player[] = [
+        offense.pointGuard!,
+        offense.shootingGuard!,
+        offense.smallForward!,
+        offense.powerForward!,
+        offense.centre!];
+    const defensePlayers: Player[] = [
+        defense.pointGuard!,
+        defense.shootingGuard!,
+        defense.smallForward!,
+        defense.powerForward!,
+        defense.centre!];
+    const possessionProbability: number[] = [
+        offense.pointGuard!.possession,
+        offense.shootingGuard!.possession,
+        offense.smallForward!.possession,
+        offense.powerForward!.possession,
+        offense.centre!.possession];
+
+    const totalSum: number = possessionProbability.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
+    let randomNum = Math.random() * totalSum;
+
+    for (const player of offensePlayers) {
+        randomNum -= player.possession;
+        if (randomNum <= 0) {
+            shooter = player;
+            defender = defensePlayers[offensePlayers.indexOf(shooter)];
+            break;
+        }
+    }
+
+    // Generate which shot it will be.
+
+    let oneToThree = Math.floor(Math.random() * 3) + 1;
+
+    switch (oneToThree) {
+        case 1:
+            shot = Shot.MISS
+            break;
+        case 2:
+            shot = Shot.LAYUP
+            shotProbability = (shooter!.layup - (defender!.defense * 0.15));
+            break;
+        case 3:
+            shot = Shot.THREE
+            shotProbability = (shooter!.three - (defender!.defense * 0.25));
+            break;
+    };
+
+    // Did the shooter make the shot?
+
+    if (shot !== Shot.MISS) {
+        const roll = Math.floor(Math.random() * 100);
+        const madeBasket = (shotProbability! > roll) ? true : false;
+        if (!madeBasket) {
+            shot = Shot.MISS;
+            rebounder = defensePlayers[Math.floor(Math.random() * defensePlayers.length)];
+        }
+        else {
+            rebounder = offensePlayers[Math.floor(Math.random() * offensePlayers.length)];
+        }
+
+    }
+
+    let newPossession: Possession = {
+        currentTeam: offense,
+        shooter: shooter!,
+        defender: defender!,
+        shot: shot,
+        rebound: rebounder!
+    };
+
+    return newPossession;
 
 }
-
 
 export const reviewMatch = async (matchId: string, approved: boolean): Promise<Match | archivedMatch> => {
 
@@ -142,13 +265,13 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
 
             const approvedMatch: archivedMatch = {
                 ...calculatedMatch,
-                status: approved
+                approved: approved
 
             }
 
-            pendingMatch.status = approved;
+            pendingMatch.approved = approved;
 
-            await updateDocument<archivedMatch>(ARCHIVED_MATCHES_COLLECTION, matchId, approvedMatch);
+            await createDocument<archivedMatch>(ARCHIVED_MATCHES_COLLECTION, approvedMatch);
 
             await deleteDocument(MATCHES_COLLECTION, matchId);
 
@@ -178,7 +301,7 @@ const calculateScore = (match: Match): archivedMatch => {
 
     const gameEvents: Possession[] = match.possessions ?? [];
     for (const gameEvent of gameEvents) {
-        if (gameEvent.currentTeam == match.awayTeam) {
+        if (gameEvent.currentTeam.id == match.awayTeam.id) {
             awayScore += gameEvent.shot;
         }
         else {
@@ -192,11 +315,9 @@ const calculateScore = (match: Match): archivedMatch => {
         outcome: {
             winner: winningTeam,
             home: {
-                team: match.homeTeam,
                 score: homeScore
             },
             away: {
-                team: match.awayTeam,
                 score: awayScore
             }
         },
