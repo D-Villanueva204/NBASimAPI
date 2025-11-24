@@ -157,6 +157,10 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
         else {
             const disapprovedMatch: Match = await getMatch(matchId);
 
+            disapprovedMatch.approved = approved;
+
+            await updateDocument<Match>(MATCHES_COLLECTION, matchId, disapprovedMatch);
+
             return structuredClone(disapprovedMatch);
 
         };
