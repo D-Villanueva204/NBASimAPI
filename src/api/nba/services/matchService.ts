@@ -14,6 +14,8 @@ import {
     deleteDocument
 } from "../repositories/firestoreRepositories";
 import * as teamService from "../services/teamService"
+import { Player } from "../models/people/playerModel";
+import { Shot } from "../models/matchSim/shotModel";
 
 
 const MATCHES_COLLECTION: string = "matches";
@@ -122,10 +124,119 @@ export const getMatch = async (matchId: string): Promise<Match> => {
 };
 
 export const playMatch = async (matchId: string): Promise<void> => {
-    // add game logic here.
+    try {
+        const playedMatch: Match = await getMatch(matchId);
+
+    }
+
+};
+
+const generatePossessions = (match: Match): Possession[] => {
+    // Will be returned at the end
+    const gameEvents: Possession[] = [];
+
+    // Jumpball, random number I think.
+    const firstTeam: Team = Math.random() < 0.5 ? match.homeTeam : match.awayTeam;
+
+    let secondTeam: Team = (firstTeam === match.homeTeam) ? match.awayTeam : match.homeTeam;
+
+    let currentTeam = firstTeam;
+
+    for (let i = 0; i <= 12; i++) {
+        gameEvents.push(generatePossession(currentTeam, secondTeam));
+
+        currentTeam = (currentTeam === match.homeTeam) ? match.awayTeam : match.homeTeam;
+    }
+
+    return gameEvents;
+
+};
+
+const generatePossession = (offense: Team, defense: Team): Possession => {
+
+    let shooter;
+    let defender;
+    let rebounder;
+    let shot: Shot = Shot.MISS;
+    let shotProbability: number;
+
+    // Who shoots 
+
+    const offensePlayers: Player[] = [
+        offense.pointGuard!,
+        offense.shootingGuard!,
+        offense.smallForward!,
+        offense.powerForward!,
+        offense.centre!];
+    const defensePlayers: Player[] = [
+        defense.pointGuard!,
+        defense.shootingGuard!,
+        defense.smallForward!,
+        defense.powerForward!,
+        defense.centre!];
+    const possessionProbability: number[] = [
+        offense.pointGuard!.possession,
+        offense.shootingGuard!.possession,
+        offense.smallForward!.possession,
+        offense.powerForward!.possession,
+        offense.centre!.possession];
+
+    const totalSum: number = possessionProbability.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
+    let randomNum = Math.random() * totalSum;
+
+    for (const player of offensePlayers) {
+        randomNum -= player.possession;
+        if (randomNum <= 0) {
+            shooter = player;
+            defender = defensePlayers[offensePlayers.indexOf(shooter)];
+        }
+    }
+
+    // Generate which shot it will be.
+
+    let oneToThree = Math.floor(Math.random() * 3) + 1;
+
+    switch (oneToThree) {
+        case 1:
+            shot = Shot.MISS
+            break;
+        case 2:
+            shot = Shot.LAYUP
+            shotProbability = (shooter!.layup - (defender!.defense * 0.45));
+            break;
+        case 3:
+            shot = Shot.THREE
+            shotProbability = (shooter!.three - (defender!.defense * 0.65));
+            break;
+    };
+
+    // Did the shooter make the shot?
+
+    if (shot !== Shot.MISS) {
+        const roll = Math.floor(Math.random() * 100);
+        const madeBasket = (shotProbability! > roll) ? true : false;
+        if (!madeBasket) {
+            shot = Shot.MISS;
+            rebounder = defensePlayers[Math.floor(Math.random() * defensePlayers.length - 1)];
+        }
+        else {
+            rebounder = offensePlayers[Math.floor(Math.random() * offensePlayers.length - 1)];
+        }
+
+    }
+
+    let newPossession: Possession = {
+        currentTeam: offense,
+        shooter: shooter!,
+        defender: defender!,
+        shot: shot,
+        rebound: rebounder!
+    };
+
+    return newPossession;
 
 }
-
 
 export const reviewMatch = async (matchId: string, approved: boolean): Promise<Match | archivedMatch> => {
 
