@@ -67,7 +67,7 @@ export const getMatch = async (req: Request, res: Response, next: NextFunction):
 
         res.status(HTTP_STATUS.OK).json(successResponse(
             returnedMatch,
-            "Game found"));
+            "Match found"));
     }
     catch (error: unknown) {
         next(error);
