@@ -148,16 +148,15 @@ const generatePossessions = (match: Match): Possession[] => {
     const gameEvents: Possession[] = [];
 
     // Jumpball, random number I think.
-    const firstTeam: Team = Math.random() < 0.5 ? match.homeTeam : match.awayTeam;
-
-    let secondTeam: Team = (firstTeam === match.homeTeam) ? match.awayTeam : match.homeTeam;
-
-    let currentTeam = firstTeam;
+    let currentTeam: Team = Math.random() < 0.5 ? match.homeTeam : match.awayTeam;;
 
     for (let i = 0; i <= 12; i++) {
+
+        let secondTeam = (currentTeam.id === match.homeTeam.id) ? match.awayTeam : match.homeTeam;
+
         gameEvents.push(generatePossession(currentTeam, secondTeam));
 
-        currentTeam = (currentTeam === match.homeTeam) ? match.awayTeam : match.homeTeam;
+        currentTeam = (currentTeam.id === match.homeTeam.id) ? match.awayTeam : match.homeTeam;
     }
 
     return gameEvents;
@@ -202,6 +201,7 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
         if (randomNum <= 0) {
             shooter = player;
             defender = defensePlayers[offensePlayers.indexOf(shooter)];
+            break;
         }
     }
 
@@ -230,10 +230,10 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
         const madeBasket = (shotProbability! > roll) ? true : false;
         if (!madeBasket) {
             shot = Shot.MISS;
-            rebounder = defensePlayers[Math.floor(Math.random() * defensePlayers.length - 1)];
+            rebounder = defensePlayers[Math.floor(Math.random() * defensePlayers.length)];
         }
         else {
-            rebounder = offensePlayers[Math.floor(Math.random() * offensePlayers.length - 1)];
+            rebounder = offensePlayers[Math.floor(Math.random() * offensePlayers.length)];
         }
 
     }
