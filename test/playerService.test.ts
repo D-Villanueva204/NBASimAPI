@@ -115,6 +115,7 @@ describe("playerService", () => {
         const mockDate = new Date();
 
         const mockPlayer = {
+            id: mockId,
             name: "John Wall",
             currentTeam: "Washington Wizards",
             position: Position.PointGuard,
@@ -147,7 +148,7 @@ describe("playerService", () => {
             currentTeam: "Cancun Sharks"
         }));
 
-        expect(result.currentTeam).toBe(mockPlayer.currentTeam);
+        expect(result.currentTeam).toBe(mockBody.currentTeam);
 
 
     });

@@ -60,6 +60,7 @@ describe("coachService", () => {
         const mockDate = new Date();
 
         const mockCoach = {
+            id: mockId,
             name: "Phil Jackson",
             currentTeam: "Chicago Bulls",
             createdAt: mockDate,
@@ -76,6 +77,16 @@ describe("coachService", () => {
         };
 
         (firestoreRepository.updateDocument as jest.Mock).mockResolvedValue(mockCoach);
+        (firestoreRepository.getDocumentById as jest.Mock).mockResolvedValue({
+            id: mockId,
+            data: () => ({
+                name: "Phil Jackson",
+                currentTeam: "Chicago Bulls",
+                createdAt: mockDate,
+                updatedAt: mockDate,
+            }),
+        });
+
 
         const result = await coachService.updateCoach(mockId, mockBody);
 
@@ -83,7 +94,7 @@ describe("coachService", () => {
             currentTeam: "Los Angeles Lakers"
         }));
 
-        expect(result.currentTeam).toBe(mockCoach.currentTeam);
+        expect(result.currentTeam).toBe(mockBody.currentTeam);
 
 
     });
