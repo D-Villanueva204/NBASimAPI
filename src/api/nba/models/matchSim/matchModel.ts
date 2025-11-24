@@ -15,11 +15,9 @@ export interface archivedMatch extends Match {
     outcome: {
         winner: Team,
         home: {
-            team: Team;
             score: number;
         };
         away: {
-            team: Team;
             score: number;
         };
     }

@@ -315,11 +315,9 @@ const calculateScore = (match: Match): archivedMatch => {
         outcome: {
             winner: winningTeam,
             home: {
-                team: match.homeTeam,
                 score: homeScore
             },
             away: {
-                team: match.awayTeam,
                 score: awayScore
             }
         },
