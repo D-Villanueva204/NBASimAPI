@@ -82,7 +82,7 @@ export const playMatch = async (req: Request, res: Response, next: NextFunction)
         const returnedMatch: Match = await matchService.playMatch(id);
 
         res.status(HTTP_STATUS.OK).json(successResponse(
-            // returnedMatch,
+            returnedMatch,
             "Game played"));
     }
     catch (error: unknown) {

@@ -271,7 +271,7 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
 
             pendingMatch.approved = approved;
 
-            await updateDocument<archivedMatch>(ARCHIVED_MATCHES_COLLECTION, matchId, approvedMatch);
+            await createDocument<archivedMatch>(ARCHIVED_MATCHES_COLLECTION, approvedMatch);
 
             await deleteDocument(MATCHES_COLLECTION, matchId);
 
