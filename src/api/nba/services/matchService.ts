@@ -232,9 +232,6 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
             shot = Shot.MISS;
             rebounder = defensePlayers[Math.floor(Math.random() * defensePlayers.length)];
         }
-        else {
-            rebounder = offensePlayers[Math.floor(Math.random() * offensePlayers.length)];
-        }
 
     }
 
