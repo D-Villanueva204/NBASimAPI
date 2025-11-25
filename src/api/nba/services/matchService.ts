@@ -33,8 +33,8 @@ export const setupMatch = async (matchData: {
         const returnedHomeTeam = await teamService.getTeamById(matchData.homeTeam);
 
         const newMatch: Partial<Match> = {
-            awayTeam: returnedAwayTeam,
-            homeTeam: returnedHomeTeam,
+            awayTeam: returnedAwayTeam.id,
+            homeTeam: returnedHomeTeam.id,
             played: false,
             createdAt: dateNow
         };
@@ -127,7 +127,7 @@ export const playMatch = async (matchId: string): Promise<Match> => {
     try {
         const playedMatch: Match = await getMatch(matchId);
 
-        playedMatch.possessions = generatePossessions(playedMatch);
+        playedMatch.possessions = await generatePossessions(playedMatch);
 
         playedMatch.approved = false;
         playedMatch.played = true;
@@ -143,20 +143,24 @@ export const playMatch = async (matchId: string): Promise<Match> => {
 
 };
 
-const generatePossessions = (match: Match): Possession[] => {
+const generatePossessions = async (match: Match): Promise<Possession[]> => {
     // Will be returned at the end
     const gameEvents: Possession[] = [];
 
     // Jumpball, random number I think.
-    let currentTeam: Team = Math.random() < 0.5 ? match.homeTeam : match.awayTeam;;
+    let firstTeamId: string = Math.random() < 0.5 ? match.homeTeam : match.awayTeam;
+
+    let currentTeam: Team = await teamService.getTeamById(firstTeamId);
 
     for (let i = 0; i <= 110; i++) {
 
-        let secondTeam = (currentTeam.id === match.homeTeam.id) ? match.awayTeam : match.homeTeam;
+        let secondTeam: Team = (currentTeam.id === match.homeTeam)
+            ? await teamService.getTeamById(match.awayTeam) : await teamService.getTeamById(match.homeTeam);
 
         gameEvents.push(generatePossession(currentTeam, secondTeam));
 
-        currentTeam = (currentTeam.id === match.homeTeam.id) ? match.awayTeam : match.homeTeam;
+        currentTeam = (currentTeam.id === match.homeTeam)
+            ? await teamService.getTeamById(match.awayTeam) : await teamService.getTeamById(match.homeTeam);
     }
 
     return gameEvents;
@@ -236,7 +240,7 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
     }
 
     let newPossession: Possession = {
-        currentTeam: offense,
+        currentTeam: offense.id,
         shooter: shooter!,
         defender: defender!,
         shot: shot,
@@ -258,7 +262,7 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
 
         if (approved) {
 
-            const calculatedMatch = calculateScore(pendingMatch);
+            const calculatedMatch = await calculateScore(pendingMatch);
 
             const approvedMatch: archivedMatch = {
                 ...calculatedMatch,
@@ -292,13 +296,13 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
     }
 };
 
-const calculateScore = (match: Match): archivedMatch => {
+const calculateScore = async (match: Match): Promise<archivedMatch> => {
     let awayScore = 0;
     let homeScore = 0;
 
     const gameEvents: Possession[] = match.possessions ?? [];
     for (const gameEvent of gameEvents) {
-        if (gameEvent.currentTeam.id == match.awayTeam.id) {
+        if (gameEvent.currentTeam == match.awayTeam) {
             awayScore += gameEvent.shot;
         }
         else {
@@ -306,11 +310,14 @@ const calculateScore = (match: Match): archivedMatch => {
         }
     }
 
-    const winningTeam: Team = homeScore > awayScore ? match.homeTeam : match.awayTeam;
+
+    const winningTeam: Team = homeScore > awayScore
+        ? await teamService.getTeamById(match.homeTeam) :
+        await teamService.getTeamById(match.awayTeam);
     const newArchivedMatch: archivedMatch = {
         ...match,
         outcome: {
-            winner: winningTeam,
+            winner: winningTeam.id,
             home: {
                 score: homeScore
             },
@@ -319,7 +326,6 @@ const calculateScore = (match: Match): archivedMatch => {
             }
         },
         finishedAt: dateNow
-
     }
 
     return newArchivedMatch;

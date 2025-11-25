@@ -1,9 +1,8 @@
 import { Player } from "../people/playerModel";
-import { Team } from "../teamModel";
 import { Shot } from "./shotModel";
 
 export interface Possession {
-    currentTeam: Team,
+    currentTeam: string,
     shooter: Player,
     defender: Player,
     shot: Shot,
