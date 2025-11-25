@@ -149,19 +149,21 @@ const generatePossessions = async (match: Match): Promise<Possessions> => {
     const gameEvents: Possession[] = [];
 
     // Jumpball, random number I think.
-    let firstTeamId: string = Math.random() < 0.5 ? match.homeTeam : match.awayTeam;
+    let homeTeam: Team = await teamService.getTeamById(match.homeTeam);
+    let awayTeam: Team = await teamService.getTeamById(match.awayTeam);
+    let teamOrder: Team[] = Math.random() < 0.5 ? [homeTeam, awayTeam] : [awayTeam, homeTeam];
 
-    let currentTeam: Team = await teamService.getTeamById(firstTeamId);
+    let currentTeam = teamOrder[0];
 
     for (let i = 0; i <= 110; i++) {
 
-        let secondTeam: Team = (currentTeam.id === match.homeTeam)
-            ? await teamService.getTeamById(match.awayTeam) : await teamService.getTeamById(match.homeTeam);
+        let secondTeam: Team = (teamOrder.indexOf(currentTeam) === 0)
+            ? teamOrder[1] : teamOrder[0];
 
         gameEvents.push(generatePossession(currentTeam, secondTeam));
 
-        currentTeam = (currentTeam.id === match.homeTeam)
-            ? await teamService.getTeamById(match.awayTeam) : await teamService.getTeamById(match.homeTeam);
+        currentTeam = (teamOrder.indexOf(currentTeam) === 1)
+            ? teamOrder[0] : teamOrder[1];
     }
 
     const newPossessions = await possessionsService.createPossessions(gameEvents);
@@ -314,13 +316,13 @@ const calculateScore = async (match: Match): Promise<archivedMatch> => {
     }
 
 
-    const winningTeam: Team = homeScore > awayScore
-        ? await teamService.getTeamById(match.homeTeam) :
-        await teamService.getTeamById(match.awayTeam);
+    const winningTeam: string = homeScore > awayScore
+        ? match.homeTeam :
+        match.awayTeam;
     const newArchivedMatch: archivedMatch = {
         ...match,
         outcome: {
-            winner: winningTeam.id,
+            winner: winningTeam,
             home: {
                 score: homeScore
             },
