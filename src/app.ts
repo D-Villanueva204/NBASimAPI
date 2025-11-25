@@ -5,6 +5,7 @@ import coachRoutes from "../src/api/nba/routes/coachRoutes";
 import teamRoutes from "../src/api/nba/routes/teamRoutes";
 import matchRoutes from "../src/api/nba/routes/matchRoutes";
 import setupSwagger from "../config/swagger";
+import possessionsRoutes from "./api/nba/routes/possessionsRoutes";
 
 const app: Express = express();
 
@@ -18,6 +19,7 @@ app.use("/api/nba/player", playerRoutes);
 app.use("/api/nba/coach", coachRoutes);
 app.use("/api/nba/teams", teamRoutes);
 app.use("/api/nba/matches", matchRoutes);
+app.use("/api/nba/possessions", possessionsRoutes);
 
 setupSwagger(app);
 
