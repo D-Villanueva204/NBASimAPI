@@ -1,4 +1,3 @@
-import { Possession } from "./possessionModel";
 
 export interface Match {
     matchId: string,
@@ -6,7 +5,7 @@ export interface Match {
     approved: boolean,
     homeTeam: string,
     awayTeam: string,
-    possessions: Possession[] | null,
+    possessions: string,
     createdAt: Date
 }
 

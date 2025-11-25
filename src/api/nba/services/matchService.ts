@@ -1,5 +1,5 @@
 import { Match, archivedMatch } from "../models/matchSim/matchModel";
-import { Possession } from "../models/matchSim/possessionModel";
+import { Possession, Possessions } from "../models/matchSim/possessionModel";
 import { Team } from "../models/teamModel";
 import {
     QuerySnapshot,
@@ -14,6 +14,7 @@ import {
     deleteDocument
 } from "../repositories/firestoreRepositories";
 import * as teamService from "../services/teamService"
+import * as possessionsService from "../services/possessionsService"
 import { Player } from "../models/people/playerModel";
 import { Shot } from "../models/matchSim/shotModel";
 
@@ -127,7 +128,7 @@ export const playMatch = async (matchId: string): Promise<Match> => {
     try {
         const playedMatch: Match = await getMatch(matchId);
 
-        playedMatch.possessions = await generatePossessions(playedMatch);
+        playedMatch.possessions = (await generatePossessions(playedMatch)).id;
 
         playedMatch.approved = false;
         playedMatch.played = true;
@@ -143,7 +144,7 @@ export const playMatch = async (matchId: string): Promise<Match> => {
 
 };
 
-const generatePossessions = async (match: Match): Promise<Possession[]> => {
+const generatePossessions = async (match: Match): Promise<Possessions> => {
     // Will be returned at the end
     const gameEvents: Possession[] = [];
 
@@ -163,7 +164,9 @@ const generatePossessions = async (match: Match): Promise<Possession[]> => {
             ? await teamService.getTeamById(match.awayTeam) : await teamService.getTeamById(match.homeTeam);
     }
 
-    return gameEvents;
+    const newPossessions = await possessionsService.createPossessions(gameEvents);
+
+    return newPossessions;
 
 };
 
@@ -300,7 +303,7 @@ const calculateScore = async (match: Match): Promise<archivedMatch> => {
     let awayScore = 0;
     let homeScore = 0;
 
-    const gameEvents: Possession[] = match.possessions ?? [];
+    const gameEvents: Possession[] = (await possessionsService.getPossessionsById(match.possessions)).events;
     for (const gameEvent of gameEvents) {
         if (gameEvent.currentTeam == match.awayTeam) {
             awayScore += gameEvent.shot;
