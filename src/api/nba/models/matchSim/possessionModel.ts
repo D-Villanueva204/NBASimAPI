@@ -3,7 +3,7 @@ import { Shot } from "./shotModel";
 
 export interface Possessions {
     id: string,
-    events: Possession[]
+    events: Possession[];
 }
 
 export interface Possession {
