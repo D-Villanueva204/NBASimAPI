@@ -177,6 +177,7 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
     let shooter;
     let defender;
     let rebounder;
+    let assist;
     let shot: Shot = Shot.MISS;
     let shotProbability: number;
 
@@ -241,15 +242,32 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
             shot = Shot.MISS;
             rebounder = defensePlayers[Math.floor(Math.random() * defensePlayers.length)];
         }
+        else {
+            assist = offensePlayers[Math.floor(Math.random() * offensePlayers.length)];
+        }
 
     }
 
     let newPossession: Possession = {
         currentTeam: offense.id,
-        shooter: shooter!,
-        defender: defender!,
+        shooter: {
+            playerId: shooter!.id,
+            name: shooter!.name
+
+        },
+        defender: {
+            playerId: defender!.id,
+            name: defender!.name
+        },
         shot: shot,
-        rebound: rebounder!
+        rebound: {
+            playerId: rebounder!.id,
+            name: rebounder!.name
+        },
+        assist: {
+            playerId: assist!.id,
+            name: assist!.name
+        }
     };
 
     return newPossession;

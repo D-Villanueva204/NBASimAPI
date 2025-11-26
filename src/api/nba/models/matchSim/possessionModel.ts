@@ -1,4 +1,3 @@
-import { Player } from "../people/playerModel";
 import { Shot } from "./shotModel";
 
 export interface Possessions {
@@ -8,8 +7,21 @@ export interface Possessions {
 
 export interface Possession {
     currentTeam: string,
-    shooter: Player,
-    defender: Player,
+    shooter: {
+        playerId: string,
+        name: string
+    },
+    defender: {
+        playerId: string,
+        name: string
+    },
     shot: Shot,
-    rebound: Player
+    rebound: {
+        playerId: string,
+        name: string
+    },
+    assist: {
+        playerId: string,
+        name: string
+    }
 }
