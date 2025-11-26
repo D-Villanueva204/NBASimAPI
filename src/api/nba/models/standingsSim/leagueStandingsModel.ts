@@ -1,12 +1,10 @@
 import { Player } from "../people/playerModel";
-import { Team } from "../teamModel";
-import { Conference } from "./conferenceModel";
 
 export interface LeagueStandings {
     season: string,
-    easternConference: Conference,
-    westernConference: Conference,
-    topSeed: Team
+    easternConference: string,
+    westernConference: string,
+    topSeed: string
     pointsLeader: Player
     createdAt: Date,
     updatedAt: Date
