@@ -222,6 +222,8 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
     switch (oneToThree) {
         case 1:
             shot = Shot.MISS
+            rebounder = defensePlayers[Math.floor(Math.random() * defensePlayers.length)];
+            assist = null;
             break;
         case 2:
             shot = Shot.LAYUP
@@ -242,12 +244,10 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
             shot = Shot.MISS;
             rebounder = defensePlayers[Math.floor(Math.random() * defensePlayers.length)];
             assist = null;
-        }
-        else {
+        } else {
             assist = offensePlayers[Math.floor(Math.random() * offensePlayers.length)];
             rebounder = null;
         }
-
     }
 
     let newPossession: Possession;

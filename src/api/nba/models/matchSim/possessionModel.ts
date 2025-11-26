@@ -6,6 +6,7 @@ export interface Possessions {
 }
 
 export interface Possession {
+    shot: Shot,
     currentTeam: string,
     shooter: {
         playerId: string,
@@ -15,7 +16,6 @@ export interface Possession {
         playerId: string,
         name: string
     },
-    shot: Shot,
     rebound: {
         playerId: string,
         name: string
