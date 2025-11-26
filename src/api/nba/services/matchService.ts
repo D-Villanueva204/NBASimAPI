@@ -241,36 +241,62 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
         if (!madeBasket) {
             shot = Shot.MISS;
             rebounder = defensePlayers[Math.floor(Math.random() * defensePlayers.length)];
+            assist = null;
         }
         else {
             assist = offensePlayers[Math.floor(Math.random() * offensePlayers.length)];
+            rebounder = null;
         }
 
     }
 
-    let newPossession: Possession = {
-        currentTeam: offense.id,
-        shooter: {
-            playerId: shooter!.id,
-            name: shooter!.name
+    let newPossession: Possession;
 
-        },
-        defender: {
-            playerId: defender!.id,
-            name: defender!.name
-        },
-        shot: shot,
-        rebound: {
-            playerId: rebounder!.id,
-            name: rebounder!.name
-        },
-        assist: {
-            playerId: assist!.id,
-            name: assist!.name
-        }
-    };
+    if (assist) {
+        newPossession = {
+            currentTeam: offense.id,
+            shooter: {
+                playerId: shooter!.id,
+                name: shooter!.name
 
-    return newPossession;
+            },
+            defender: {
+                playerId: defender!.id,
+                name: defender!.name
+            },
+            shot: shot,
+            rebound: null,
+            assist: {
+                playerId: assist.id,
+                name: assist!.name
+            }
+        };
+        return newPossession;
+
+    }
+    else {
+        newPossession = {
+            currentTeam: offense.id,
+            shooter: {
+                playerId: shooter!.id,
+                name: shooter!.name
+
+            },
+            defender: {
+                playerId: defender!.id,
+                name: defender!.name
+            },
+            shot: shot,
+            rebound: {
+                playerId: rebounder!.id,
+                name: rebounder!.name
+            },
+            assist: null
+        };
+
+        return newPossession;
+    }
+
 
 }
 

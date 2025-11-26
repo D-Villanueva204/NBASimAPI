@@ -19,9 +19,9 @@ export interface Possession {
     rebound: {
         playerId: string,
         name: string
-    },
+    } | null,
     assist: {
         playerId: string,
         name: string
-    }
+    } | null
 }
