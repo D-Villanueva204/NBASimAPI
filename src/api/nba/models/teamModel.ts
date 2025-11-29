@@ -9,7 +9,7 @@ export interface Team {
     smallForward: Player | null;
     powerForward: Player | null;
     centre: Player | null;
-    record?: Record;
+    record: Record;
     coach: Coach | null;
     createdAt: Date;
     updatedAt: Date;

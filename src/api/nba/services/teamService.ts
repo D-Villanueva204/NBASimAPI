@@ -98,20 +98,7 @@ export const getTeamById = async (teamId: string): Promise<Team> => {
 export const updateTeamName = async (teamId: string, newName: string): Promise<Team> => {
 
     try {
-        const doc: DocumentSnapshot | null = await getDocumentById(
-            COLLECTION,
-            teamId
-        );
-
-        if (!doc) {
-            throw new Error(`No team with id ${teamId} found.`);
-        }
-
-        const data: DocumentData | undefined = doc.data();
-        const team: Team = {
-            id: doc.id,
-            ...data
-        } as Team;
+        const team: Team = await getTeamById(teamId);
 
         const updatedTeam: Team = {
             ...team,
@@ -128,24 +115,43 @@ export const updateTeamName = async (teamId: string, newName: string): Promise<T
     }
 };
 
+export const updateRecord = async (teamId: string, win: boolean): Promise<Team> => {
+
+    try {
+        const team: Team = await getTeamById(teamId);
+
+        const updatedTeam: Team = {
+            ...team,
+            updatedAt: new Date()
+        };
+
+        if (!updatedTeam.record){
+            updatedTeam.record = {
+                wins: 0,
+                losses: 0
+            }
+        }
+
+        if (win){
+            updatedTeam.record.wins += 1;
+        }
+        else {
+            updatedTeam.record.losses += 1;
+        }
+
+
+        await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
+        return structuredClone(updatedTeam);
+
+    } catch (error: unknown) {
+        throw error;
+    }
+};
+
 export const updatePlayer = async (teamId: string, playerId: string): Promise<Team> => {
 
     try {
-        // This gets a team
-        const doc: DocumentSnapshot | null = await getDocumentById(
-            COLLECTION,
-            teamId
-        );
-
-        if (!doc) {
-            throw new Error(`No team with id ${teamId} found.`);
-        }
-
-        const data: DocumentData | undefined = doc.data();
-        const team: Team = {
-            id: doc.id,
-            ...data
-        } as Team;
+        const team: Team = await getTeamById(teamId);
 
         //This gets a player
 

@@ -320,7 +320,14 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
 
             }
 
-            pendingMatch.approved = approved;
+            await teamService.updateRecord(approvedMatch.outcome.winner, true);
+
+            if (approvedMatch.outcome.winner === approvedMatch.homeTeam) {
+                await teamService.updateRecord(approvedMatch.awayTeam, false);
+            }
+            else {
+                await teamService.updateRecord(approvedMatch.homeTeam, false);
+            }
 
             await createDocument<archivedMatch>(ARCHIVED_MATCHES_COLLECTION, approvedMatch);
 
