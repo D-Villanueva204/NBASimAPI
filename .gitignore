@@ -5,5 +5,4 @@ logs/
 
 capstone-project-75fdd-firebase-adminsdk-fbsvc-313c998d1b.json
 
-testingFunctions.ts
-testPopulateTeams.ts
+generateTeams.ts

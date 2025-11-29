@@ -15,12 +15,13 @@ import { LeagueStandings } from "../models/standingsSim/leagueStandingsModel";
 import * as conferenceService from "./conferenceService";
 
 
-const COLLECTION: string = "conferences";
+const COLLECTION: string = "standings";
 const dateNow = new Date();
 
 export const createNewStandings = async (): Promise<LeagueStandings> => {
     try {
-        const season: string = `${dateNow.getFullYear}-${(Number(dateNow.getFullYear) + 1)}`;
+        const season: string = `${dateNow.getFullYear()}-${(Number(dateNow.getFullYear()) + 1)}`;
+        console.log(season);
         const newStandings: Partial<LeagueStandings> = {
             season: season,
             createdAt: dateNow,
@@ -33,7 +34,7 @@ export const createNewStandings = async (): Promise<LeagueStandings> => {
         newStandings.westernConference = updatedConferences.westernConference;
         newStandings.topSeed = updatedConferences.topSeed;
 
-        await createDocument<Team>(COLLECTION, newStandings);
+        await createDocument<Team>(COLLECTION, newStandings, season);
 
         return structuredClone({ ...newStandings } as LeagueStandings);
 

@@ -12,13 +12,15 @@ import {
     updateDocument
 } from "../repositories/firestoreRepositories";
 import * as playerService from "./playerService";
+import { ConferenceType } from "../models/standingsSim/conferenceModel";
 
 const COLLECTION: string = "teams";
 
 const dateNow = new Date();
 
 export const createTeam = async (teamData: {
-    name: string
+    name: string,
+    conference: ConferenceType
 }): Promise<Team> => {
     try {
 
@@ -30,6 +32,10 @@ export const createTeam = async (teamData: {
             powerForward: null,
             centre: null,
             coach: null,
+            record: {
+                wins: 0,
+                losses: 0
+            },
             createdAt: dateNow,
             updatedAt: dateNow
         };

@@ -15,6 +15,7 @@ import {
 } from "../repositories/firestoreRepositories";
 import * as teamService from "../services/teamService"
 import * as possessionsService from "../services/possessionsService"
+import * as leagueStandingsService from "../services/leagueStandingsService";
 import { Player } from "../models/people/playerModel";
 import { Shot } from "../models/matchSim/shotModel";
 import { BoxScore, Row } from "../models/matchSim/boxScoreModel";
@@ -332,6 +333,9 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
             await createDocument<archivedMatch>(ARCHIVED_MATCHES_COLLECTION, approvedMatch);
 
             await deleteDocument(MATCHES_COLLECTION, matchId);
+
+            const season = (`${dateNow.getFullYear()}-${Number(dateNow.getFullYear()) + 1}`);
+            await leagueStandingsService.updateStandings(season);
 
             return structuredClone(approvedMatch);
         }

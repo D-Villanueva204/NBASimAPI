@@ -8,10 +8,11 @@ import * as teamService from "../services/teamService"
 export const createTeam = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
-        const { name} = req.body;
+        const { name, conference} = req.body;
 
         const createdTeam: Team = await teamService.createTeam({
-            name: name
+            name: name,
+            conference: conference
         })
 
 
