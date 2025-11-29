@@ -17,6 +17,7 @@ import * as teamService from "../services/teamService"
 import * as possessionsService from "../services/possessionsService"
 import { Player } from "../models/people/playerModel";
 import { Shot } from "../models/matchSim/shotModel";
+import { BoxScore, Row } from "../models/matchSim/boxScoreModel";
 
 
 const MATCHES_COLLECTION: string = "matches";
@@ -348,8 +349,15 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
 const calculateScore = async (match: Match): Promise<archivedMatch> => {
     let awayScore = 0;
     let homeScore = 0;
+    let boxScore: BoxScore;
+    let homeTeam = await teamService.getTeamById(match.homeTeam);
+    let awayTeam = await teamService.getTeamById(match.awayTeam);
+    let homeTeamRows = calculateRows(homeTeam);
+    let awayTeamRows = calculateRows(awayTeam);
+
 
     const gameEvents: Possession[] = (await possessionsService.getPossessionsById(match.possessions)).events;
+
     for (const gameEvent of gameEvents) {
         if (gameEvent.currentTeam == match.awayTeam) {
             awayScore += gameEvent.shot;
@@ -380,3 +388,21 @@ const calculateScore = async (match: Match): Promise<archivedMatch> => {
     return newArchivedMatch;
 
 };
+
+const calculateRows = (team: Team): Row[] => {
+    let players: Player[] = [team.pointGuard!, team.shootingGuard!, team.smallForward!, team.powerForward!, team.centre!];
+    let rowArray: Row[] = [];
+
+    for (let i = 0; i <= 4; i++) {
+        let player = players[i];
+        rowArray[i] = {
+            playerId: player.id, 
+            playerName: player.name, 
+            points: 0,
+            assists: 0,
+            rebounds: 0
+        }
+    }
+
+    return rowArray;
+}

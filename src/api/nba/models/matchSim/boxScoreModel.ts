@@ -7,6 +7,6 @@ export interface Row {
     playerId: string,
     playerName: string,
     points: number,
-    assists: number
+    assists: number,
     rebounds: number
 }

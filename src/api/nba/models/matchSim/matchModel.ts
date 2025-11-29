@@ -1,3 +1,4 @@
+import { BoxScore } from "./boxScoreModel";
 
 export interface Match {
     matchId: string,
@@ -19,5 +20,6 @@ export interface archivedMatch extends Match {
             score: number;
         };
     }
+    boxScore: BoxScore,
     finishedAt: Date
 }
