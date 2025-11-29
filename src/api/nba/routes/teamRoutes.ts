@@ -94,6 +94,8 @@ router.put("/name/:id", teamController.updateTeamName);
  */
 router.put("/player/:id", teamController.updatePlayer);
 
+router.put("/coach/:id", teamController.assignCoach);
+
 /**
  * @openapi
  * /api/nba/team/player/{id}:

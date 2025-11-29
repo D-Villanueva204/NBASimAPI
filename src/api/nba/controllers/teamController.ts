@@ -61,6 +61,19 @@ export const updateTeamName = async (req: Request, res: Response, next: NextFunc
     }
 };
 
+export const assignCoach = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    let id = String(req.params.id);
+
+    const { coachId } = req.body;
+
+    const updatedTeam: Team = await teamService.updatePlayer(id, coachId);
+
+    res.status(HTTP_STATUS.OK).json(
+        successResponse({ updatedTeam }, "Team updated")
+    );
+}
+
+
 export const updatePlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     let id = String(req.params.id);
 
