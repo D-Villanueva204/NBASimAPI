@@ -13,6 +13,8 @@ import {
 } from "../repositories/firestoreRepositories";
 import * as playerService from "./playerService";
 import { ConferenceType } from "../models/standingsSim/conferenceModel";
+import { Coach } from "../models/people/coachModel";
+import * as coachService from "./coachService";
 
 const COLLECTION: string = "teams";
 
@@ -193,6 +195,32 @@ export const updatePlayer = async (teamId: string, playerId: string): Promise<Te
 
         await playerService.updatePlayer(playerId, { currentTeam: teamId });
 
+
+        await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
+        return structuredClone(updatedTeam);
+
+    } catch (error: unknown) {
+        throw error;
+    }
+};
+
+export const assignCoach = async (teamId: string, coachId: string): Promise<Team> => {
+
+    try {
+        const team: Team = await getTeamById(teamId);
+
+        //This gets a player
+
+        const updatedCoach: Coach = await coachService.getCoachById(coachId);
+
+        const updatedTeam: Team = {
+            ...team,
+            updatedAt: new Date()
+        };
+
+        updatedTeam.coach = updatedCoach;
+
+        await coachService.updateCoach(coachId, {currentTeam: team.id});
 
         await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
         return structuredClone(updatedTeam);
