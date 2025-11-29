@@ -44,8 +44,6 @@ export const createNewStandings = async (): Promise<LeagueStandings> => {
 
 };
 
-
-
 export const updateStandings = async (
     season: string
 ): Promise<LeagueStandings> => {
