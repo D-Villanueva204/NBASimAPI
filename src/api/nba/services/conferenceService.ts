@@ -8,8 +8,7 @@ import {
     createDocument,
     getDocuments,
     getDocumentById,
-    updateDocument,
-    deleteDocument
+    updateDocument
 } from "../repositories/firestoreRepositories";
 import * as teamService from "../services/teamService";
 import { LeagueStandings } from "../models/standingsSim/leagueStandingsModel";
@@ -98,12 +97,30 @@ export const updateConferences = async (): Promise<{
     });
 };
 
-export const updateStandings = async (season: string): Promise<LeagueStandings> => {
-    const pendingStandings = await getStandingsById(season);
+export const updateStandings = async (
+    season: string
+): Promise<LeagueStandings> => {
+    try {
 
+        const standings = await getStandingsById(season);
+        const updatedConferences = await updateConferences();
 
+        const updatedStandings: LeagueStandings = {
+            ...standings,
+            westernConference: updatedConferences.westernConference,
+            easternConference: updatedConferences.easternConference,
+            topSeed: updatedConferences.topSeed,
+            updatedAt: new Date()
+        };
 
+        await updateDocument<LeagueStandings>(COLLECTION, season, updatedStandings);
+        return structuredClone(updatedStandings);
+
+    } catch (error: unknown) {
+        throw error;
+    }
 };
+
 
 
 

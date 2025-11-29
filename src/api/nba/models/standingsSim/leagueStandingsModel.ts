@@ -1,4 +1,3 @@
-import { Record } from "../teamModel"
 import { Conference, TeamRecord } from "./conferenceModel"
 
 export interface LeagueStandings {
