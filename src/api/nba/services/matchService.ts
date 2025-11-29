@@ -349,24 +349,39 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
 const calculateScore = async (match: Match): Promise<archivedMatch> => {
     let awayScore = 0;
     let homeScore = 0;
-    let boxScore: BoxScore;
     let homeTeam = await teamService.getTeamById(match.homeTeam);
     let awayTeam = await teamService.getTeamById(match.awayTeam);
     let homeTeamRows = calculateRows(homeTeam);
     let awayTeamRows = calculateRows(awayTeam);
+    let boxScore: BoxScore = {awayTeam: homeTeamRows, homeTeam: homeTeamRows};
 
 
     const gameEvents: Possession[] = (await possessionsService.getPossessionsById(match.possessions)).events;
 
     for (const gameEvent of gameEvents) {
+
         if (gameEvent.currentTeam == match.awayTeam) {
             awayScore += gameEvent.shot;
+            homeTeamRows[findRowIndexForPlayer(homeTeamRows, gameEvent.shooter.playerId)].points += gameEvent.shot;
+            if (gameEvent.shot === Shot.MISS) {
+                awayTeamRows[findRowIndexForPlayer(awayTeamRows, gameEvent.rebound!.playerId)].rebounds += 1;
+            }
+            else {
+                homeTeamRows[findRowIndexForPlayer(homeTeamRows, gameEvent.assist!.playerId)].assists += 1;
+            }
+
         }
         else {
             homeScore += gameEvent.shot;
+            awayTeamRows[findRowIndexForPlayer(awayTeamRows, gameEvent.shooter.playerId)].points += gameEvent.shot;
+            if (gameEvent.shot === Shot.MISS) {
+                homeTeamRows[findRowIndexForPlayer(homeTeamRows, gameEvent.rebound!.playerId)].rebounds += 1;
+            }
+            else {
+                awayTeamRows[findRowIndexForPlayer(awayTeamRows, gameEvent.assist!.playerId)].assists += 1;
+            }
         }
     }
-
 
     const winningTeam: string = homeScore > awayScore
         ? match.homeTeam :
@@ -382,6 +397,7 @@ const calculateScore = async (match: Match): Promise<archivedMatch> => {
                 score: awayScore
             }
         },
+        boxScore: boxScore,
         finishedAt: dateNow
     }
 
@@ -396,8 +412,8 @@ const calculateRows = (team: Team): Row[] => {
     for (let i = 0; i <= 4; i++) {
         let player = players[i];
         rowArray[i] = {
-            playerId: player.id, 
-            playerName: player.name, 
+            playerId: player.id,
+            playerName: player.name,
             points: 0,
             assists: 0,
             rebounds: 0
@@ -405,4 +421,16 @@ const calculateRows = (team: Team): Row[] => {
     }
 
     return rowArray;
+}
+
+const findRowIndexForPlayer = (rows: Row[], playerId: string): number => {
+    let index: number = -1;
+    for (let row of rows) {
+        if (row.playerId === playerId) {
+            index = rows.indexOf(row);
+        }
+    }
+
+    return index;
+
 }
