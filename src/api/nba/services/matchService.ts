@@ -360,9 +360,9 @@ const calculateScore = async (match: Match): Promise<archivedMatch> => {
         const offenseTeamRows: Row[] =
             (gameEvent.currentTeam == match.homeTeam) ? homeTeamRows : awayTeamRows;
         const defenseTeamRows: Row[] =
-            (gameEvent.currentTeam == match.awayTeam) ? awayTeamRows : homeTeamRows;
+            (gameEvent.currentTeam == match.homeTeam) ? awayTeamRows : homeTeamRows;
 
-        offenseTeamRows[findRowIndexForPlayer(offenseTeamRows, gameEvent.shooter.playerId)].points += 1;
+        offenseTeamRows[findRowIndexForPlayer(offenseTeamRows, gameEvent.shooter.playerId)].points += gameEvent.shot;
 
         if (gameEvent.currentTeam == match.homeTeam) {
             homeScore += gameEvent.shot;
@@ -424,8 +424,11 @@ const findRowIndexForPlayer = (rows: Row[], playerId: string): number => {
     for (let row of rows) {
         if (row.playerId == playerId) {
             index = rows.indexOf(row);
+            break;
         }
     }
+
+
 
     return index;
 
