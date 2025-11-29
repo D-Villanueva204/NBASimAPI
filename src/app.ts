@@ -4,11 +4,10 @@ import playerRoutes from "../src/api/nba/routes/playerRoutes"
 import coachRoutes from "../src/api/nba/routes/coachRoutes";
 import teamRoutes from "../src/api/nba/routes/teamRoutes";
 import matchRoutes from "../src/api/nba/routes/matchRoutes";
+import possessionsRoutes from "../src/api/nba/routes/possessionsRoutes";
 import setupSwagger from "../config/swagger";
-import possessionsRoutes from "./api/nba/routes/possessionsRoutes";
 
 const app: Express = express();
-
 // Add loggers here
 
 app.use(express.json());
