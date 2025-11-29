@@ -349,36 +349,33 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
 const calculateScore = async (match: Match): Promise<archivedMatch> => {
     let awayScore = 0;
     let homeScore = 0;
-    let homeTeam = await teamService.getTeamById(match.homeTeam);
-    let awayTeam = await teamService.getTeamById(match.awayTeam);
-    let homeTeamRows = structuredClone(calculateRows(homeTeam));
-    let awayTeamRows = structuredClone(calculateRows(awayTeam));
-    let boxScore: BoxScore = {awayTeam: awayTeamRows, homeTeam: homeTeamRows};
+    let homeTeamRows = structuredClone(calculateRows(await teamService.getTeamById(match.homeTeam)));
+    let awayTeamRows = structuredClone(calculateRows(await teamService.getTeamById(match.awayTeam)));
+    let boxScore: BoxScore = { awayTeam: awayTeamRows, homeTeam: homeTeamRows };
 
     const gameEvents: Possession[] = (await possessionsService.getPossessionsById(match.possessions)).events;
 
     for (const gameEvent of gameEvents) {
 
-        if (gameEvent.currentTeam == match.awayTeam) {
-            awayScore += gameEvent.shot;
-            awayTeamRows[findRowIndexForPlayer(awayTeamRows, gameEvent.shooter.playerId)].points += gameEvent.shot;
-            if (gameEvent.shot === Shot.MISS) {
-                homeTeamRows[findRowIndexForPlayer(homeTeamRows, gameEvent.rebound!.playerId)].rebounds += 1;
-            }
-            else {
-                awayTeamRows[findRowIndexForPlayer(awayTeamRows, gameEvent.assist!.playerId)].assists += 1;
-            }
+        const offenseTeamRows: Row[] =
+            (gameEvent.currentTeam == match.homeTeam) ? homeTeamRows : awayTeamRows;
+        const defenseTeamRows: Row[] =
+            (gameEvent.currentTeam == match.awayTeam) ? awayTeamRows : homeTeamRows;
 
+        offenseTeamRows[findRowIndexForPlayer(offenseTeamRows, gameEvent.shooter.playerId)].points += 1;
+
+        if (gameEvent.currentTeam == match.homeTeam) {
+            homeScore += gameEvent.shot;
         }
         else {
-            homeScore += gameEvent.shot;
-            homeTeamRows[findRowIndexForPlayer(homeTeamRows, gameEvent.shooter.playerId)].points += gameEvent.shot;
-            if (gameEvent.shot === Shot.MISS) {
-                awayTeamRows[findRowIndexForPlayer(awayTeamRows, gameEvent.rebound!.playerId)].rebounds += 1;
-            }
-            else {
-                homeTeamRows[findRowIndexForPlayer(homeTeamRows, gameEvent.assist!.playerId)].assists += 1;
-            }
+            awayScore += gameEvent.shot;
+        }
+
+        if (gameEvent.shot === Shot.MISS) {
+            defenseTeamRows[findRowIndexForPlayer(defenseTeamRows, gameEvent.rebound!.playerId)].rebounds += 1;
+        }
+        else {
+            offenseTeamRows[findRowIndexForPlayer(offenseTeamRows, gameEvent.assist!.playerId)].assists += 1;
         }
     }
 
