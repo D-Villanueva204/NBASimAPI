@@ -1,9 +1,11 @@
 import { Coach } from "./people/coachModel";
 import { Player } from "./people/playerModel";
+import { ConferenceType } from "./standingsSim/conferenceModel";
 
 export interface Team {
     id: string;
-    name: string;
+    name: string; 
+    conference: ConferenceType;
     pointGuard: Player | null;
     shootingGuard: Player | null;
     smallForward: Player | null;

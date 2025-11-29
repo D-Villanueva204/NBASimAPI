@@ -1,9 +1,11 @@
+import { Record } from "../teamModel"
+import { Conference, TeamRecord } from "./conferenceModel"
+
 export interface LeagueStandings {
     season: string,
-    easternConference: string,
-    westernConference: string,
-    topSeed: string
-    pointsLeader: string
+    easternConference: Conference,
+    westernConference: Conference,
+    topSeed: TeamRecord,
     createdAt: Date,
     updatedAt: Date
 }
