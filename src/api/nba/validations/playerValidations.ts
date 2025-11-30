@@ -113,19 +113,25 @@ export const playerSchemas = {
             id: Joi.string().required().messages({
                 "string.base": "Given id must be a string",
                 "any.required": "Player Id is required",
-                "string.empty": "PLayer Id cannot be empty",
+                "string.empty": "Player Id cannot be empty",
             })
         })
     },
-
-}
-
-
-export const adminSchemas = Joi.object({
-    approved: Joi.boolean()
-        .required()
-        .messages({
-            "boolean.base": "Approved must be a boolean value",
-            "any.required": "Approved status is required"
+    reviewPlayer: {
+        params: Joi.object({
+            id: Joi.string().required().messages({
+                "string.base": "Given id must be a string",
+                "any.required": "Player Id is required",
+                "string.empty": "Player Id cannot be empty",
+            })
+        }),
+        body: Joi.object({
+            approved: Joi.boolean()
+                .required()
+                .messages({
+                    "boolean.base": "Approved must be a boolean value",
+                    "any.required": "Approved status is required"
+                })
         })
-});
+    },
+};

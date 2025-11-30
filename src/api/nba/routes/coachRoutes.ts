@@ -1,5 +1,7 @@
 import express, { Router } from "express";
 import * as coachController from "../controllers/coachController";
+import { validateRequest } from "../middleware/validate";
+import { coachSchemas } from "../validations/coachValidations";
 
 
 const router: Router = express.Router();
@@ -36,7 +38,7 @@ const router: Router = express.Router();
  *               $ref: '#/components/validations/Coach'
  */
 
-router.post("/", coachController.createCoach);
+router.post("/", validateRequest(coachSchemas.create), coachController.createCoach);
 /**
  * @openapi
  * /api/nba/coach/:
@@ -54,7 +56,7 @@ router.post("/", coachController.createCoach);
 
 router.get("/", coachController.getCoaches);
 
-router.get("/:id", coachController.getCoachById);
+router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.getCoachById);
 
 /**
  * @openapi
@@ -93,6 +95,6 @@ router.get("/:id", coachController.getCoachById);
  * 
  */
 
-router.put("/:id", coachController.updateCoach);
+router.put("/:id", validateRequest(coachSchemas.update), coachController.updateCoach);
 
 export default router;

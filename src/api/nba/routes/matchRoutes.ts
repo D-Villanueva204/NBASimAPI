@@ -1,5 +1,7 @@
 import { Router } from "express";
 import * as matchController from "../controllers/matchController";
+import { validateRequest } from "../middleware/validate";
+import { matchSchemas } from "../validations/matchValidations";
 
 const router = Router();
 
@@ -34,7 +36,7 @@ const router = Router();
  *             schema:
  *               $ref: "#/components/schemas/ResponseSchema"
  */
-router.post("/", matchController.setupMatch);
+router.post("/", validateRequest(matchSchemas.setupMatch), matchController.setupMatch);
 
 /**
  * @openapi
@@ -91,7 +93,7 @@ router.get("/", matchController.getGames);
  *             schema:
  *               $ref: "#/components/schemas/ResponseSchema"
  */
-router.get("/pending/:id", matchController.getMatch);
+router.get("/pending/:id", validateRequest(matchSchemas.getMatch), matchController.getMatch);
 
 /**
  * @openapi
@@ -115,7 +117,7 @@ router.get("/pending/:id", matchController.getMatch);
  *             schema:
  *               $ref: "#/components/schemas/ResponseSchema"
  */
-router.post("/play/:id", matchController.playMatch);
+router.post("/play/:id", validateRequest(matchSchemas.playMatch), matchController.playMatch);
 
 /**
  * @openapi
@@ -150,6 +152,6 @@ router.post("/play/:id", matchController.playMatch);
  *             schema:
  *               $ref: "#/components/schemas/ResponseSchema"
  */
-router.put("/review/:id", matchController.reviewMatch);
+router.put("/review/:id", validateRequest(matchSchemas.reviewMatch), matchController.reviewMatch);
 
 export default router;

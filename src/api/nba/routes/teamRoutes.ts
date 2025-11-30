@@ -1,5 +1,7 @@
 import express, { Router } from "express";
 import * as teamController from "../controllers/teamController";
+import { validateRequest } from "../middleware/validate";
+import { TeamSchemas } from "../validations/teamValidations";
 
 const router: Router = express.Router();
 
@@ -23,7 +25,7 @@ const router: Router = express.Router();
  *       201:
  *         description: Team created.
  */
-router.post("/", teamController.createTeam);
+router.post("/", validateRequest(TeamSchemas.create), teamController.createTeam);
 
 /**
  * @openapi
@@ -37,7 +39,7 @@ router.post("/", teamController.createTeam);
  */
 router.get("/", teamController.getTeams);
 
-router.get("/:id", teamController.getTeamById);
+router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamById);
 
 /**
  * @openapi
@@ -66,7 +68,7 @@ router.get("/:id", teamController.getTeamById);
  *       200:
  *         description: Team name updated successfully.
  */
-router.put("/name/:id", teamController.updateTeamName);
+router.put("/name/:id", validateRequest(TeamSchemas.updateTeamName), teamController.updateTeamName);
 
 /**
  * @openapi
@@ -94,9 +96,9 @@ router.put("/name/:id", teamController.updateTeamName);
  *       200:
  *         description: Player added or updated for the team.
  */
-router.put("/player/:id", teamController.updatePlayer);
+router.put("/player/:id", validateRequest(TeamSchemas.updatePlayer), teamController.updatePlayer);
 
-router.put("/coach/:id", teamController.assignCoach);
+router.put("/coach/:id", validateRequest(TeamSchemas.assignCoach), teamController.assignCoach);
 
 /**
  * @openapi
@@ -124,6 +126,6 @@ router.put("/coach/:id", teamController.assignCoach);
  *       200:
  *         description: Team updated. Player also updated.
  */
-router.delete("/player/:id", teamController.deletePlayer);
+router.delete("/player/:id", validateRequest(TeamSchemas.deletePlayer), teamController.deletePlayer);
 
 export default router;

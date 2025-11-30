@@ -2,7 +2,7 @@ import Joi from "joi";
 import { ConferenceType } from "../models/standingsSim/conferenceModel";
 
 export const TeamSchemas = {
-    create: Joi.object({
+    create: {
         params: Joi.object({
             id: Joi.string().required().messages({
                 "any.required": "Player Id is required",
@@ -24,8 +24,18 @@ export const TeamSchemas = {
                     "any.required": "Conference is required."
                 })
         })
-    }),
-    updateTeamName: Joi.object({
+    },
+
+    getById: {
+        params: Joi.object({
+            id: Joi.string().required().messages({
+                "string.base": "Given id must be a string",
+                "any.required": "Team Id is required",
+                "string.empty": "Team Id cannot be empty",
+            })
+        })
+    },
+    updateTeamName: {
         params: Joi.object({
             id: Joi.string().required().messages({
                 "any.required": "Player Id is required",
@@ -44,9 +54,9 @@ export const TeamSchemas = {
                     "any.required": "New team name is required."
                 })
         }),
-    }),
+    },
 
-    updatePlayer: Joi.object({
+    updatePlayer: {
         params: Joi.object({
             id: Joi.string().required().messages({
                 "any.required": "Team Id is required",
@@ -60,9 +70,9 @@ export const TeamSchemas = {
                     "string.empty": "Player ID cannot be empty"
                 })
         }),
-    }),
+    },
 
-    assignCoach: Joi.object({
+    assignCoach: {
         params: Joi.object({
             id: Joi.string().required().messages({
                 "any.required": "Team Id is required",
@@ -77,10 +87,10 @@ export const TeamSchemas = {
                     "any.required": "Coach ID is required."
                 })
         }),
-    }),
+    },
 
 
-    deletePlayer: Joi.object({
+    deletePlayer: {
         params: Joi.object({
             id: Joi.string().required().messages({
                 "any.required": "Team Id is required",
@@ -95,6 +105,6 @@ export const TeamSchemas = {
                     "any.required": "Player ID is required."
                 })
         }),
-    })
+    }
 };
 
