@@ -53,6 +53,9 @@ router.post("/", coachController.createCoach);
  */
 
 router.get("/", coachController.getCoaches);
+
+router.get("/:id", coachController.getCoachById);
+
 /**
  * @openapi
  * /api/nba/coach/{coachId}:

@@ -45,31 +45,6 @@ export const createNewStandings = async (): Promise<LeagueStandings> => {
 
 };
 
-export const updateStandings = async (
-    season: string
-): Promise<LeagueStandings> => {
-    try {
-
-        const standings = await getStandingsById(season);
-        const updatedConferences = await conferenceService.updateConferences();
-
-        const updatedStandings: LeagueStandings = {
-            ...standings,
-            westernConference: updatedConferences.westernConference,
-            easternConference: updatedConferences.easternConference,
-            topSeed: updatedConferences.topSeed,
-            updatedAt: new Date()
-        };
-
-        await updateDocument<LeagueStandings>(COLLECTION, season, updatedStandings);
-        return structuredClone(updatedStandings);
-
-    } catch (error: unknown) {
-        throw error;
-    }
-};
-
-
 
 export const getStandingsById = async (season: string): Promise<LeagueStandings> => {
 
@@ -90,16 +65,16 @@ export const getStandingsById = async (season: string): Promise<LeagueStandings>
         } as LeagueStandings;
 
         return structuredClone(standings);
-
+        
     }
     catch (error: unknown) {
         throw error;
     }
-
+    
 };
 
 export const getStandings = async (): Promise<LeagueStandings[]> => {
-
+    
     try {
         const snapshot: QuerySnapshot = await getDocuments(COLLECTION);
         const standings: LeagueStandings[] = snapshot.docs.map(doc => {
@@ -111,12 +86,36 @@ export const getStandings = async (): Promise<LeagueStandings[]> => {
                 updatedAt: data.updatedAt,
             } as LeagueStandings;
         });
-
+        
         if (standings.length == 0) {
             throw new Error("No standings found");
         }
-
+        
         return standings;
+    } catch (error: unknown) {
+        throw error;
+    }
+};
+
+export const updateStandings = async (
+    season: string
+): Promise<LeagueStandings> => {
+    try {
+
+        const standings = await getStandingsById(season);
+        const updatedConferences = await conferenceService.updateConferences();
+
+        const updatedStandings: LeagueStandings = {
+            ...standings,
+            westernConference: updatedConferences.westernConference,
+            easternConference: updatedConferences.easternConference,
+            topSeed: updatedConferences.topSeed,
+            updatedAt: new Date()
+        };
+
+        await updateDocument<LeagueStandings>(COLLECTION, season, updatedStandings);
+        return structuredClone(updatedStandings);
+
     } catch (error: unknown) {
         throw error;
     }

@@ -37,6 +37,8 @@ router.post("/", teamController.createTeam);
  */
 router.get("/", teamController.getTeams);
 
+router.get("/:id", teamController.getTeamById);
+
 /**
  * @openapi
  * /api/nba/team/name/{id}:

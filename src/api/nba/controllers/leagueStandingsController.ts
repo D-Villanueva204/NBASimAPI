@@ -5,10 +5,10 @@ import { LeagueStandings } from "../models/standingsSim/leagueStandingsModel";
 
 import * as leagueStandingsService from "../services/leagueStandingsService";
 
-export const createStandings = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const createNewStandings = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const newStandings: LeagueStandings = await leagueStandingsService.createNewStandings();
-
+        
         res.status(HTTP_STATUS.CREATED).json(
             successResponse(newStandings, "Standings created for new season.")
         );
@@ -21,7 +21,7 @@ export const createStandings = async (req: Request, res: Response, next: NextFun
 export const getStandings = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const standings: LeagueStandings[] = await leagueStandingsService.getStandings();
-
+        
         res.status(HTTP_STATUS.OK).json(
             successResponse(standings, "All standings retrieved.")
         );
@@ -34,9 +34,9 @@ export const getStandings = async (req: Request, res: Response, next: NextFuncti
 export const getStandingsById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const season: string = req.params.season;
-
+        
         const standings: LeagueStandings = await leagueStandingsService.getStandingsById(season);
-
+        
         res.status(HTTP_STATUS.OK).json(
             successResponse(standings, "Standings found.")
         );

@@ -41,6 +41,24 @@ export const getCoaches = async (req: Request, res: Response, next: NextFunction
     }
 };
 
+export const getCoachById = async (req: Request, res: Response, next: NextFunction): Promise<Coach> => {
+    try {
+        const id = String(req.params.id);
+
+        const returnedCoach: Coach = await coachService.getCoachById(id);
+
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(returnedCoach, "Coach found")
+        );
+
+
+
+    } catch (error){
+        next(error);
+    }
+
+}
+
 export const updateCoach = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 

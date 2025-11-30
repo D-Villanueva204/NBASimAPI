@@ -8,7 +8,7 @@ import * as teamService from "../services/teamService"
 export const createTeam = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
-        const { name, conference} = req.body;
+        const { name, conference } = req.body;
 
         const createdTeam: Team = await teamService.createTeam({
             name: name,
@@ -43,6 +43,23 @@ export const getTeams = async (req: Request, res: Response, next: NextFunction):
 
 };
 
+export const getTeamById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+
+        let id = String(req.params.id);
+
+        const returnedTeam: Team = await teamService.getTeamById(id);
+
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(returnedTeam, "Team found")
+        );
+
+    } catch (error) {
+        next(error);
+
+    };
+};
+
 export const updateTeamName = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
@@ -61,25 +78,26 @@ export const updateTeamName = async (req: Request, res: Response, next: NextFunc
     }
 };
 
+
+
+export const updatePlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    let id = String(req.params.id);
+    
+    const { playerId } = req.body;
+    
+    const updatedTeam: Team = await teamService.updatePlayer(id, playerId);
+    
+    res.status(HTTP_STATUS.OK).json(
+        successResponse({ updatedTeam }, "Team updated")
+    );
+}
+
 export const assignCoach = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     let id = String(req.params.id);
 
     const { coachId } = req.body;
 
     const updatedTeam: Team = await teamService.updatePlayer(id, coachId);
-
-    res.status(HTTP_STATUS.OK).json(
-        successResponse({ updatedTeam }, "Team updated")
-    );
-}
-
-
-export const updatePlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    let id = String(req.params.id);
-
-    const { playerId } = req.body;
-
-    const updatedTeam: Team = await teamService.updatePlayer(id, playerId);
 
     res.status(HTTP_STATUS.OK).json(
         successResponse({ updatedTeam }, "Team updated")

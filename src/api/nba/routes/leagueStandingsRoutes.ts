@@ -3,9 +3,9 @@ import * as leagueStandingsController from "../controllers/leagueStandingsContro
 
 const router = express.Router();
 
+router.post("/", leagueStandingsController.createNewStandings);
 router.get("/", leagueStandingsController.getStandings);
 router.get("/:season", leagueStandingsController.getStandingsById);
-router.post("/", leagueStandingsController.createStandings);
 router.put("/:season", leagueStandingsController.updateStandings);
 
 export default router;

@@ -5,7 +5,8 @@ import coachRoutes from "../src/api/nba/routes/coachRoutes";
 import teamRoutes from "../src/api/nba/routes/teamRoutes";
 import matchRoutes from "../src/api/nba/routes/matchRoutes";
 import possessionsRoutes from "../src/api/nba/routes/possessionsRoutes";
-import leagueStandingsRoutes from "../src/api/nba/routes/leagueStandingsRoutes"
+import leagueStandingsRoutes from "../src/api/nba/routes/leagueStandingsRoutes";
+import conferenceRoutes from "../src/api/nba/routes/conferenceRoutes";
 import setupSwagger from "../config/swagger";
 
 const app: Express = express();
@@ -21,6 +22,7 @@ app.use("/api/nba/teams", teamRoutes);
 app.use("/api/nba/matches", matchRoutes);
 app.use("/api/nba/possessions", possessionsRoutes);
 app.use("/api/nba/standings", leagueStandingsRoutes);
+app.use("/api/nba/conference", conferenceRoutes);
 
 setupSwagger(app);
 
