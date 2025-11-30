@@ -133,14 +133,14 @@ export const updateRecord = async (teamId: string, win: boolean): Promise<Team> 
             updatedAt: new Date()
         };
 
-        if (!updatedTeam.record){
+        if (!updatedTeam.record) {
             updatedTeam.record = {
                 wins: 0,
                 losses: 0
             }
         }
 
-        if (win){
+        if (win) {
             updatedTeam.record.wins += 1;
         }
         else {
@@ -220,7 +220,7 @@ export const assignCoach = async (teamId: string, coachId: string): Promise<Team
 
         updatedTeam.coach = updatedCoach;
 
-        await coachService.updateCoach(coachId, {currentTeam: team.id});
+        await coachService.updateCoach(coachId, { currentTeam: team.id });
 
         await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
         return structuredClone(updatedTeam);
