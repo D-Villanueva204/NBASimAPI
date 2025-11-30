@@ -1,19 +1,18 @@
-import { Team } from "../teamModel";
-import { Possession } from "./possessionModel";
+import { BoxScore } from "./boxScoreModel";
 
 export interface Match {
     matchId: string,
     played: boolean,
     approved: boolean,
-    homeTeam: Team,
-    awayTeam: Team,
-    possessions: Possession[] | null,
+    homeTeam: string,
+    awayTeam: string,
+    possessions: string,
     createdAt: Date
 }
 
 export interface archivedMatch extends Match {
     outcome: {
-        winner: Team,
+        winner: string,
         home: {
             score: number;
         };
@@ -21,5 +20,6 @@ export interface archivedMatch extends Match {
             score: number;
         };
     }
+    boxScore: BoxScore,
     finishedAt: Date
 }

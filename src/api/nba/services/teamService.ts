@@ -12,13 +12,17 @@ import {
     updateDocument
 } from "../repositories/firestoreRepositories";
 import * as playerService from "./playerService";
+import { ConferenceType } from "../models/standingsSim/conferenceModel";
+import { Coach } from "../models/people/coachModel";
+import * as coachService from "./coachService";
 
 const COLLECTION: string = "teams";
 
 const dateNow = new Date();
 
 export const createTeam = async (teamData: {
-    name: string
+    name: string,
+    conference: ConferenceType
 }): Promise<Team> => {
     try {
 
@@ -30,6 +34,10 @@ export const createTeam = async (teamData: {
             powerForward: null,
             centre: null,
             coach: null,
+            record: {
+                wins: 0,
+                losses: 0
+            },
             createdAt: dateNow,
             updatedAt: dateNow
         };
@@ -98,20 +106,7 @@ export const getTeamById = async (teamId: string): Promise<Team> => {
 export const updateTeamName = async (teamId: string, newName: string): Promise<Team> => {
 
     try {
-        const doc: DocumentSnapshot | null = await getDocumentById(
-            COLLECTION,
-            teamId
-        );
-
-        if (!doc) {
-            throw new Error(`No team with id ${teamId} found.`);
-        }
-
-        const data: DocumentData | undefined = doc.data();
-        const team: Team = {
-            id: doc.id,
-            ...data
-        } as Team;
+        const team: Team = await getTeamById(teamId);
 
         const updatedTeam: Team = {
             ...team,
@@ -128,24 +123,43 @@ export const updateTeamName = async (teamId: string, newName: string): Promise<T
     }
 };
 
+export const updateRecord = async (teamId: string, win: boolean): Promise<Team> => {
+
+    try {
+        const team: Team = await getTeamById(teamId);
+
+        const updatedTeam: Team = {
+            ...team,
+            updatedAt: new Date()
+        };
+
+        if (!updatedTeam.record) {
+            updatedTeam.record = {
+                wins: 0,
+                losses: 0
+            }
+        }
+
+        if (win) {
+            updatedTeam.record.wins += 1;
+        }
+        else {
+            updatedTeam.record.losses += 1;
+        }
+
+
+        await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
+        return structuredClone(updatedTeam);
+
+    } catch (error: unknown) {
+        throw error;
+    }
+};
+
 export const updatePlayer = async (teamId: string, playerId: string): Promise<Team> => {
 
     try {
-        // This gets a team
-        const doc: DocumentSnapshot | null = await getDocumentById(
-            COLLECTION,
-            teamId
-        );
-
-        if (!doc) {
-            throw new Error(`No team with id ${teamId} found.`);
-        }
-
-        const data: DocumentData | undefined = doc.data();
-        const team: Team = {
-            id: doc.id,
-            ...data
-        } as Team;
+        const team: Team = await getTeamById(teamId);
 
         //This gets a player
 
@@ -181,6 +195,32 @@ export const updatePlayer = async (teamId: string, playerId: string): Promise<Te
 
         await playerService.updatePlayer(playerId, { currentTeam: teamId });
 
+
+        await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
+        return structuredClone(updatedTeam);
+
+    } catch (error: unknown) {
+        throw error;
+    }
+};
+
+export const assignCoach = async (teamId: string, coachId: string): Promise<Team> => {
+
+    try {
+        const team: Team = await getTeamById(teamId);
+
+        //This gets a player
+
+        const updatedCoach: Coach = await coachService.getCoachById(coachId);
+
+        const updatedTeam: Team = {
+            ...team,
+            updatedAt: new Date()
+        };
+
+        updatedTeam.coach = updatedCoach;
+
+        await coachService.updateCoach(coachId, { currentTeam: team.id });
 
         await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
         return structuredClone(updatedTeam);

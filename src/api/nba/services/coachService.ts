@@ -99,3 +99,32 @@ export const updateCoach = async (
     }
 };
 
+export const getCoachById = async (
+    coachId: string
+): Promise<Coach> => {
+    try {
+
+        const doc: DocumentSnapshot | null = await getDocumentById(
+            COLLECTION,
+            coachId
+        );
+
+        if (!doc) {
+            throw new Error(`No coach with id ${coachId} found.`);
+        }
+
+        const data: DocumentData | undefined = doc.data();
+        const coach: Coach = {
+            id: doc.id,
+            ...data
+        } as Coach;
+
+
+        return structuredClone(coach);
+
+    } catch (error: unknown) {
+        throw error;
+    }
+};
+
+

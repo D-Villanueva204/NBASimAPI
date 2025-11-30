@@ -9,7 +9,8 @@
     "test:coverage": "jest --coverage",
     "start": "ts-node src/server.ts",
     "build": "tsc",
-    "generate-docs": "ts-node scripts/generate-openapi.ts && npx @redocly/cli build-docs openapi.json --output docs/index.html"
+    "generate-docs": "ts-node scripts/generate-openapi.ts && npx @redocly/cli build-docs openapi.json --output docs/index.html",
+    "generate-teams": "ts-node generateTeams.ts"
   },
   "repository": {
     "type": "git",

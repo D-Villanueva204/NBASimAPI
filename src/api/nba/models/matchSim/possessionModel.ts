@@ -1,11 +1,27 @@
-import { Player } from "../people/playerModel";
-import { Team } from "../teamModel";
 import { Shot } from "./shotModel";
 
+export interface Possessions {
+    id: string,
+    events: Possession[];
+}
+
 export interface Possession {
-    currentTeam: Team,
-    shooter: Player,
-    defender: Player,
     shot: Shot,
-    rebound: Player
+    currentTeam: string,
+    shooter: {
+        playerId: string,
+        name: string
+    },
+    defender: {
+        playerId: string,
+        name: string
+    },
+    rebound: {
+        playerId: string,
+        name: string
+    } | null,
+    assist: {
+        playerId: string,
+        name: string
+    } | null
 }

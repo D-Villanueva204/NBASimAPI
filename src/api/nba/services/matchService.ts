@@ -1,5 +1,5 @@
 import { Match, archivedMatch } from "../models/matchSim/matchModel";
-import { Possession } from "../models/matchSim/possessionModel";
+import { Possession, Possessions } from "../models/matchSim/possessionModel";
 import { Team } from "../models/teamModel";
 import {
     QuerySnapshot,
@@ -14,8 +14,11 @@ import {
     deleteDocument
 } from "../repositories/firestoreRepositories";
 import * as teamService from "../services/teamService"
+import * as possessionsService from "../services/possessionsService"
+import * as leagueStandingsService from "../services/leagueStandingsService";
 import { Player } from "../models/people/playerModel";
 import { Shot } from "../models/matchSim/shotModel";
+import { BoxScore, Row } from "../models/matchSim/boxScoreModel";
 
 
 const MATCHES_COLLECTION: string = "matches";
@@ -33,8 +36,8 @@ export const setupMatch = async (matchData: {
         const returnedHomeTeam = await teamService.getTeamById(matchData.homeTeam);
 
         const newMatch: Partial<Match> = {
-            awayTeam: returnedAwayTeam,
-            homeTeam: returnedHomeTeam,
+            awayTeam: returnedAwayTeam.id,
+            homeTeam: returnedHomeTeam.id,
             played: false,
             createdAt: dateNow
         };
@@ -127,7 +130,7 @@ export const playMatch = async (matchId: string): Promise<Match> => {
     try {
         const playedMatch: Match = await getMatch(matchId);
 
-        playedMatch.possessions = generatePossessions(playedMatch);
+        playedMatch.possessions = (await generatePossessions(playedMatch)).id;
 
         playedMatch.approved = false;
         playedMatch.played = true;
@@ -143,23 +146,31 @@ export const playMatch = async (matchId: string): Promise<Match> => {
 
 };
 
-const generatePossessions = (match: Match): Possession[] => {
+const generatePossessions = async (match: Match): Promise<Possessions> => {
     // Will be returned at the end
     const gameEvents: Possession[] = [];
 
     // Jumpball, random number I think.
-    let currentTeam: Team = Math.random() < 0.5 ? match.homeTeam : match.awayTeam;;
+    let homeTeam: Team = await teamService.getTeamById(match.homeTeam);
+    let awayTeam: Team = await teamService.getTeamById(match.awayTeam);
+    let teamOrder: Team[] = Math.random() < 0.5 ? [homeTeam, awayTeam] : [awayTeam, homeTeam];
+
+    let currentTeam = teamOrder[0];
 
     for (let i = 0; i <= 110; i++) {
 
-        let secondTeam = (currentTeam.id === match.homeTeam.id) ? match.awayTeam : match.homeTeam;
+        let secondTeam: Team = (teamOrder.indexOf(currentTeam) === 0)
+            ? teamOrder[1] : teamOrder[0];
 
         gameEvents.push(generatePossession(currentTeam, secondTeam));
 
-        currentTeam = (currentTeam.id === match.homeTeam.id) ? match.awayTeam : match.homeTeam;
+        currentTeam = (teamOrder.indexOf(currentTeam) === 1)
+            ? teamOrder[0] : teamOrder[1];
     }
 
-    return gameEvents;
+    const newPossessions = await possessionsService.createPossessions(gameEvents);
+
+    return newPossessions;
 
 };
 
@@ -168,6 +179,7 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
     let shooter;
     let defender;
     let rebounder;
+    let assist;
     let shot: Shot = Shot.MISS;
     let shotProbability: number;
 
@@ -212,6 +224,8 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
     switch (oneToThree) {
         case 1:
             shot = Shot.MISS
+            rebounder = defensePlayers[Math.floor(Math.random() * defensePlayers.length)];
+            assist = null;
             break;
         case 2:
             shot = Shot.LAYUP
@@ -231,19 +245,60 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
         if (!madeBasket) {
             shot = Shot.MISS;
             rebounder = defensePlayers[Math.floor(Math.random() * defensePlayers.length)];
+            assist = null;
+        } else {
+            assist = offensePlayers[Math.floor(Math.random() * offensePlayers.length)];
+            rebounder = null;
         }
-
     }
 
-    let newPossession: Possession = {
-        currentTeam: offense,
-        shooter: shooter!,
-        defender: defender!,
-        shot: shot,
-        rebound: rebounder!
-    };
+    let newPossession: Possession;
 
-    return newPossession;
+    if (assist) {
+        newPossession = {
+            currentTeam: offense.id,
+            shooter: {
+                playerId: shooter!.id,
+                name: shooter!.name
+
+            },
+            defender: {
+                playerId: defender!.id,
+                name: defender!.name
+            },
+            shot: shot,
+            rebound: null,
+            assist: {
+                playerId: assist.id,
+                name: assist!.name
+            }
+        };
+        return newPossession;
+
+    }
+    else {
+        newPossession = {
+            currentTeam: offense.id,
+            shooter: {
+                playerId: shooter!.id,
+                name: shooter!.name
+
+            },
+            defender: {
+                playerId: defender!.id,
+                name: defender!.name
+            },
+            shot: shot,
+            rebound: {
+                playerId: rebounder!.id,
+                name: rebounder!.name
+            },
+            assist: null
+        };
+
+        return newPossession;
+    }
+
 
 }
 
@@ -258,7 +313,7 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
 
         if (approved) {
 
-            const calculatedMatch = calculateScore(pendingMatch);
+            const calculatedMatch = await calculateScore(pendingMatch);
 
             const approvedMatch: archivedMatch = {
                 ...calculatedMatch,
@@ -266,11 +321,21 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
 
             }
 
-            pendingMatch.approved = approved;
+            await teamService.updateRecord(approvedMatch.outcome.winner, true);
+
+            if (approvedMatch.outcome.winner === approvedMatch.homeTeam) {
+                await teamService.updateRecord(approvedMatch.awayTeam, false);
+            }
+            else {
+                await teamService.updateRecord(approvedMatch.homeTeam, false);
+            }
 
             await createDocument<archivedMatch>(ARCHIVED_MATCHES_COLLECTION, approvedMatch);
 
             await deleteDocument(MATCHES_COLLECTION, matchId);
+
+            const season = (`${dateNow.getFullYear()}-${Number(dateNow.getFullYear()) + 1}`);
+            await leagueStandingsService.updateStandings(season);
 
             return structuredClone(approvedMatch);
         }
@@ -292,21 +357,42 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
     }
 };
 
-const calculateScore = (match: Match): archivedMatch => {
+const calculateScore = async (match: Match): Promise<archivedMatch> => {
     let awayScore = 0;
     let homeScore = 0;
+    let homeTeamRows = structuredClone(calculateRows(await teamService.getTeamById(match.homeTeam)));
+    let awayTeamRows = structuredClone(calculateRows(await teamService.getTeamById(match.awayTeam)));
+    let boxScore: BoxScore = { awayTeam: awayTeamRows, homeTeam: homeTeamRows };
 
-    const gameEvents: Possession[] = match.possessions ?? [];
+    const gameEvents: Possession[] = (await possessionsService.getPossessionsById(match.possessions)).events;
+
     for (const gameEvent of gameEvents) {
-        if (gameEvent.currentTeam.id == match.awayTeam.id) {
-            awayScore += gameEvent.shot;
+
+        const offenseTeamRows: Row[] =
+            (gameEvent.currentTeam == match.homeTeam) ? homeTeamRows : awayTeamRows;
+        const defenseTeamRows: Row[] =
+            (gameEvent.currentTeam == match.homeTeam) ? awayTeamRows : homeTeamRows;
+
+        offenseTeamRows[findRowIndexForPlayer(offenseTeamRows, gameEvent.shooter.playerId)].points += gameEvent.shot;
+
+        if (gameEvent.currentTeam == match.homeTeam) {
+            homeScore += gameEvent.shot;
         }
         else {
-            homeScore += gameEvent.shot;
+            awayScore += gameEvent.shot;
+        }
+
+        if (gameEvent.shot === Shot.MISS) {
+            defenseTeamRows[findRowIndexForPlayer(defenseTeamRows, gameEvent.rebound!.playerId)].rebounds += 1;
+        }
+        else {
+            offenseTeamRows[findRowIndexForPlayer(offenseTeamRows, gameEvent.assist!.playerId)].assists += 1;
         }
     }
 
-    const winningTeam: Team = homeScore > awayScore ? match.homeTeam : match.awayTeam;
+    const winningTeam: string = homeScore > awayScore
+        ? match.homeTeam :
+        match.awayTeam;
     const newArchivedMatch: archivedMatch = {
         ...match,
         outcome: {
@@ -318,10 +404,43 @@ const calculateScore = (match: Match): archivedMatch => {
                 score: awayScore
             }
         },
+        boxScore: boxScore,
         finishedAt: dateNow
-
     }
 
     return newArchivedMatch;
 
 };
+
+const calculateRows = (team: Team): Row[] => {
+    let players: Player[] = [team.pointGuard!, team.shootingGuard!, team.smallForward!, team.powerForward!, team.centre!];
+    let rowArray: Row[] = [];
+
+    for (let i = 0; i <= 4; i++) {
+        let player = players[i];
+        rowArray[i] = {
+            playerId: player.id,
+            playerName: player.name,
+            points: 0,
+            assists: 0,
+            rebounds: 0
+        }
+    }
+
+    return rowArray;
+}
+
+const findRowIndexForPlayer = (rows: Row[], playerId: string): number => {
+    let index: number = -1;
+    for (let row of rows) {
+        if (row.playerId == playerId) {
+            index = rows.indexOf(row);
+            break;
+        }
+    }
+
+
+
+    return index;
+
+}

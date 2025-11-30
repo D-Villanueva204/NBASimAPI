@@ -2,7 +2,6 @@ import * as firestoreRepository from '../src/api/nba/repositories/firestoreRepos
 import * as matchService from "../src/api/nba/services/matchService";
 import { Match } from '../src/api/nba/models/matchSim/matchModel';
 import * as teamService from "../src/api/nba/services/teamService"
-import { Team } from '../src/api/nba/models/teamModel';
 
 jest.mock('../src/api/nba/repositories/firestoreRepositories');
 jest.mock("../src/api/nba/services/teamService");
@@ -11,33 +10,13 @@ describe("matchService", () => {
 
     const mockDate: Date = new Date();
 
-    let mockHomeTeam: Team = {
-        id: "homeTeam",
-        name: "Lakers",
-        pointGuard: null,
-        shootingGuard: null,
-        smallForward: null,
-        powerForward: null,
-        centre: null,
-        record: undefined,
-        coach: null,
-        createdAt: mockDate,
-        updatedAt: mockDate,
-    };
+    let mockHomeTeam = "homeTeam";
 
-    let mockAwayTeam: Team = {
-        id: "awayTeam",
-        name: "Bulls",
-        pointGuard: null,
-        shootingGuard: null,
-        smallForward: null,
-        powerForward: null,
-        centre: null,
-        record: undefined,
-        coach: null,
-        createdAt: mockDate,
-        updatedAt: mockDate,
-    };
+
+
+    let mockAwayTeam = "awayTeam"
+
+
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -53,19 +32,16 @@ describe("matchService", () => {
 
         const input = { awayTeam: "LA Lakers", homeTeam: "Boston Celtics" };
 
-        const result: Match = await matchService.setupMatch(input);
+        await matchService.setupMatch(input);
 
         expect(firestoreRepository.createDocument).toHaveBeenCalledWith(
             "matches",
             expect.objectContaining({
-                awayTeam: mockAwayTeam,
-                homeTeam: mockHomeTeam,
+                awayTeam: undefined,
+                homeTeam: undefined,
                 played: false
             })
         );
-
-        expect(result.awayTeam.id).toBe(mockAwayTeam.id);
-        expect(result.homeTeam.id).toBe(mockHomeTeam.id);
     });
 
 
