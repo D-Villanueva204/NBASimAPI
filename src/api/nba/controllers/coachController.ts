@@ -41,7 +41,7 @@ export const getCoaches = async (req: Request, res: Response, next: NextFunction
     }
 };
 
-export const getCoachById = async (req: Request, res: Response, next: NextFunction): Promise<Coach> => {
+export const getCoachById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const id = String(req.params.id);
 
@@ -53,7 +53,7 @@ export const getCoachById = async (req: Request, res: Response, next: NextFuncti
 
 
 
-    } catch (error){
+    } catch (error) {
         next(error);
     }
 
