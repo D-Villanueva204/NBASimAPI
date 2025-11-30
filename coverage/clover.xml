@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1764472011606" clover="3.2.0">
-  <project timestamp="1764472011606" name="All files">
-    <metrics statements="813" coveredstatements="169" conditionals="143" coveredconditionals="16" methods="159" coveredmethods="31" elements="1115" coveredelements="216" complexity="0" loc="813" ncloc="813" packages="10" files="27" classes="27"/>
+<coverage generated="1764534243812" clover="3.2.0">
+  <project timestamp="1764534243813" name="All files">
+    <metrics statements="891" coveredstatements="193" conditionals="158" coveredconditionals="18" methods="171" coveredmethods="40" elements="1220" coveredelements="251" complexity="0" loc="891" ncloc="891" packages="12" files="35" classes="35"/>
     <package name="src">
       <metrics statements="22" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="app.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\app.ts">
@@ -38,7 +38,38 @@
       </file>
     </package>
     <package name="src.api.nba.controllers">
-      <metrics statements="172" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="52" coveredmethods="0"/>
+      <metrics statements="200" coveredstatements="0" conditionals="14" coveredconditionals="0" methods="60" coveredmethods="0"/>
+      <file name="coachController.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\controllers\coachController.ts">
+        <metrics statements="28" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="8" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="31" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="76" count="0" type="stmt"/>
+      </file>
       <file name="conferenceController.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\controllers\conferenceController.ts">
         <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
@@ -101,25 +132,25 @@
         <line num="47" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="48" count="0" type="stmt"/>
         <line num="55" count="0" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
         <line num="62" count="0" type="stmt"/>
-        <line num="63" count="0" type="stmt"/>
         <line num="64" count="0" type="stmt"/>
         <line num="66" count="0" type="stmt"/>
-        <line num="68" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="76" count="0" type="stmt"/>
+        <line num="77" count="0" type="stmt"/>
         <line num="78" count="0" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
         <line num="80" count="0" type="stmt"/>
         <line num="82" count="0" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
-        <line num="89" count="0" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="91" count="0" type="stmt"/>
+        <line num="92" count="0" type="stmt"/>
         <line num="93" count="0" type="stmt"/>
         <line num="94" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
         <line num="96" count="0" type="stmt"/>
         <line num="98" count="0" type="stmt"/>
-        <line num="100" count="0" type="stmt"/>
-        <line num="104" count="0" type="stmt"/>
+        <line num="102" count="0" type="stmt"/>
       </file>
       <file name="playerController.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\controllers\playerController.ts">
         <metrics statements="47" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="14" coveredmethods="0"/>
@@ -230,6 +261,36 @@
         <line num="114" count="0" type="stmt"/>
       </file>
     </package>
+    <package name="src.api.nba.middleware">
+      <metrics statements="24" coveredstatements="0" conditionals="13" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <file name="validate.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\middleware\validate.ts">
+        <metrics statements="24" coveredstatements="0" conditionals="13" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="64" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="70" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="77" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="78" count="0" type="stmt"/>
+        <line num="86" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="95" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="96" count="0" type="stmt"/>
+        <line num="105" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="106" count="0" type="stmt"/>
+        <line num="111" count="0" type="stmt"/>
+        <line num="113" count="0" type="stmt"/>
+      </file>
+    </package>
     <package name="src.api.nba.models">
       <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="responseModel.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\models\responseModel.ts">
@@ -253,35 +314,35 @@
       <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <file name="playerModel.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\models\people\playerModel.ts">
         <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="15" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="16" count="2" type="stmt"/>
-        <line num="17" count="2" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="19" count="2" type="stmt"/>
-        <line num="20" count="2" type="stmt"/>
+        <line num="15" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
       </file>
     </package>
     <package name="src.api.nba.models.standingsSim">
       <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <file name="conferenceModel.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\models\standingsSim\conferenceModel.ts">
         <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="8" count="1" type="cond" truecount="2" falsecount="0"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
+        <line num="8" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
       </file>
     </package>
     <package name="src.api.nba.repositories">
       <metrics statements="75" coveredstatements="9" conditionals="28" coveredconditionals="0" methods="22" coveredmethods="0"/>
       <file name="firestoreRepositories.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\repositories\firestoreRepositories.ts">
         <metrics statements="75" coveredstatements="9" conditionals="28" coveredconditionals="0" methods="22" coveredmethods="0"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="14" count="3" type="stmt"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
         <line num="21" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="22" count="0" type="stmt"/>
-        <line num="32" count="3" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
         <line num="40" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -291,26 +352,26 @@
         <line num="47" count="0" type="stmt"/>
         <line num="50" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="51" count="0" type="stmt"/>
-        <line num="62" count="3" type="stmt"/>
+        <line num="62" count="4" type="stmt"/>
         <line num="64" count="0" type="stmt"/>
         <line num="65" count="0" type="stmt"/>
         <line num="66" count="0" type="stmt"/>
         <line num="69" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="70" count="0" type="stmt"/>
-        <line num="82" count="3" type="stmt"/>
+        <line num="82" count="4" type="stmt"/>
         <line num="85" count="0" type="stmt"/>
         <line num="86" count="0" type="stmt"/>
         <line num="87" count="0" type="stmt"/>
         <line num="91" count="0" type="cond" truecount="0" falsecount="6"/>
         <line num="94" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="95" count="0" type="stmt"/>
-        <line num="108" count="3" type="stmt"/>
+        <line num="108" count="4" type="stmt"/>
         <line num="112" count="0" type="stmt"/>
         <line num="113" count="0" type="stmt"/>
         <line num="114" count="0" type="stmt"/>
         <line num="117" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="118" count="0" type="stmt"/>
-        <line num="132" count="3" type="stmt"/>
+        <line num="132" count="4" type="stmt"/>
         <line num="136" count="0" type="stmt"/>
         <line num="137" count="0" type="stmt"/>
         <line num="138" count="0" type="stmt"/>
@@ -319,7 +380,7 @@
         <line num="144" count="0" type="stmt"/>
         <line num="148" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="149" count="0" type="stmt"/>
-        <line num="163" count="3" type="stmt"/>
+        <line num="163" count="4" type="stmt"/>
         <line num="167" count="0" type="stmt"/>
         <line num="168" count="0" type="stmt"/>
         <line num="169" count="0" type="stmt"/>
@@ -338,7 +399,7 @@
         <line num="193" count="0" type="stmt"/>
         <line num="196" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="197" count="0" type="stmt"/>
-        <line num="209" count="3" type="stmt"/>
+        <line num="209" count="4" type="stmt"/>
         <line num="212" count="0" type="stmt"/>
         <line num="213" count="0" type="stmt"/>
         <line num="214" count="0" type="stmt"/>
@@ -352,17 +413,19 @@
       </file>
     </package>
     <package name="src.api.nba.routes">
-      <metrics statements="58" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="70" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="coachRoutes.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\routes\coachRoutes.ts">
-        <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="10" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
         <line num="57" count="0" type="stmt"/>
-        <line num="96" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
         <line num="98" count="0" type="stmt"/>
+        <line num="100" count="0" type="stmt"/>
       </file>
       <file name="conferenceRoutes.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\routes\conferenceRoutes.ts">
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -373,81 +436,91 @@
         <line num="8" count="0" type="stmt"/>
       </file>
       <file name="leagueStandingsRoutes.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\routes\leagueStandingsRoutes.ts">
-        <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-      </file>
-      <file name="matchRoutes.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\routes\matchRoutes.ts">
         <metrics statements="10" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="94" count="0" type="stmt"/>
-        <line num="118" count="0" type="stmt"/>
-        <line num="153" count="0" type="stmt"/>
-        <line num="155" count="0" type="stmt"/>
-      </file>
-      <file name="playerRoutes.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\routes\playerRoutes.ts">
-        <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="83" count="0" type="stmt"/>
-        <line num="101" count="0" type="stmt"/>
-        <line num="131" count="0" type="stmt"/>
-        <line num="163" count="0" type="stmt"/>
-        <line num="166" count="0" type="stmt"/>
-      </file>
-      <file name="possessionsRoutes.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\routes\possessionsRoutes.ts">
-        <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
       </file>
-      <file name="teamRoutes.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\routes\teamRoutes.ts">
-        <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="matchRoutes.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\routes\matchRoutes.ts">
+        <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="96" count="0" type="stmt"/>
+        <line num="120" count="0" type="stmt"/>
+        <line num="155" count="0" type="stmt"/>
+        <line num="157" count="0" type="stmt"/>
+      </file>
+      <file name="playerRoutes.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\routes\playerRoutes.ts">
+        <metrics statements="13" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="103" count="0" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="165" count="0" type="stmt"/>
+        <line num="168" count="0" type="stmt"/>
+      </file>
+      <file name="possessionsRoutes.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\routes\possessionsRoutes.ts">
+        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+      </file>
+      <file name="teamRoutes.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\routes\teamRoutes.ts">
+        <metrics statements="13" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
         <line num="40" count="0" type="stmt"/>
-        <line num="69" count="0" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
         <line num="99" count="0" type="stmt"/>
-        <line num="127" count="0" type="stmt"/>
+        <line num="101" count="0" type="stmt"/>
         <line num="129" count="0" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.api.nba.services">
-      <metrics statements="469" coveredstatements="147" conditionals="97" coveredconditionals="10" methods="80" coveredmethods="28"/>
+      <metrics statements="469" coveredstatements="171" conditionals="97" coveredconditionals="12" methods="80" coveredmethods="37"/>
       <file name="coachService.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\services\coachService.ts">
         <metrics statements="42" coveredstatements="28" conditionals="6" coveredconditionals="2" methods="9" coveredmethods="7"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="14" count="2" type="stmt"/>
-        <line num="16" count="2" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
         <line num="31" count="1" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
-        <line num="40" count="2" type="stmt"/>
+        <line num="40" count="3" type="stmt"/>
         <line num="42" count="1" type="stmt"/>
         <line num="43" count="1" type="stmt"/>
         <line num="44" count="1" type="stmt"/>
@@ -457,7 +530,7 @@
         <line num="55" count="0" type="stmt"/>
         <line num="58" count="1" type="stmt"/>
         <line num="60" count="0" type="stmt"/>
-        <line num="64" count="2" type="stmt"/>
+        <line num="64" count="3" type="stmt"/>
         <line num="66" count="0" type="stmt"/>
         <line num="67" count="0" type="stmt"/>
         <line num="69" count="0" type="stmt"/>
@@ -467,7 +540,7 @@
         <line num="79" count="0" type="stmt"/>
         <line num="85" count="0" type="stmt"/>
         <line num="88" count="0" type="stmt"/>
-        <line num="92" count="2" type="stmt"/>
+        <line num="92" count="3" type="stmt"/>
         <line num="98" count="1" type="stmt"/>
         <line num="99" count="1" type="stmt"/>
         <line num="101" count="1" type="stmt"/>
@@ -724,17 +797,17 @@
       </file>
       <file name="playerService.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\services\playerService.ts">
         <metrics statements="70" coveredstatements="36" conditionals="12" coveredconditionals="3" methods="17" coveredmethods="9"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
-        <line num="17" count="2" type="stmt"/>
-        <line num="26" count="2" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
         <line num="35" count="1" type="stmt"/>
         <line num="37" count="1" type="stmt"/>
         <line num="44" count="1" type="stmt"/>
         <line num="46" count="1" type="stmt"/>
         <line num="49" count="0" type="stmt"/>
-        <line num="61" count="2" type="stmt"/>
+        <line num="61" count="3" type="stmt"/>
         <line num="62" count="1" type="stmt"/>
         <line num="63" count="1" type="stmt"/>
         <line num="64" count="1" type="stmt"/>
@@ -744,7 +817,7 @@
         <line num="75" count="0" type="stmt"/>
         <line num="78" count="1" type="stmt"/>
         <line num="80" count="0" type="stmt"/>
-        <line num="84" count="2" type="stmt"/>
+        <line num="84" count="3" type="stmt"/>
         <line num="85" count="0" type="stmt"/>
         <line num="86" count="0" type="stmt"/>
         <line num="88" count="0" type="stmt"/>
@@ -754,7 +827,7 @@
         <line num="97" count="0" type="stmt"/>
         <line num="100" count="0" type="stmt"/>
         <line num="103" count="0" type="stmt"/>
-        <line num="107" count="2" type="stmt"/>
+        <line num="107" count="3" type="stmt"/>
         <line num="109" count="0" type="stmt"/>
         <line num="110" count="0" type="stmt"/>
         <line num="112" count="0" type="stmt"/>
@@ -764,7 +837,7 @@
         <line num="122" count="0" type="stmt"/>
         <line num="125" count="0" type="stmt"/>
         <line num="128" count="0" type="stmt"/>
-        <line num="140" count="2" type="stmt"/>
+        <line num="140" count="3" type="stmt"/>
         <line num="142" count="2" type="stmt"/>
         <line num="143" count="2" type="stmt"/>
         <line num="148" count="2" type="cond" truecount="1" falsecount="1"/>
@@ -773,7 +846,7 @@
         <line num="153" count="2" type="stmt"/>
         <line num="158" count="2" type="stmt"/>
         <line num="162" count="0" type="stmt"/>
-        <line num="168" count="2" type="stmt"/>
+        <line num="168" count="3" type="stmt"/>
         <line num="170" count="0" type="stmt"/>
         <line num="171" count="0" type="stmt"/>
         <line num="173" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -783,7 +856,7 @@
         <line num="185" count="0" type="stmt"/>
         <line num="187" count="0" type="stmt"/>
         <line num="190" count="0" type="stmt"/>
-        <line num="194" count="2" type="stmt"/>
+        <line num="194" count="3" type="stmt"/>
         <line num="205" count="1" type="stmt"/>
         <line num="206" count="1" type="stmt"/>
         <line num="207" count="1" type="stmt"/>
@@ -817,48 +890,48 @@
         <line num="54" count="0" type="stmt"/>
       </file>
       <file name="teamService.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\services\teamService.ts">
-        <metrics statements="106" coveredstatements="14" conditionals="20" coveredconditionals="0" methods="17" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
+        <metrics statements="106" coveredstatements="38" conditionals="20" coveredconditionals="2" methods="17" coveredmethods="9"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
         <line num="50" count="0" type="stmt"/>
-        <line num="55" count="1" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="61" count="0" type="stmt"/>
-        <line num="69" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="55" count="2" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="69" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="70" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
         <line num="75" count="0" type="stmt"/>
-        <line num="79" count="1" type="stmt"/>
-        <line num="81" count="0" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="87" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="81" count="2" type="stmt"/>
+        <line num="82" count="2" type="stmt"/>
+        <line num="87" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="88" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="92" count="0" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
+        <line num="91" count="2" type="stmt"/>
+        <line num="92" count="2" type="stmt"/>
+        <line num="97" count="2" type="stmt"/>
         <line num="101" count="0" type="stmt"/>
-        <line num="106" count="1" type="stmt"/>
-        <line num="108" count="0" type="stmt"/>
-        <line num="109" count="0" type="stmt"/>
-        <line num="111" count="0" type="stmt"/>
-        <line num="116" count="0" type="stmt"/>
-        <line num="118" count="0" type="stmt"/>
-        <line num="119" count="0" type="stmt"/>
+        <line num="106" count="2" type="stmt"/>
+        <line num="108" count="1" type="stmt"/>
+        <line num="109" count="1" type="stmt"/>
+        <line num="111" count="1" type="stmt"/>
+        <line num="116" count="1" type="stmt"/>
+        <line num="118" count="1" type="stmt"/>
+        <line num="119" count="1" type="stmt"/>
         <line num="122" count="0" type="stmt"/>
-        <line num="126" count="1" type="stmt"/>
+        <line num="126" count="2" type="stmt"/>
         <line num="128" count="0" type="stmt"/>
         <line num="129" count="0" type="stmt"/>
         <line num="131" count="0" type="stmt"/>
@@ -870,7 +943,7 @@
         <line num="151" count="0" type="stmt"/>
         <line num="152" count="0" type="stmt"/>
         <line num="155" count="0" type="stmt"/>
-        <line num="159" count="1" type="stmt"/>
+        <line num="159" count="2" type="stmt"/>
         <line num="161" count="0" type="stmt"/>
         <line num="162" count="0" type="stmt"/>
         <line num="166" count="0" type="stmt"/>
@@ -890,7 +963,7 @@
         <line num="199" count="0" type="stmt"/>
         <line num="200" count="0" type="stmt"/>
         <line num="203" count="0" type="stmt"/>
-        <line num="207" count="1" type="stmt"/>
+        <line num="207" count="2" type="stmt"/>
         <line num="209" count="0" type="stmt"/>
         <line num="210" count="0" type="stmt"/>
         <line num="214" count="0" type="stmt"/>
@@ -900,7 +973,7 @@
         <line num="225" count="0" type="stmt"/>
         <line num="226" count="0" type="stmt"/>
         <line num="229" count="0" type="stmt"/>
-        <line num="233" count="1" type="stmt"/>
+        <line num="233" count="2" type="stmt"/>
         <line num="234" count="0" type="stmt"/>
         <line num="236" count="0" type="stmt"/>
         <line num="241" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -924,6 +997,41 @@
         <line num="284" count="0" type="stmt"/>
         <line num="286" count="0" type="stmt"/>
         <line num="290" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.api.nba.validations">
+      <metrics statements="14" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="coachValidations.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\validations\coachValidations.ts">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+      </file>
+      <file name="leagueStandingsValidations.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\validations\leagueStandingsValidations.ts">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+      </file>
+      <file name="matchValidations.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\validations\matchValidations.ts">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+      </file>
+      <file name="playerValidations.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\validations\playerValidations.ts">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+      </file>
+      <file name="possessionsValidations.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\validations\possessionsValidations.ts">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+      </file>
+      <file name="teamValidations.ts" path="C:\Users\Domin\Documents\rrc_polytech\semester_3\back_end\assignments\capstone_project\src\api\nba\validations\teamValidations.ts">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
       </file>
     </package>
   </project>

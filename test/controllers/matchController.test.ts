@@ -1,10 +1,10 @@
-import * as firestoreRepository from '../src/api/nba/repositories/firestoreRepositories';
-import * as matchService from "../src/api/nba/services/matchService";
-import { Match } from '../src/api/nba/models/matchSim/matchModel';
-import * as teamService from "../src/api/nba/services/teamService"
+import * as firestoreRepository from '../../src/api/nba/repositories/firestoreRepositories';
+import * as matchService from "../../src/api/nba/services/matchService";
+import { Match } from '../../src/api/nba/models/matchSim/matchModel';
+import * as teamService from "../../src/api/nba/services/teamService"
 
-jest.mock('../src/api/nba/repositories/firestoreRepositories');
-jest.mock("../src/api/nba/services/teamService");
+jest.mock('../../src/api/nba/repositories/firestoreRepositories');
+jest.mock("../../src/api/nba/services/teamService");
 
 describe("matchService", () => {
 

@@ -3,12 +3,6 @@ import { Position } from "../models/people/playerModel";
 
 export const playerSchemas = {
     create: {
-        params: Joi.object({
-            id: Joi.string().required().messages({
-                "any.required": "Player Id is required",
-                "string.empty": "Player Id cannot be empty",
-            })
-        }),
         body: Joi.object({
             id: Joi.forbidden().messages({
                 "any.unknown": "You cannot update the id"

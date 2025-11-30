@@ -1,8 +1,8 @@
-import * as firestoreRepository from '../src/api/nba/repositories/firestoreRepositories';
-import * as playerService from "../src/api/nba/services/playerService";
-import { Player, Position } from '../src/api/nba/models/people/playerModel';
+import * as firestoreRepository from '../../src/api/nba/repositories/firestoreRepositories';
+import * as playerService from "../../src/api/nba/services/playerService";
+import { Player, Position } from '../../src/api/nba/models/people/playerModel';
 
-jest.mock('../src/api/nba/repositories/firestoreRepositories');
+jest.mock('../../src/api/nba/repositories/firestoreRepositories');
 
 describe("playerService", () => {
     beforeEach(() => {

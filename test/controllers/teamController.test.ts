@@ -1,10 +1,10 @@
 import { Team } from 'src/api/nba/models/teamModel';
-import * as firestoreRepository from '../src/api/nba/repositories/firestoreRepositories';
-import * as teamService from "../src/api/nba/services/teamService";
-import { ConferenceType } from 'src/api/nba/models/standingsSim/conferenceModel';
+import * as firestoreRepository from '../../src/api/nba/repositories/firestoreRepositories';
+import * as teamService from "../../src/api/nba/services/teamService";
+import { ConferenceType } from '../../src/api/nba/models/standingsSim/conferenceModel';
 // import { Team } from '../src/api/nba/models/teamModel';
 
-jest.mock('../src/api/nba/repositories/firestoreRepositories');
+jest.mock('../../src/api/nba/repositories/firestoreRepositories');
 
 describe("teamService", () => {
     beforeEach(() => {

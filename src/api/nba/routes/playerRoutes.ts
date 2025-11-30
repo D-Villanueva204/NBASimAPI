@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 import * as playerController from "../controllers/playerController";
 import { validateRequest } from "../middleware/validate";
-import { adminSchemas, playerSchemas } from "../validations/playerValidations";
+import { playerSchemas } from "../validations/playerValidations";
 
 const router: Router = express.Router();
 
