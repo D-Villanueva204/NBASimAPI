@@ -57,8 +57,6 @@ export const getGames = async (req: Request, res: Response, next: NextFunction):
     }
 };
 
-
-
 export const getMatch = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         let id = String(req.params.id);
