@@ -46,7 +46,7 @@ export const createNewStandings = async (): Promise<LeagueStandings> => {
 };
 
 
-export const getStandingsById = async (season: string): Promise<LeagueStandings> => {
+export const getStandingsBySeason = async (season: string): Promise<LeagueStandings> => {
 
     try {
         const doc: DocumentSnapshot | null = await getDocumentById(
@@ -102,7 +102,7 @@ export const updateStandings = async (
 ): Promise<LeagueStandings> => {
     try {
 
-        const standings = await getStandingsById(season);
+        const standings = await getStandingsBySeason(season);
         const updatedConferences = await conferenceService.updateConferences();
 
         const updatedStandings: LeagueStandings = {

@@ -31,11 +31,11 @@ export const getStandings = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
-export const getStandingsById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getStandingsBySeason = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const season: string = req.params.season;
         
-        const standings: LeagueStandings = await leagueStandingsService.getStandingsById(season);
+        const standings: LeagueStandings = await leagueStandingsService.getStandingsBySeason(season);
         
         res.status(HTTP_STATUS.OK).json(
             successResponse(standings, "Standings found.")

@@ -353,7 +353,7 @@ export const createNewStandings = <span class="fstat-no" title="function not cov
 };
 &nbsp;
 &nbsp;
-export const getStandingsById = <span class="fstat-no" title="function not covered" >async (s</span>eason: string): Promise&lt;LeagueStandings&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
+export const getStandingsBySeason = <span class="fstat-no" title="function not covered" >async (s</span>eason: string): Promise&lt;LeagueStandings&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const doc: DocumentSnapshot | null = <span class="cstat-no" title="statement not covered" >await getDocumentById(</span>
@@ -409,7 +409,7 @@ export const updateStandings = <span class="fstat-no" title="function not covere
 ): Promise&lt;LeagueStandings&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
 &nbsp;
-        const standings = <span class="cstat-no" title="statement not covered" >await getStandingsById(season);</span>
+        const standings = <span class="cstat-no" title="statement not covered" >await getStandingsBySeason(season);</span>
         const updatedConferences = <span class="cstat-no" title="statement not covered" >await conferenceService.updateConferences();</span>
 &nbsp;
         const updatedStandings<span class="cstat-no" title="statement not covered" >: LeagueStandings = {</span>

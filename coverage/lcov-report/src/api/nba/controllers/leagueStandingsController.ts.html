@@ -220,11 +220,11 @@ export const <span class="cstat-no" title="statement not covered" >getStandings 
     }
 };
 &nbsp;
-export const <span class="cstat-no" title="statement not covered" >getStandingsById = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a</span>sync (r</span>eq: Request, res: Response, next: NextFunction): Promise&lt;void&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
+export const <span class="cstat-no" title="statement not covered" >getStandingsBySeason = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a</span>sync (r</span>eq: Request, res: Response, next: NextFunction): Promise&lt;void&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const season: string = <span class="cstat-no" title="statement not covered" >req.params.season;</span>
         
-        const standings: LeagueStandings = <span class="cstat-no" title="statement not covered" >await leagueStandingsService.getStandingsById(season);</span>
+        const standings: LeagueStandings = <span class="cstat-no" title="statement not covered" >await leagueStandingsService.getStandingsBySeason(season);</span>
         
 <span class="cstat-no" title="statement not covered" >        res.status(HTTP_STATUS.OK).json(</span>
             successResponse(standings, "Standings found.")

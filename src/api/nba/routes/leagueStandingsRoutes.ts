@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/", leagueStandingsController.createNewStandings);
 router.get("/", leagueStandingsController.getStandings);
-router.get("/:season", leagueStandingsController.getStandingsById);
+router.get("/:season", leagueStandingsController.getStandingsBySeason);
 router.put("/:season", leagueStandingsController.updateStandings);
 
 export default router;
