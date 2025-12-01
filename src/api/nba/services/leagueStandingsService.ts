@@ -21,7 +21,6 @@ const dateNow = new Date();
 export const createNewStandings = async (): Promise<LeagueStandings> => {
     try {
         const season: string = `${dateNow.getFullYear()}-${(Number(dateNow.getFullYear()) + 1)}`;
-        console.log(season);
         const newStandings: Partial<LeagueStandings> = {
             season: season,
             createdAt: dateNow,
