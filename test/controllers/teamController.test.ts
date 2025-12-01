@@ -1,9 +1,10 @@
 import { Team } from 'src/api/nba/models/teamModel';
-import * as firestoreRepository from '../src/api/nba/repositories/firestoreRepositories';
-import * as teamService from "../src/api/nba/services/teamService";
+import * as firestoreRepository from '../../src/api/nba/repositories/firestoreRepositories';
+import * as teamService from "../../src/api/nba/services/teamService";
+import { ConferenceType } from '../../src/api/nba/models/standingsSim/conferenceModel';
 // import { Team } from '../src/api/nba/models/teamModel';
 
-jest.mock('../src/api/nba/repositories/firestoreRepositories');
+jest.mock('../../src/api/nba/repositories/firestoreRepositories');
 
 describe("teamService", () => {
     beforeEach(() => {
@@ -12,7 +13,8 @@ describe("teamService", () => {
 
     it("should create a Team with valid arguments", async () => {
         const mockInput = {
-            name: "Cancun Sharks"
+            name: "Cancun Sharks",
+            conference: ConferenceType.westernConference
         };
 
         const result = await teamService.createTeam(mockInput);
@@ -58,7 +60,7 @@ describe("teamService", () => {
         const mockTeam: Team = {
             id: mockId,
             name: "Lakers",
-            conference: "West",
+            conference: ConferenceType.westernConference,
             pointGuard: null,
             shootingGuard: null,
             smallForward: null,

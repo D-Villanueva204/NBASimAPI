@@ -1,5 +1,7 @@
 import express, { Router } from "express";
 import * as playerController from "../controllers/playerController";
+import { validateRequest } from "../middleware/validate";
+import { playerSchemas } from "../validations/playerValidations";
 
 const router: Router = express.Router();
 
@@ -44,7 +46,7 @@ const router: Router = express.Router();
  *       201:
  *         description: Player sent to Commissioner for Approval.
  */
-router.post("/", playerController.createPlayer);
+router.post("/", validateRequest(playerSchemas.create), playerController.createPlayer);
 
 /**
  * @openapi
@@ -98,7 +100,7 @@ router.get("/pending/", playerController.getPendingPlayers);
  *       200:
  *         description: Player found.
  */
-router.get("/:id", playerController.getPlayerById);
+router.get("/:id", validateRequest(playerSchemas.getPlayerById), playerController.getPlayerById);
 
 /**
  * @openapi
@@ -128,7 +130,7 @@ router.get("/:id", playerController.getPlayerById);
  *       200:
  *         description: Player review status updated.
  */
-router.put("/review/:id", playerController.reviewPlayer);
+router.put("/review/:id", validateRequest(playerSchemas.reviewPlayer), playerController.reviewPlayer);
 
 /**
  * @openapi
@@ -160,7 +162,7 @@ router.put("/review/:id", playerController.reviewPlayer);
  *       200:
  *         description: Player updated successfully.
  */
-router.put("/update/:id", playerController.updatePlayer);
+router.put("/update/:id", validateRequest(playerSchemas.update),  playerController.updatePlayer);
 
 
 export default router;

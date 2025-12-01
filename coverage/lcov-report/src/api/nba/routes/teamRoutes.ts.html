@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
@@ -187,7 +187,15 @@
 <a name='L122'></a><a href='#L122'>122</a>
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a>
-<a name='L125'></a><a href='#L125'>125</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -226,6 +234,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -280,6 +290,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -313,6 +325,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import express, { Router } from "express";</span>
 <span class="cstat-no" title="statement not covered" >import * as teamController from "../controllers/teamController";</span>
+<span class="cstat-no" title="statement not covered" >import { validateRequest } from "../middleware/validate";</span>
+<span class="cstat-no" title="statement not covered" >import { TeamSchemas } from "../validations/teamValidations";</span>
 &nbsp;
 const router: Router = <span class="cstat-no" title="statement not covered" >express.Router();</span>
 &nbsp;
@@ -336,7 +350,7 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *       201:
  *         description: Team created.
  */
-<span class="cstat-no" title="statement not covered" >router.post("/", teamController.createTeam);</span>
+<span class="cstat-no" title="statement not covered" >router.post("/", validateRequest(TeamSchemas.create), teamController.createTeam);</span>
 &nbsp;
 /**
  * @openapi
@@ -349,6 +363,8 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *         description: List of teams retrieved successfully.
  */
 <span class="cstat-no" title="statement not covered" >router.get("/", teamController.getTeams);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamById);</span>
 &nbsp;
 /**
  * @openapi
@@ -377,7 +393,7 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *       200:
  *         description: Team name updated successfully.
  */
-<span class="cstat-no" title="statement not covered" >router.put("/name/:id", teamController.updateTeamName);</span>
+<span class="cstat-no" title="statement not covered" >router.put("/name/:id", validateRequest(TeamSchemas.updateTeamName), teamController.updateTeamName);</span>
 &nbsp;
 /**
  * @openapi
@@ -405,7 +421,9 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *       200:
  *         description: Player added or updated for the team.
  */
-<span class="cstat-no" title="statement not covered" >router.put("/player/:id", teamController.updatePlayer);</span>
+<span class="cstat-no" title="statement not covered" >router.put("/player/:id", validateRequest(TeamSchemas.updatePlayer), teamController.updatePlayer);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >router.put("/coach/:id", validateRequest(TeamSchemas.assignCoach), teamController.assignCoach);</span>
 &nbsp;
 /**
  * @openapi
@@ -433,7 +451,7 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *       200:
  *         description: Team updated. Player also updated.
  */
-<span class="cstat-no" title="statement not covered" >router.delete("/player/:id", teamController.deletePlayer);</span>
+<span class="cstat-no" title="statement not covered" >router.delete("/player/:id", validateRequest(TeamSchemas.deletePlayer), teamController.deletePlayer);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default router;</span></pre></td></tr></table></pre>
 
@@ -442,7 +460,7 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-29T06:01:53.921Z
+                at 2025-11-30T20:24:03.674Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
