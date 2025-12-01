@@ -24,8 +24,6 @@ export const updateConferences = async (): Promise<{
         let topWestSeedWins = 0;
 
         for (const team of teams) {
-            console.log(team.conference);
-            console.log(ConferenceType.easternConference);
             if (team.conference == ConferenceType.easternConference) {
                 if (team.record.wins >= topEastSeedWins) {
                     easternConference.topSeed = {
@@ -50,14 +48,8 @@ export const updateConferences = async (): Promise<{
             }
         }
 
-        const topSeed = (topEastSeedWins > topEastSeedWins) ? easternConference.topSeed! : westernConference.topSeed!;
-
-        console.log({
-            easternConference: easternConference,
-            westernConference: westernConference,
-            topSeed: topSeed
-        });
-
+        const topSeed = (topEastSeedWins > topWestSeedWins) ? easternConference.topSeed! : westernConference.topSeed!;
+        
         return structuredClone({
             easternConference: easternConference,
             westernConference: westernConference,

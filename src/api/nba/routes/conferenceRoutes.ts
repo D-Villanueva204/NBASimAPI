@@ -3,6 +3,6 @@ import * as conferenceController from "../controllers/conferenceController";
 
 const router: Router = express.Router();
 
-router.get("/", conferenceController.updateConferences);
+router.put("/", conferenceController.updateConferences);
 
 export default router;

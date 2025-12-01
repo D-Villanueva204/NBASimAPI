@@ -41,8 +41,6 @@ export const createNewStandings = async (): Promise<LeagueStandings> => {
     } catch (error: unknown) {
         throw error;
     }
-
-
 };
 
 
