@@ -1,143 +1,90 @@
-import * as firestoreRepository from '../../src/api/nba/repositories/firestoreRepositories';
-import * as matchService from "../../src/api/nba/services/matchService";
-import { Match } from '../../src/api/nba/models/matchSim/matchModel';
-import * as teamService from "../../src/api/nba/services/teamService"
+import request from "supertest";
+import app from "../../src/app";
+import { HTTP_STATUS } from "../../src/api/nba/constants/httpConstants";
+import * as matchController from "../../src/api/nba/controllers/matchController";
 
-jest.mock('../../src/api/nba/repositories/firestoreRepositories');
-jest.mock("../../src/api/nba/services/teamService");
+jest.mock("../../src/api/nba/controllers/matchController", () => ({
+    setupMatch: jest.fn((_req, res) => res.status(HTTP_STATUS.CREATED).send()),
+    getMatches: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send()),
+    getGames: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send()),
+    getMatch: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send()),
+    playMatch: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send()),
+    reviewMatch: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send())
+}));
 
-describe("matchService", () => {
+describe("Match Routes", () => {
+    const mockDate = new Date();
 
-    const mockDate: Date = new Date();
-
-    let mockHomeTeam = "homeTeam";
-
-
-
-    let mockAwayTeam = "awayTeam"
-
-
-
-    beforeEach(() => {
+    afterEach(() => {
         jest.clearAllMocks();
     });
 
-    it("should create a Match with valid arguments", async () => {
+    describe("POST /api/nba/matches", () => {
+        it("should only call the setupMatch controller", async () => {
+            const mockMatch = {
+                matchId: "match-1",
+                played: false,
+                approved: false,
+                homeTeam: "Lakers",
+                awayTeam: "Celtics",
+                possessions: "abc123",
+                createdAt: mockDate
+            };
 
-        (teamService.getTeamById as jest.Mock).mockImplementation(
-            (id: string) => {
-                if (id === "LA Lakers") return mockAwayTeam;
-                if (id === "Boston Celtics") return mockHomeTeam;
-            });
+            await request(app).post("/api/nba/matches").send(mockMatch);
 
-        const input = { awayTeam: "LA Lakers", homeTeam: "Boston Celtics" };
-
-        await matchService.setupMatch(input);
-
-        expect(firestoreRepository.createDocument).toHaveBeenCalledWith(
-            "matches",
-            expect.objectContaining({
-                awayTeam: undefined,
-                homeTeam: undefined,
-                played: false
-            })
-        );
+            expect(matchController.setupMatch).toHaveBeenCalled();
+        });
     });
 
+    describe("GET /api/nba/matches/pending", () => {
+        it("should only call the getMatches controller", async () => {
 
-    it("should retrieve all pending matches if they exist", async () => {
+            await request(app).get("/api/nba/matches/pending");
 
-        const mockMatch = {
-            matchId: "match1",
-            played: true,
-            approved: false,
-            homeTeam: mockHomeTeam,
-            awayTeam: mockAwayTeam,
-            possessions: null,
-            createdAt: mockDate,
-        };
+            expect(matchController.getMatches).toHaveBeenCalled();
 
-        const mockSnapshot = {
-            docs: [
-                {
-                    id: mockMatch.matchId,
-                    data: () => mockMatch,
-                },
-            ],
-        };
-
-        (firestoreRepository.getDocuments as jest.Mock).mockResolvedValue(mockSnapshot);
-
-        const result = await matchService.getMatches();
-
-        expect(firestoreRepository.getDocuments).toHaveBeenCalledWith("matches");
-        expect(result).toEqual([mockMatch]);
+        });
     });
 
-    it("should retrieve all games if they exist", async () => {
+    describe("GET /api/nba/matches/", () => {
+        it("should only call the getGames controller", async () => {
 
-        const mockMatch = {
-            matchId: "match1",
-            played: true,
-            approved: false,
-            homeTeam: mockHomeTeam,
-            awayTeam: mockAwayTeam,
-            possessions: null,
-            createdAt: mockDate,
-        };
+            await request(app).get("/api/nba/matches/");
 
-        const mockSnapshot = {
-            docs: [
-                {
-                    id: mockMatch.matchId,
-                    data: () => mockMatch,
-                },
-            ],
-        };
+            expect(matchController.getGames).toHaveBeenCalled();
 
-        (firestoreRepository.getDocuments as jest.Mock).mockResolvedValue(mockSnapshot);
-
-        const result = await matchService.getGames();
-
-        expect(firestoreRepository.getDocuments).toHaveBeenCalledWith("archived");
-        expect(result).toEqual([mockMatch]);
+        });
     });
 
+    describe("GET /api/nba/matches/pending/:id", () => {
+        it("should only call the getMatch controller", async () => {
 
+            await request(app).get("/api/nba/matches/pending/1");
 
-    it("should return a Match type object and change status when refused", async () => {
-        const mockMatch = {
-            matchId: "match1",
-            played: true,
-            approved: true,
-            homeTeam: mockHomeTeam,
-            awayTeam: mockAwayTeam,
-            possessions: null,
-            createdAt: mockDate,
-        };
+            expect(matchController.getMatch).toHaveBeenCalled();
 
-        const mockDoc = {
+        });
+    });
 
-            id: mockMatch.matchId,
-            data: () => mockMatch,
+    describe("POST /api/nba/matches/play/:id", () => {
+        it("should only call the playMatch controller", async () => {
 
-        };
+            await request(app).post("/api/nba/matches/play/1").send();
 
-        (firestoreRepository.getDocumentById as jest.Mock).mockResolvedValue(mockDoc);
+            expect(matchController.playMatch).toHaveBeenCalled();
 
-        const result: Match = await matchService.reviewMatch("match1", false);
+        });
+    });
 
-        expect(firestoreRepository.getDocumentById).toHaveBeenCalledWith("matches", "match1");
-        expect(result).toEqual(expect.objectContaining({
-            matchId: "match1",
-            played: true,
-            approved: false,
-            homeTeam: mockHomeTeam,
-            awayTeam: mockAwayTeam,
-            possessions: null
-        }));
+    describe("PUT /api/nba/matches/review/:id", () => {
+        it("should only call the reviewMatch controller", async () => {
 
+            await request(app).put("/api/nba/matches/review/1").send();
 
+            expect(matchController.reviewMatch).toHaveBeenCalled();
+
+        });
     });
 
 });

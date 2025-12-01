@@ -11,12 +11,7 @@ describe("matchService", () => {
     const mockDate: Date = new Date();
 
     let mockHomeTeam = "homeTeam";
-
-
-
     let mockAwayTeam = "awayTeam"
-
-
 
     beforeEach(() => {
         jest.clearAllMocks();
