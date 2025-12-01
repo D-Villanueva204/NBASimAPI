@@ -29,7 +29,7 @@ export const createPossessions = async (
 
 };
 
-export const getPossessionsById = async (id: string): Promise<Possessions> => {
+export const getPossessions = async (id: string): Promise<Possessions> => {
 
     try {
         const doc: DocumentSnapshot | null = await getDocumentById(

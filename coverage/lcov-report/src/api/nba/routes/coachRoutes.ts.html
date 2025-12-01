@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -162,13 +162,13 @@
 <a name='L97'></a><a href='#L97'>97</a>
 <a name='L98'></a><a href='#L98'>98</a>
 <a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -202,7 +202,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -218,9 +218,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -259,15 +259,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import express, { Router } from "express";</span>
-<span class="cstat-no" title="statement not covered" >import * as coachController from "../controllers/coachController";</span>
-<span class="cstat-no" title="statement not covered" >import { validateRequest } from "../middleware/validate";</span>
-<span class="cstat-no" title="statement not covered" >import { coachSchemas } from "../validations/coachValidations";</span>
+<span class="cline-any cline-yes">5x</span></td><td class="text"><pre class="prettyprint lang-js">import express, { Router } from "express";
+import * as coachController from "../controllers/coachController";
+import { validateRequest } from "../middleware/validate";
+import { coachSchemas } from "../validations/coachValidations";
 &nbsp;
 &nbsp;
-const router: Router = <span class="cstat-no" title="statement not covered" >express.Router();</span>
+const router: Router = express.Router();
 &nbsp;
 // Routes
 /**
@@ -301,7 +301,7 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *               $ref: '#/components/validations/Coach'
  */
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.post("/", validateRequest(coachSchemas.create), coachController.createCoach);</span>
+router.post("/", validateRequest(coachSchemas.create), coachController.createCoach);
 /**
  * @openapi
  * /api/nba/coach/:
@@ -317,9 +317,9 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *               $ref: '#/components/schemas/ResponseSchema'
  */
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.get("/", coachController.getCoaches);</span>
+router.get("/", coachController.getCoaches);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.getCoachById);</span>
+router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.getCoachById);
 &nbsp;
 /**
  * @openapi
@@ -358,16 +358,16 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  * 
  */
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.put("/:id", validateRequest(coachSchemas.update), coachController.updateCoach);</span>
+router.put("/:id", validateRequest(coachSchemas.update), coachController.updateCoach);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export default router;</span></pre></td></tr></table></pre>
+export default router;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-30T23:28:08.037Z
+                at 2025-12-01T02:36:13.242Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
