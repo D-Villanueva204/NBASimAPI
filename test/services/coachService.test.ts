@@ -55,6 +55,33 @@ describe("coachService", () => {
 
     });
 
+    it("should retrieve an coach by id if exists", async () => {
+            const mockId = "3";
+            const mockCoach = {
+                id: mockId,
+                name: "Darko Rajokovic",
+                currentTeam: "Toronto Raptors",
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            };
+
+            const mockSnapshot = {
+
+                id: mockId,
+                data: () => mockCoach,
+
+            };
+
+            (firestoreRepository.getDocumentById as jest.Mock).mockResolvedValue(mockSnapshot);
+
+            const result = await coachService.getCoachById(mockId);
+
+            expect(firestoreRepository.getDocumentById).toHaveBeenCalledWith("coaches", mockId);
+
+            expect(result.name).toBe(mockCoach.name);
+            expect(result.id).toBe(mockCoach.id);
+        });
+
     it("should update coach if exists with valid fields", async () => {
         const mockId = "13rings";
         const mockDate = new Date();

@@ -8,7 +8,7 @@ export const updateConferences = async (req: Request, res: Response, next: NextF
         await conferenceService.updateConferences();
 
         res.status(HTTP_STATUS.OK).json(
-            successResponse("Conferences updated.")
+            successResponse({}, "Conferences updated.")
         );
 
     }

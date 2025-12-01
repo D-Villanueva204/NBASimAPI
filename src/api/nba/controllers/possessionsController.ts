@@ -8,7 +8,7 @@ export const getPossessions = async (req: Request, res: Response, next: NextFunc
     try {
         let id = String(req.params.id);
 
-        const returnedEvents: Possessions = await possessionsService.getPossessionsById(id);
+        const returnedEvents: Possessions = await possessionsService.getPossessions(id);
 
         res.status(HTTP_STATUS.OK).json(successResponse(
             returnedEvents,

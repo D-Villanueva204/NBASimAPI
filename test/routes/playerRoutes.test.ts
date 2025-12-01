@@ -1,156 +1,103 @@
-import * as firestoreRepository from '../../src/api/nba/repositories/firestoreRepositories';
-import * as playerService from "../../src/api/nba/services/playerService";
-import { Player, Position } from '../../src/api/nba/models/people/playerModel';
+import request from "supertest";
+import app from "../../src/app";
+import { HTTP_STATUS } from "../../src/api/nba/constants/httpConstants";
+import * as playerController from "../../src/api/nba/controllers/playerController";
+import { Position } from "../../src/api/nba/models/people/playerModel";
 
-jest.mock('../../src/api/nba/repositories/firestoreRepositories');
+jest.mock("../../src/api/nba/controllers/playerController", () => ({
+    createPlayer: jest.fn((_req, res) => res.status(HTTP_STATUS.CREATED).send()),
+    getAllPlayers: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send()),
+    getPlayers: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send()),
+    getPendingPlayers: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send()),
+    getPlayerById: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send()),
+    reviewPlayer: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send()),
+    updatePlayer: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send())
+}));
 
-describe("playerService", () => {
-    beforeEach(() => {
+describe("Player Routes", () => {
+
+    afterEach(() => {
         jest.clearAllMocks();
     });
 
-    it("should create a Player with valid arguments", async () => {
-        const mockInput = {
-            name: "John Wall",
-            currentTeam: "Cancun Sharks",
-            position: Position.PointGuard,
-            possession: 99,
-            three: 75,
-            layup: 33,
-            defense: 12
-        };
+    describe("POST /api/nba/player/", () => {
+        it("should only call the setupPlayer controller", async () => {
+            const mockPlayer = {
+                name: "John Wall",
+                position: Position.PointGuard,
+                possession: 99,
+                three: 75,
+                layup: 33,
+                defense: 12,
+            };
 
-        const result = await playerService.createPlayer(mockInput);
+            await request(app).post("/api/nba/player/").send(mockPlayer);
 
-        expect(firestoreRepository.createDocument).toHaveBeenCalledWith("players", expect.objectContaining({
-            name: "John Wall",
-            currentTeam: "Cancun Sharks",
-            position: Position.PointGuard,
-            possession: 99,
-            three: 75,
-            layup: 33,
-            defense: 12
-        }));
+            expect(playerController.createPlayer).toHaveBeenCalled();
+        });
+    });
 
-        expect(result.name).toBe(mockInput.name);
-        expect(result.position).toBe(mockInput.position);
-        expect(result.currentTeam).toBe(mockInput.currentTeam);
-        expect(result.three).toBe(mockInput.three);
-        expect(result.layup).toBe(mockInput.layup);
-        expect(result.defense).toBe(mockInput.defense);
+    describe("GET /api/nba/player/admin/", () => {
+        it("should only call the getAllPlayers controller", async () => {
 
+            await request(app).get("/api/nba/player/admin/");
 
+            expect(playerController.getAllPlayers).toHaveBeenCalled();
+
+        });
+    });
+
+    describe("GET /api/nba/player/", () => {
+        it("should only call the getPlayers controller", async () => {
+
+            await request(app).get("/api/nba/player/");
+
+            expect(playerController.getPlayers).toHaveBeenCalled();
+
+        });
     });
 
 
-    it("Should retrieve all players if exists", async () => {
-        const mockPlayer = {
-            id: "johnwall",
-            name: "John Wall",
-            currentTeam: "Cancun Sharks",
-            position: Position.PointGuard,
-            possession: 99,
-            three: 75,
-            layup: 33,
-            defense: 12
-        };
+    describe("GET /api/nba/player/pending/", () => {
+        it("should only call the getPlayers controller", async () => {
 
-        const mockSnapshot = {
-            docs: [
-                {
-                    id: "johnwall",
-                    data: () => mockPlayer,
-                },
-            ],
-        };
+            await request(app).get("/api/nba/player/pending/");
 
-        (firestoreRepository.getDocuments as jest.Mock).mockResolvedValue(mockSnapshot);
+            expect(playerController.getPendingPlayers).toHaveBeenCalled();
 
-        const result = await playerService.getAllPlayers();
-
-        expect(firestoreRepository.getDocuments).toHaveBeenCalledWith("players");
-
-        expect(result).toEqual([mockPlayer]);
-
+        });
     });
 
-    it("should retrieve a player by id if exists", async () => {
-        const mockId = "johnwall";
-        const mockPlayer = {
-            name: "John Wall",
-            currentTeam: "Cancun Sharks",
-            position: Position.PointGuard,
-            possession: 99,
-            three: 75,
-            layup: 33,
-            defense: 12,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        };
 
-        const mockSnapshot = {
 
-            id: mockId,
-            data: () => mockPlayer,
+    describe("GET /api/nba/player/:id", () => {
+        it("should only call the getPlayerById controller", async () => {
 
-        };
+            await request(app).get("/api/nba/player/1");
 
-        (firestoreRepository.getDocumentById as jest.Mock).mockResolvedValue(mockSnapshot);
+            expect(playerController.getPlayerById).toHaveBeenCalled();
 
-        const result = await playerService.getPlayerById(mockId);
-
-        expect(firestoreRepository.getDocumentById).toHaveBeenCalledWith("players", mockId);
-
-        expect(result.name).toBe(mockPlayer.name);
-        expect(result.position).toBe(mockPlayer.position);
-        expect(result.currentTeam).toBe(mockPlayer.currentTeam);
-        expect(result.three).toBe(mockPlayer.three);
-        expect(result.layup).toBe(mockPlayer.layup);
-        expect(result.defense).toBe(mockPlayer.defense);
-
+        });
     });
 
-    it("should update player if exists with valid fields", async () => {
-        const mockId = "johnwall";
-        const mockDate = new Date();
+    describe("PUT /api/nba/player/review/:id", () => {
+        it("should only call the reviewPlayer controller", async () => {
 
-        const mockPlayer = {
-            id: mockId,
-            name: "John Wall",
-            currentTeam: "Washington Wizards",
-            position: Position.PointGuard,
-            possession: 99,
-            three: 75,
-            layup: 33,
-            defense: 12,
-            createdAt: mockDate,
-            updatedAt: mockDate,
-        };
+            await request(app).put("/api/nba/player/review/1").send();
 
-        const mockBody: Pick<Player,
-            "name" |
-            "position" |
-            "currentTeam" |
-            "possession" |
-            "three" |
-            "layup" |
-            "defense"> = {
-            ...mockPlayer,
-            currentTeam: "Cancun Sharks"
+            expect(playerController.reviewPlayer).toHaveBeenCalled();
 
-        };
+        });
+    });
 
-        (firestoreRepository.updateDocument as jest.Mock).mockResolvedValue(mockPlayer);
+    describe("PUT /api/nba/player/update/:id", () => {
+        it("should only call the updatePlayer controller", async () => {
 
-        const result = await playerService.updatePlayer(mockId, mockBody);
+            await request(app).put("/api/nba/player/update/1").send();
 
-        expect(firestoreRepository.updateDocument).toHaveBeenCalledWith("players", mockId, expect.objectContaining({
-            currentTeam: "Cancun Sharks"
-        }));
+            expect(playerController.updatePlayer).toHaveBeenCalled();
 
-        expect(result.currentTeam).toBe(mockBody.currentTeam);
-
-
+        });
     });
 
 });

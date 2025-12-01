@@ -1,143 +1,177 @@
-import * as firestoreRepository from '../../src/api/nba/repositories/firestoreRepositories';
+import { NextFunction, Request, Response } from "express";
+import { HTTP_STATUS } from "../../src/api/nba/constants/httpConstants";
+import * as matchController from "../../src/api/nba/controllers/matchController";
 import * as matchService from "../../src/api/nba/services/matchService";
-import { Match } from '../../src/api/nba/models/matchSim/matchModel';
-import * as teamService from "../../src/api/nba/services/teamService"
 
-jest.mock('../../src/api/nba/repositories/firestoreRepositories');
-jest.mock("../../src/api/nba/services/teamService");
+jest.mock("../../src/api/nba/services/matchService");
 
-describe("matchService", () => {
-
-    const mockDate: Date = new Date();
-
-    let mockHomeTeam = "homeTeam";
-
-
-
-    let mockAwayTeam = "awayTeam"
-
+describe("Match Controller", () => {
+    let mockReq: Partial<Request>;
+    let mockRes: Partial<Response>;
+    let mockNext: NextFunction;
+    const mockDate = new Date();
 
 
     beforeEach(() => {
         jest.clearAllMocks();
+        mockReq = { params: {}, body: {} };
+        mockRes = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+        mockNext = jest.fn();
     });
 
-    it("should create a Match with valid arguments", async () => {
+    describe("setupMatch", () => {
 
-        (teamService.getTeamById as jest.Mock).mockImplementation(
-            (id: string) => {
-                if (id === "LA Lakers") return mockAwayTeam;
-                if (id === "Boston Celtics") return mockHomeTeam;
+        it("Should return the correct HTTP status code and message with a valid input.", async () => {
+
+            const mockBody = {
+                homeTeam: "homeTeam",
+                awayTeam: "awayTeam"
+            };
+
+            mockReq.body = mockBody;
+            (matchService.setupMatch as jest.Mock).mockReturnValue(mockBody);
+
+            await matchController.setupMatch(mockReq as Request, mockRes as Response, mockNext as NextFunction);
+
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.CREATED);
+            expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({
+                status: "Success",
+                message: "Game sent to Commissioner for Approval.",
+            }));
+
+        });
+
+    });
+
+    describe("getMatches", () => {
+
+        it("Should return correct HTTP status code and message when there are matches.", async () => {
+            const mockMatches = [{
+                played: false,
+                approved: false,
+                homeTeam: "Lakers",
+                awayTeam: "Celtics",
+                possessions: "abc123",
+                createdAt: mockDate
+
+            }];
+
+            (matchService.getMatches as jest.Mock).mockReturnValue(mockMatches);
+
+            await matchController.getMatches(mockReq as Request, mockRes as Response, mockNext as NextFunction);
+
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                status: "Success",
+                data: mockMatches,
+                message: "All pending matches found and returned.",
             });
-
-        const input = { awayTeam: "LA Lakers", homeTeam: "Boston Celtics" };
-
-        await matchService.setupMatch(input);
-
-        expect(firestoreRepository.createDocument).toHaveBeenCalledWith(
-            "matches",
-            expect.objectContaining({
-                awayTeam: undefined,
-                homeTeam: undefined,
-                played: false
-            })
-        );
+        });
     });
 
+    describe("getMatches", () => {
 
-    it("should retrieve all pending matches if they exist", async () => {
+        it("Should return correct HTTP status code and message when there are games.", async () => {
+            const mockGames = [{
+                played: false,
+                approved: false,
+                homeTeam: "Lakers",
+                awayTeam: "Celtics",
+                possessions: "abc123",
+                createdAt: mockDate
 
-        const mockMatch = {
-            matchId: "match1",
-            played: true,
-            approved: false,
-            homeTeam: mockHomeTeam,
-            awayTeam: mockAwayTeam,
-            possessions: null,
-            createdAt: mockDate,
-        };
+            }];
 
-        const mockSnapshot = {
-            docs: [
-                {
-                    id: mockMatch.matchId,
-                    data: () => mockMatch,
-                },
-            ],
-        };
+            (matchService.getGames as jest.Mock).mockReturnValue(mockGames);
 
-        (firestoreRepository.getDocuments as jest.Mock).mockResolvedValue(mockSnapshot);
+            await matchController.getMatches(mockReq as Request, mockRes as Response, mockNext as NextFunction);
 
-        const result = await matchService.getMatches();
-
-        expect(firestoreRepository.getDocuments).toHaveBeenCalledWith("matches");
-        expect(result).toEqual([mockMatch]);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                status: "Success",
+                data: mockGames,
+                message: "All pending matches found and returned.",
+            });
+        });
     });
 
-    it("should retrieve all games if they exist", async () => {
+    describe("getMatch", () => {
+        it("Return correct HTTP status code and data when match exists", async () => {
+            const expectedMatch = {
+                played: false,
+                approved: false,
+                homeTeam: "Lakers",
+                awayTeam: "Celtics",
+                possessions: "abc123",
+                createdAt: mockDate
+            };
 
-        const mockMatch = {
-            matchId: "match1",
-            played: true,
-            approved: false,
-            homeTeam: mockHomeTeam,
-            awayTeam: mockAwayTeam,
-            possessions: null,
-            createdAt: mockDate,
-        };
+            (matchService.getMatch as jest.Mock).mockReturnValue(expectedMatch);
 
-        const mockSnapshot = {
-            docs: [
-                {
-                    id: mockMatch.matchId,
-                    data: () => mockMatch,
-                },
-            ],
-        };
+            await matchController.getMatch(mockReq as Request, mockRes as Response, mockNext as NextFunction);
 
-        (firestoreRepository.getDocuments as jest.Mock).mockResolvedValue(mockSnapshot);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                status: "Success",
+                data: expectedMatch,
+                message: "Match found",
+            });
+        });
 
-        const result = await matchService.getGames();
-
-        expect(firestoreRepository.getDocuments).toHaveBeenCalledWith("archived");
-        expect(result).toEqual([mockMatch]);
     });
 
+    describe("playMatch", () => {
+        it("Returned the correct HTTP status code and data when a game is played", async () => {
+            const expectedMatch = {
+                played: true,
+                approved: false,
+                homeTeam: "Lakers",
+                awayTeam: "Celtics",
+                possessions: "abc123",
+                createdAt: mockDate
+            };
 
+            (matchService.playMatch as jest.Mock).mockReturnValue(expectedMatch);
 
-    it("should return a Match type object and change status when refused", async () => {
-        const mockMatch = {
-            matchId: "match1",
-            played: true,
-            approved: true,
-            homeTeam: mockHomeTeam,
-            awayTeam: mockAwayTeam,
-            possessions: null,
-            createdAt: mockDate,
-        };
+            await matchController.playMatch(mockReq as Request, mockRes as Response, mockNext as NextFunction);
 
-        const mockDoc = {
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+            expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({
+                status: "Success",
+                message: "Game played",
+            }));
 
-            id: mockMatch.matchId,
-            data: () => mockMatch,
+        });
 
-        };
+    });
 
-        (firestoreRepository.getDocumentById as jest.Mock).mockResolvedValue(mockDoc);
+    describe("reviewMatch", () => {
+        it("Returned the correct HTTP status code and data when a game is reviewed", async () => {
+            const expectedMatch = {
+                played: true,
+                approved: false,
+                homeTeam: "Lakers",
+                awayTeam: "Celtics",
+                possessions: "abc123",
+                createdAt: mockDate
+            };
 
-        const result: Match = await matchService.reviewMatch("match1", false);
+            (matchService.reviewMatch as jest.Mock).mockReturnValue(expectedMatch);
 
-        expect(firestoreRepository.getDocumentById).toHaveBeenCalledWith("matches", "match1");
-        expect(result).toEqual(expect.objectContaining({
-            matchId: "match1",
-            played: true,
-            approved: false,
-            homeTeam: mockHomeTeam,
-            awayTeam: mockAwayTeam,
-            possessions: null
-        }));
+            await matchController.reviewMatch(mockReq as Request, mockRes as Response, mockNext as NextFunction);
 
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+            expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({
+                status: "Success",
+                message: "Game reviewed.",
+            }));
+
+        });
 
     });
 
 });
+

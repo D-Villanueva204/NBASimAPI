@@ -1,156 +1,232 @@
-import * as firestoreRepository from '../../src/api/nba/repositories/firestoreRepositories';
+import { NextFunction, Request, Response } from "express";
+import { HTTP_STATUS } from "../../src/api/nba/constants/httpConstants";
+import * as playerController from "../../src/api/nba/controllers/playerController";
 import * as playerService from "../../src/api/nba/services/playerService";
-import { Player, Position } from '../../src/api/nba/models/people/playerModel';
+import { Position } from "../../src/api/nba/models/people/playerModel";
 
-jest.mock('../../src/api/nba/repositories/firestoreRepositories');
+jest.mock("../../src/api/nba/services/playerService");
 
-describe("playerService", () => {
+describe("Player Controller", () => {
+    let mockReq: Partial<Request>;
+    let mockRes: Partial<Response>;
+    let mockNext: NextFunction;
+    const mockDate = new Date();
+
+
     beforeEach(() => {
         jest.clearAllMocks();
+        mockReq = { params: {}, body: {} };
+        mockRes = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+        mockNext = jest.fn();
     });
 
-    it("should create a Player with valid arguments", async () => {
-        const mockInput = {
-            name: "John Wall",
-            currentTeam: "Cancun Sharks",
-            position: Position.PointGuard,
-            possession: 99,
-            three: 75,
-            layup: 33,
-            defense: 12
-        };
+    describe("createPlayer", () => {
 
-        const result = await playerService.createPlayer(mockInput);
+        it("Should return the correct HTTP status code and message with a valid input.", async () => {
 
-        expect(firestoreRepository.createDocument).toHaveBeenCalledWith("players", expect.objectContaining({
-            name: "John Wall",
-            currentTeam: "Cancun Sharks",
-            position: Position.PointGuard,
-            possession: 99,
-            three: 75,
-            layup: 33,
-            defense: 12
-        }));
+            const mockBody = {
+                name: "John Wall",
+                currentTeam: "Cancun Sharks",
+                position: Position.PointGuard,
+                possession: 99,
+                three: 75,
+                layup: 33,
+                defense: 12
+            };
 
-        expect(result.name).toBe(mockInput.name);
-        expect(result.position).toBe(mockInput.position);
-        expect(result.currentTeam).toBe(mockInput.currentTeam);
-        expect(result.three).toBe(mockInput.three);
-        expect(result.layup).toBe(mockInput.layup);
-        expect(result.defense).toBe(mockInput.defense);
+            mockReq.body = mockBody;
+            (playerService.createPlayer as jest.Mock).mockReturnValue(mockBody);
 
+            await playerController.createPlayer(mockReq as Request, mockRes as Response, mockNext as NextFunction);
 
-    });
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.CREATED);
+            expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({
+                status: "Success",
+                message: "Player sent to Commissioner for Approval.",
+            }));
 
-
-    it("Should retrieve all players if exists", async () => {
-        const mockPlayer = {
-            id: "johnwall",
-            name: "John Wall",
-            currentTeam: "Cancun Sharks",
-            position: Position.PointGuard,
-            possession: 99,
-            three: 75,
-            layup: 33,
-            defense: 12
-        };
-
-        const mockSnapshot = {
-            docs: [
-                {
-                    id: "johnwall",
-                    data: () => mockPlayer,
-                },
-            ],
-        };
-
-        (firestoreRepository.getDocuments as jest.Mock).mockResolvedValue(mockSnapshot);
-
-        const result = await playerService.getAllPlayers();
-
-        expect(firestoreRepository.getDocuments).toHaveBeenCalledWith("players");
-
-        expect(result).toEqual([mockPlayer]);
+        });
 
     });
 
-    it("should retrieve a player by id if exists", async () => {
-        const mockId = "johnwall";
-        const mockPlayer = {
-            name: "John Wall",
-            currentTeam: "Cancun Sharks",
-            position: Position.PointGuard,
-            possession: 99,
-            three: 75,
-            layup: 33,
-            defense: 12,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        };
+    describe("getAllPlayers", () => {
 
-        const mockSnapshot = {
+        it("Should return correct HTTP status code and message when there are players.", async () => {
+            const mockPlayers = [{
+                name: "John Wall",
+                currentTeam: "Cancun Sharks",
+                position: Position.PointGuard,
+                possession: 99,
+                three: 75,
+                layup: 33,
+                defense: 12,
+                createdAt: mockDate,
+                updatedAt: mockDate
 
-            id: mockId,
-            data: () => mockPlayer,
+            }];
 
-        };
+            (playerService.getAllPlayers as jest.Mock).mockReturnValue(mockPlayers);
 
-        (firestoreRepository.getDocumentById as jest.Mock).mockResolvedValue(mockSnapshot);
+            await playerController.getAllPlayers(mockReq as Request, mockRes as Response, mockNext as NextFunction);
 
-        const result = await playerService.getPlayerById(mockId);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                status: "Success",
+                data: mockPlayers,
+                message: "Players found and returned."
+            });
+        });
+    });
 
-        expect(firestoreRepository.getDocumentById).toHaveBeenCalledWith("players", mockId);
+    describe("getPlayers", () => {
 
-        expect(result.name).toBe(mockPlayer.name);
-        expect(result.position).toBe(mockPlayer.position);
-        expect(result.currentTeam).toBe(mockPlayer.currentTeam);
-        expect(result.three).toBe(mockPlayer.three);
-        expect(result.layup).toBe(mockPlayer.layup);
-        expect(result.defense).toBe(mockPlayer.defense);
+        it("Should return correct HTTP status code and message when there are players.", async () => {
+            const mockPlayers = [{
+                name: "John Wall",
+                status: true,
+                currentTeam: "Cancun Sharks",
+                position: Position.PointGuard,
+                possession: 99,
+                three: 75,
+                layup: 33,
+                defense: 12,
+                createdAt: mockDate,
+                updatedAt: mockDate
+
+            }];
+
+            (playerService.getPlayers as jest.Mock).mockReturnValue(mockPlayers);
+
+            await playerController.getPlayers(mockReq as Request, mockRes as Response, mockNext as NextFunction);
+
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                status: "Success",
+                data: mockPlayers,
+                message: "Players found and returned."
+            });
+        });
+    });
+
+    describe("getPendingPlayers", () => {
+
+        it("Should return correct HTTP status code and message when there are pending players.", async () => {
+            const mockPlayers = [{
+                name: "John Wall",
+                status: false,
+                currentTeam: "Cancun Sharks",
+                position: Position.PointGuard,
+                possession: 99,
+                three: 75,
+                layup: 33,
+                defense: 12,
+                createdAt: mockDate,
+                updatedAt: mockDate
+
+            }];
+
+            (playerService.getPendingPlayers as jest.Mock).mockReturnValue(mockPlayers);
+
+            await playerController.getPendingPlayers(mockReq as Request, mockRes as Response, mockNext as NextFunction);
+
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                status: "Success",
+                data: mockPlayers,
+                message: "Pending Players found and returned."
+            });
+        });
+    });
+
+    describe("getPlayerById", () => {
+        it("Return correct HTTP status code and data when player exists", async () => {
+            const expectedPlayer = {
+                name: "John Wall",
+                status: false,
+                currentTeam: "Cancun Sharks",
+                position: Position.PointGuard,
+                possession: 99,
+                three: 75,
+                layup: 33,
+                defense: 12,
+                createdAt: mockDate,
+                updatedAt: mockDate
+            };
+
+            (playerService.getPlayerById as jest.Mock).mockReturnValue(expectedPlayer);
+
+            await playerController.getPlayerById(mockReq as Request, mockRes as Response, mockNext as NextFunction);
+
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                status: "Success",
+                data: expectedPlayer,
+                message: "Player found",
+            });
+        });
 
     });
 
-    it("should update player if exists with valid fields", async () => {
-        const mockId = "johnwall";
-        const mockDate = new Date();
+    describe("updatePlayer", () => {
+        it("Returned the correct HTTP status code and data when a coach is updated", async () => {
+            const expectedPlayer = {
+                name: "John Wall",
+                status: false,
+                currentTeam: "Cancun Sharks",
+                position: Position.PointGuard,
+                possession: 99,
+                three: 75,
+                layup: 33,
+                defense: 12,
+                createdAt: mockDate,
+                updatedAt: mockDate
+            };
 
-        const mockPlayer = {
-            id: mockId,
-            name: "John Wall",
-            currentTeam: "Washington Wizards",
-            position: Position.PointGuard,
-            possession: 99,
-            three: 75,
-            layup: 33,
-            defense: 12,
-            createdAt: mockDate,
-            updatedAt: mockDate,
-        };
+            (playerService.updatePlayer as jest.Mock).mockReturnValue(expectedPlayer);
 
-        const mockBody: Pick<Player,
-            "name" |
-            "position" |
-            "currentTeam" |
-            "possession" |
-            "three" |
-            "layup" |
-            "defense"> = {
-            ...mockPlayer,
-            currentTeam: "Cancun Sharks"
+            await playerController.updatePlayer(mockReq as Request, mockRes as Response, mockNext as NextFunction);
 
-        };
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+            expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({
+                status: "Success",
+                message: "Player updated",
+            }));
 
-        (firestoreRepository.updateDocument as jest.Mock).mockResolvedValue(mockPlayer);
+        });
 
-        const result = await playerService.updatePlayer(mockId, mockBody);
+    });
 
-        expect(firestoreRepository.updateDocument).toHaveBeenCalledWith("players", mockId, expect.objectContaining({
-            currentTeam: "Cancun Sharks"
-        }));
+    describe("reviewPlayer", () => {
+        it("Returned the correct HTTP status code and data when a game is reviewed", async () => {
+            const expectedPlayer = {
+                name: "John Wall",
+                status: false,
+                currentTeam: "Cancun Sharks",
+                position: Position.PointGuard,
+                possession: 99,
+                three: 75,
+                layup: 33,
+                defense: 12,
+                createdAt: mockDate,
+                updatedAt: mockDate
+            };
 
-        expect(result.currentTeam).toBe(mockBody.currentTeam);
+            (playerService.reviewPlayer as jest.Mock).mockReturnValue(expectedPlayer);
 
+            await playerController.reviewPlayer(mockReq as Request, mockRes as Response, mockNext as NextFunction);
+
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+            expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({
+                status: "Success",
+                message: "Player status set.",
+            }));
+
+        });
 
     });
 
 });
+

@@ -364,7 +364,7 @@ const calculateScore = async (match: Match): Promise<archivedMatch> => {
     let awayTeamRows = structuredClone(calculateRows(await teamService.getTeamById(match.awayTeam)));
     let boxScore: BoxScore = { awayTeam: awayTeamRows, homeTeam: homeTeamRows };
 
-    const gameEvents: Possession[] = (await possessionsService.getPossessionsById(match.possessions)).events;
+    const gameEvents: Possession[] = (await possessionsService.getPossessions(match.possessions)).events;
 
     for (const gameEvent of gameEvents) {
 

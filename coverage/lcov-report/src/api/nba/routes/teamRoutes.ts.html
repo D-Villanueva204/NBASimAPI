@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/13</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/13</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -193,12 +193,12 @@
 <a name='L128'></a><a href='#L128'>128</a>
 <a name='L129'></a><a href='#L129'>129</a>
 <a name='L130'></a><a href='#L130'>130</a>
-<a name='L131'></a><a href='#L131'>131</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L131'></a><a href='#L131'>131</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -220,7 +220,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -232,9 +232,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -263,7 +263,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -291,9 +291,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -321,14 +321,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import express, { Router } from "express";</span>
-<span class="cstat-no" title="statement not covered" >import * as teamController from "../controllers/teamController";</span>
-<span class="cstat-no" title="statement not covered" >import { validateRequest } from "../middleware/validate";</span>
-<span class="cstat-no" title="statement not covered" >import { TeamSchemas } from "../validations/teamValidations";</span>
+<span class="cline-any cline-yes">5x</span></td><td class="text"><pre class="prettyprint lang-js">import express, { Router } from "express";
+import * as teamController from "../controllers/teamController";
+import { validateRequest } from "../middleware/validate";
+import { TeamSchemas } from "../validations/teamValidations";
 &nbsp;
-const router: Router = <span class="cstat-no" title="statement not covered" >express.Router();</span>
+const router: Router = express.Router();
 &nbsp;
 /**
  * @openapi
@@ -350,7 +350,7 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *       201:
  *         description: Team created.
  */
-<span class="cstat-no" title="statement not covered" >router.post("/", validateRequest(TeamSchemas.create), teamController.createTeam);</span>
+router.post("/", validateRequest(TeamSchemas.create), teamController.createTeam);
 &nbsp;
 /**
  * @openapi
@@ -362,9 +362,9 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *       200:
  *         description: List of teams retrieved successfully.
  */
-<span class="cstat-no" title="statement not covered" >router.get("/", teamController.getTeams);</span>
+router.get("/", teamController.getTeams);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamById);</span>
+router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamById);
 &nbsp;
 /**
  * @openapi
@@ -393,7 +393,7 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *       200:
  *         description: Team name updated successfully.
  */
-<span class="cstat-no" title="statement not covered" >router.put("/name/:id", validateRequest(TeamSchemas.updateTeamName), teamController.updateTeamName);</span>
+router.put("/name/:id", validateRequest(TeamSchemas.updateTeamName), teamController.updateTeamName);
 &nbsp;
 /**
  * @openapi
@@ -421,9 +421,9 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *       200:
  *         description: Player added or updated for the team.
  */
-<span class="cstat-no" title="statement not covered" >router.put("/player/:id", validateRequest(TeamSchemas.updatePlayer), teamController.updatePlayer);</span>
+router.put("/player/:id", validateRequest(TeamSchemas.updatePlayer), teamController.updatePlayer);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.put("/coach/:id", validateRequest(TeamSchemas.assignCoach), teamController.assignCoach);</span>
+router.put("/coach/:id", validateRequest(TeamSchemas.assignCoach), teamController.assignCoach);
 &nbsp;
 /**
  * @openapi
@@ -451,16 +451,16 @@ const router: Router = <span class="cstat-no" title="statement not covered" >exp
  *       200:
  *         description: Team updated. Player also updated.
  */
-<span class="cstat-no" title="statement not covered" >router.delete("/player/:id", validateRequest(TeamSchemas.deletePlayer), teamController.deletePlayer);</span>
+router.delete("/player/:id", validateRequest(TeamSchemas.deletePlayer), teamController.deletePlayer);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export default router;</span></pre></td></tr></table></pre>
+export default router;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-30T20:24:03.674Z
+                at 2025-12-01T02:36:13.242Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
