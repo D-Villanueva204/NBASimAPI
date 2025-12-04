@@ -1,9 +1,17 @@
-import { Request, Response, NextFunction } from "express";
+// Imports
+import { Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/httpConstants";
 import { successResponse } from "../models/responseModel";
 import * as conferenceService from "../services/conferenceService";
 
-export const updateConferences = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+/**
+ * 
+ * Controller for updateConferences.
+ * 
+ * @param res Confirmation message
+ * @param next 
+ */
+export const updateConferences = async (res: Response, next: NextFunction): Promise<void> => {
     try {
         await conferenceService.updateConferences();
 

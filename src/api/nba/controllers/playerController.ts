@@ -1,10 +1,18 @@
+// Imports
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/httpConstants";
 import { successResponse } from "../models/responseModel";
 import { Player } from "../models/people/playerModel";
 import * as playerService from "../services/playerService"
 
-
+/**
+ * 
+ * Controller for createPlayer
+ * 
+ * @param req must contain name,currentTeam, position, possession, three, layup, defense in body
+ * @param res created player
+ * @param next 
+ */
 export const createPlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
@@ -36,8 +44,14 @@ export const createPlayer = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
-
-export const getAllPlayers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+/**
+ * 
+ * Controller for getAllPlayers
+ * 
+ * @param res returned all players
+ * @param next 
+ */
+export const getAllPlayers = async (res: Response, next: NextFunction): Promise<void> => {
     try {
         const playerData: Player[] = await playerService.getAllPlayers();
 
@@ -54,7 +68,14 @@ export const getAllPlayers = async (req: Request, res: Response, next: NextFunct
     }
 };
 
-export const getPlayers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+/**
+ * 
+ * Controller for getPlayers
+ * 
+ * @param res returned players
+ * @param next 
+ */
+export const getPlayers = async (res: Response, next: NextFunction): Promise<void> => {
     try {
         const playerData: Player[] = await playerService.getPlayers();
 
@@ -71,7 +92,14 @@ export const getPlayers = async (req: Request, res: Response, next: NextFunction
     }
 };
 
-export const getPendingPlayers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+/**
+ * 
+ * Controller for getPendingPlayers
+ * 
+ * @param res returned pending players
+ * @param next 
+ */
+export const getPendingPlayers = async (res: Response, next: NextFunction): Promise<void> => {
     try {
         const playerData: Player[] = await playerService.getPendingPlayers();
 
@@ -88,7 +116,14 @@ export const getPendingPlayers = async (req: Request, res: Response, next: NextF
     }
 };
 
-
+/**
+ * 
+ * Controller for getPlayerById
+ * 
+ * @param req requires id in params
+ * @param res 
+ * @param next 
+ */
 export const getPlayerById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         let id = String(req.params.id);
@@ -104,6 +139,14 @@ export const getPlayerById = async (req: Request, res: Response, next: NextFunct
     }
 };
 
+/**
+ * 
+ * Controller for reviewPlayer
+ * 
+ * @param req requires id for params. approved in body
+ * @param res updated player
+ * @param next 
+ */
 export const reviewPlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         let id = String(req.params.id);
@@ -119,6 +162,14 @@ export const reviewPlayer = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
+/**
+ * 
+ * Controller for updatePlayer
+ * 
+ * @param req requires id for params. can contain name,currentTeam, position, possession, three, layup, defense in body
+ * @param res updated player
+ * @param next 
+ */
 export const updatePlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
@@ -131,7 +182,7 @@ export const updatePlayer = async (req: Request, res: Response, next: NextFuncti
         })
 
         res.status(HTTP_STATUS.OK).json(
-            successResponse({updatedPlayer}, "Player updated")
+            successResponse({ updatedPlayer }, "Player updated")
         );
     }
     catch (error: unknown) {
