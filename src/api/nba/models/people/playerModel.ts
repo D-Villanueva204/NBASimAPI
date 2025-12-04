@@ -1,3 +1,7 @@
+/**
+ * Player model.
+ * 
+ */
 export interface Player {
     id: string,
     status: boolean,
@@ -12,6 +16,10 @@ export interface Player {
     updatedAt: Date;
 };
 
+/**
+ * Enum for Player Position.
+ * 
+ */
 export enum Position {
     PointGuard = "PG",   
     ShootingGuard = "SG",

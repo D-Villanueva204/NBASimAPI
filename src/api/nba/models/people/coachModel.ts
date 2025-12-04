@@ -1,3 +1,7 @@
+/**
+ * Coach model.
+ * 
+ */
 export interface Coach {
     id: string,
     name: string,

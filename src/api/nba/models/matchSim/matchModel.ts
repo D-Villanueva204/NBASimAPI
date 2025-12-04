@@ -1,5 +1,8 @@
 import { BoxScore } from "./boxScoreModel";
-
+/**
+ * Used for Match creation and structure
+ * 
+ */
 export interface Match {
     matchId: string,
     played: boolean,
@@ -10,6 +13,11 @@ export interface Match {
     createdAt: Date
 }
 
+/**
+ * Used for approved matches. Used for easily showing results and statistics.
+ * 
+ * 
+ */
 export interface archivedMatch extends Match {
     outcome: {
         winner: string,
