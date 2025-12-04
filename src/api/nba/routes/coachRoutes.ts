@@ -12,13 +12,13 @@ const router: Router = express.Router();
  * /api/nba/coach/:
  *   post:
  *     summary: Creates a coach and adds to Firebase Collection. Team can be assigned.
- *     tags: [Coaches]
+ *     tags: [Coaches, Admin]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: string
+ *             type: object
  *             required:
  *               - name
  *             properties:
@@ -35,9 +35,8 @@ const router: Router = express.Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/Coach'
+ *               $ref: '#/components/schemas/Coach'
  */
-
 router.post("/", validateRequest(coachSchemas.create), coachController.createCoach);
 /**
  * @openapi
@@ -56,22 +55,52 @@ router.post("/", validateRequest(coachSchemas.create), coachController.createCoa
 
 router.get("/", coachController.getCoaches);
 
-router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.getCoachById);
-
 /**
  * @openapi
- * /api/nba/coach/{coachId}:
- *   put:
- *     summary: Updates a Coach from Firebase.
- *     tags: [Coaches, Admin]
- *      parameters:
- *       - name: coachId
+ * /api/nba/coach/{id}:
+ *   get:
+ *     summary: Retrieves a single coach by ID
+ *     tags: [Coaches]
+ *     parameters:
+ *       - name: id
  *         in: path
  *         required: true
  *         schema:
  *           type: string
- *         description: The id for the Coach to update
-  *     requestBody:
+ *         description: The id of the coach
+ *     responses:
+ *       '200':
+ *         description: Coach found and returned
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Coach found"
+ *                 data:
+ *                   $ref: '#/components/schemas/Coach'
+ */
+router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.getCoachById);
+
+/**
+ * @openapi
+ * /api/nba/coach/{id}:
+ *   put:
+ *     summary: Updates a Coach from Firebase.
+ *     tags: [Coaches, Admin]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The id of the Coach to update
+ *       requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -86,7 +115,7 @@ router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.g
  *                 example: "LA Lakers"
  *             description: Fields to update on the Coach.
  *     responses:
- *       200:
+ *       '200':
  *         description: Coach updated successfully.
  *         content:
  *           application/json:
@@ -94,7 +123,6 @@ router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.g
  *               $ref: '#/components/schemas/ResponseSchema'
  * 
  */
-
 router.put("/:id", validateRequest(coachSchemas.update), coachController.updateCoach);
 
 export default router;

@@ -40,7 +40,7 @@ export const createTeam = async (req: Request, res: Response, next: NextFunction
  * @param res retrieved teams
  * @param next 
  */
-export const getTeams = async (res: Response, next: NextFunction): Promise<void> => {
+export const getTeams = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const teamData: Team[] = await teamService.getTeams();
 

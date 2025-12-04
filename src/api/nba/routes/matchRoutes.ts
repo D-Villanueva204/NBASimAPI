@@ -29,7 +29,7 @@ const router = Router();
  *                 type: string
  *                 example: "Celtics"
  *     responses:
- *       201:
+ *       '201':
  *         description: Game sent to Commissioner for Approval.
  *         content:
  *           application/json:
@@ -46,7 +46,7 @@ router.post("/", validateRequest(matchSchemas.setupMatch), matchController.setup
  *     description: Retrieves all unapproved matches waiting for commissioner review.
  *     tags: [Matches, Admin]
  *     responses:
- *       200:
+ *       '200':
  *         description: All pending matches returned.
  *         content:
  *           application/json:
@@ -63,7 +63,7 @@ router.get("/pending", matchController.getMatches);
  *     description: Returns all archived games that have been played and approved.
  *     tags: [Matches, Users]
  *     responses:
- *       200:
+ *       '200':
  *         description: Games found and returned.
  *         content:
  *           application/json:
@@ -86,7 +86,7 @@ router.get("/", matchController.getGames);
  *         schema:
  *           type: string
  *     responses:
- *       200:
+ *       '200':
  *         description: Match found
  *         content:
  *           application/json:
@@ -110,7 +110,7 @@ router.get("/pending/:id", validateRequest(matchSchemas.getMatch), matchControll
  *         schema:
  *           type: string
  *     responses:
- *       200:
+ *       '200':
  *         description: Match successfully simulated and sent to Commissioner for approval.
  *         content:
  *           application/json:
@@ -145,7 +145,7 @@ router.post("/play/:id", validateRequest(matchSchemas.playMatch), matchControlle
  *                 type: boolean
  *                 example: true
  *     responses:
- *       200:
+ *       '200':
  *         description: Match reviewed successfully.
  *         content:
  *           application/json:

@@ -12,7 +12,7 @@ import * as leagueStandingsService from "../services/leagueStandingsService";
  * @param res standings created
  * @param next 
  */
-export const createNewStandings = async (res: Response, next: NextFunction): Promise<void> => {
+export const createNewStandings = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const newStandings: LeagueStandings = await leagueStandingsService.createNewStandings();
 
@@ -32,7 +32,7 @@ export const createNewStandings = async (res: Response, next: NextFunction): Pro
  * @param res All standings retrieved
  * @param next 
  */
-export const getStandings = async (res: Response, next: NextFunction): Promise<void> => {
+export const getStandings = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const standings: LeagueStandings[] = await leagueStandingsService.getStandings();
 

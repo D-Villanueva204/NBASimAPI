@@ -39,7 +39,7 @@ export const setupMatch = async (req: Request, res: Response, next: NextFunction
  * @param res returned pending matches
  * @param next 
  */
-export const getMatches = async (res: Response, next: NextFunction): Promise<void> => {
+export const getMatches = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const matchData: Match[] = await matchService.getMatches();
 
@@ -63,7 +63,7 @@ export const getMatches = async (res: Response, next: NextFunction): Promise<voi
  * @param res returned approved matches
  * @param next 
  */
-export const getGames = async (res: Response, next: NextFunction): Promise<void> => {
+export const getGames = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const matchData: archivedMatch[] = await matchService.getGames();
 

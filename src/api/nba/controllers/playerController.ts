@@ -51,7 +51,7 @@ export const createPlayer = async (req: Request, res: Response, next: NextFuncti
  * @param res returned all players
  * @param next 
  */
-export const getAllPlayers = async (res: Response, next: NextFunction): Promise<void> => {
+export const getAllPlayers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const playerData: Player[] = await playerService.getAllPlayers();
 
@@ -75,7 +75,7 @@ export const getAllPlayers = async (res: Response, next: NextFunction): Promise<
  * @param res returned players
  * @param next 
  */
-export const getPlayers = async (res: Response, next: NextFunction): Promise<void> => {
+export const getPlayers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const playerData: Player[] = await playerService.getPlayers();
 
@@ -99,7 +99,7 @@ export const getPlayers = async (res: Response, next: NextFunction): Promise<voi
  * @param res returned pending players
  * @param next 
  */
-export const getPendingPlayers = async (res: Response, next: NextFunction): Promise<void> => {
+export const getPendingPlayers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const playerData: Player[] = await playerService.getPendingPlayers();
 

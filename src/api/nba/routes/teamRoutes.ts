@@ -17,12 +17,14 @@ const router: Router = express.Router();
  *         application/json:
  *           schema:
  *             type: object
- *             required: [name]
+ *             required:
+ *               - name
  *             properties:
  *               name:
  *                 type: string
+ *                 example: "Toronto Raptors"
  *     responses:
- *       201:
+ *       '201':
  *         description: Team created.
  */
 router.post("/", validateRequest(TeamSchemas.create), teamController.createTeam);
@@ -34,11 +36,27 @@ router.post("/", validateRequest(TeamSchemas.create), teamController.createTeam)
  *     summary: Retrieves all teams. Meant for Users.
  *     tags: [Teams, Users]
  *     responses:
- *       200:
+ *       '200':
  *         description: List of teams retrieved successfully.
  */
 router.get("/", teamController.getTeams);
 
+/**
+ * @openapi
+ * /api/nba/team/{id}:
+ *   get:
+ *     summary: Get team by ID
+ *     tags: [Teams, Users]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Team retrieved successfully.
+ */
 router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamById);
 
 /**
@@ -65,7 +83,7 @@ router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamB
  *               newName:
  *                 type: string
  *     responses:
- *       200:
+ *       '200':
  *         description: Team name updated successfully.
  */
 router.put("/name/:id", validateRequest(TeamSchemas.updateTeamName), teamController.updateTeamName);
@@ -88,16 +106,45 @@ router.put("/name/:id", validateRequest(TeamSchemas.updateTeamName), teamControl
  *         application/json:
  *           schema:
  *             type: object
- *             required: [playerId]
+ *             required: 
+ *               - playerId
  *             properties:
  *               playerId:
  *                 type: string
  *     responses:
- *       200:
+ *       '200':
  *         description: Player added or updated for the team.
  */
 router.put("/player/:id", validateRequest(TeamSchemas.updatePlayer), teamController.updatePlayer);
 
+/**
+ * @openapi
+ * /api/nba/team/coach/{id}:
+ *   put:
+ *     summary: Assign a coach to a team. Meant for Admin.
+ *     tags: [Teams, Coaches]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - coachId
+ *             properties:
+ *               coachId:
+ *                 type: string
+ *                 example: "coach456"
+ *     responses:
+ *       '200':
+ *         description: Coach assigned successfully.
+ */
 router.put("/coach/:id", validateRequest(TeamSchemas.assignCoach), teamController.assignCoach);
 
 /**
@@ -118,12 +165,13 @@ router.put("/coach/:id", validateRequest(TeamSchemas.assignCoach), teamControlle
  *         application/json:
  *           schema:
  *             type: object
- *             required: [playerId]
+ *             required:
+ *               - playerId
  *             properties:
  *               playerId:
  *                 type: string
  *     responses:
- *       200:
+ *       '200':
  *         description: Team updated. Player also updated.
  */
 router.delete("/player/:id", validateRequest(TeamSchemas.deletePlayer), teamController.deletePlayer);

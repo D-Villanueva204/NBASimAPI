@@ -41,7 +41,7 @@ export const createCoach = async (req: Request, res: Response, next: NextFunctio
  * @param res Data received.
  * @param next 
  */
-export const getCoaches = async (res: Response, next: NextFunction): Promise<void> => {
+export const getCoaches = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const coachData: Coach[] = await coachService.getCoaches();
 
