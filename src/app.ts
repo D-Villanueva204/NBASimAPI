@@ -8,6 +8,7 @@ import possessionsRoutes from "../src/api/nba/routes/possessionsRoutes";
 import leagueStandingsRoutes from "../src/api/nba/routes/leagueStandingsRoutes";
 import conferenceRoutes from "../src/api/nba/routes/conferenceRoutes";
 import setupSwagger from "../config/swagger";
+import errorHandler from "../src/api/nba/middleware/errorHandler";
 
 const app: Express = express();
 // Add loggers here
@@ -25,5 +26,7 @@ app.use("/api/nba/standings", leagueStandingsRoutes);
 app.use("/api/nba/conference", conferenceRoutes);
 
 setupSwagger(app);
+
+app.use(errorHandler);
 
 export default app;
