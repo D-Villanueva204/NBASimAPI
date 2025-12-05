@@ -1,3 +1,4 @@
+// Imports
 import { Coach } from "../models/people/coachModel";
 import {
     QuerySnapshot,
@@ -12,9 +13,14 @@ import {
 } from "../repositories/firestoreRepositories";
 
 const COLLECTION: string = "coaches";
-
 const dateNow = new Date();
 
+/**
+ * Service for creating a Coach. Stores to "coaches" collection.
+ * 
+ * @param coachData Required: name. currentTeam can be null.
+ * @returns new Coach.
+ */
 export const createCoach = async (coachData: {
     name: string,
     currentTeam?: string
@@ -37,6 +43,12 @@ export const createCoach = async (coachData: {
     }
 }
 
+/**
+ * Service for getCoaches. Returns all coaches from collection.
+ * 
+ * 
+ * @returns all coaches in collection.
+ */
 export const getCoaches = async (): Promise<Coach[]> => {
 
     try {
@@ -61,6 +73,12 @@ export const getCoaches = async (): Promise<Coach[]> => {
     }
 };
 
+/**
+ * Service for getCoachById. Returns coach with given id.
+ * 
+ * @param coachId id to retrieve coach for.
+ * @returns retrieved coach
+ */
 export const getCoachById = async (
     coachId: string
 ): Promise<Coach> => {
@@ -89,6 +107,12 @@ export const getCoachById = async (
     }
 };
 
+/**
+ * Service for updateCoach. Update coach with given id.
+ * 
+ * @param coachId id to update and retrieve coach for.
+ * @returns updated coach
+ */
 export const updateCoach = async (
     coachId: string,
     coachData: Partial<Pick<Coach,
@@ -98,20 +122,7 @@ export const updateCoach = async (
 ): Promise<Coach> => {
     try {
 
-        const doc: DocumentSnapshot | null = await getDocumentById(
-            COLLECTION,
-            coachId
-        );
-
-        if (!doc) {
-            throw new Error(`No coach with id ${coachId} found.`);
-        }
-
-        const data: DocumentData | undefined = doc.data();
-        const coach: Coach = {
-            id: doc.id,
-            ...data
-        } as Coach;
+        const coach = await getCoachById(coachId);
 
         const updatedCoach: Coach = {
             ...coach,

@@ -142,8 +142,13 @@ export const reviewMatch = async (req: Request, res: Response, next: NextFunctio
 
         const reviewedMatch: Match = await matchService.reviewMatch(id, approved);
 
-        res.status(HTTP_STATUS.OK).json
-            (successResponse(reviewedMatch, "Game reviewed."));
+        if (reviewedMatch.approved == false) {
+            (successResponse(reviewedMatch, "Game reviewed and removed."));
+        }
+        else {
+            res.status(HTTP_STATUS.OK).json
+                (successResponse(reviewedMatch, "Game reviewed."));
+        }
     }
     catch (error: unknown) {
         next(error);

@@ -1,3 +1,4 @@
+// Imports
 import { Player, Position } from "../models/people/playerModel";
 import { Team } from "../models/teamModel";
 import {
@@ -17,9 +18,14 @@ import { Coach } from "../models/people/coachModel";
 import * as coachService from "./coachService";
 
 const COLLECTION: string = "teams";
-
 const dateNow = new Date();
 
+/**
+ * Service for createTeam. Creates a team based off of given name and conferenceType.
+ * 
+ * @param teamData must contain name, and conferenceType.
+ * @returns new created Team.
+ */
 export const createTeam = async (teamData: {
     name: string,
     conference: ConferenceType
@@ -52,8 +58,12 @@ export const createTeam = async (teamData: {
 
 };
 
+/**
+ * Service for getTeams. Returns all teams in collection.
+ * 
+ * @returns all teams in collection.
+ */
 export const getTeams = async (): Promise<Team[]> => {
-
     try {
         const snapshot: QuerySnapshot = await getDocuments(COLLECTION);
         const teams: Team[] = snapshot.docs.map(doc => {
@@ -76,6 +86,12 @@ export const getTeams = async (): Promise<Team[]> => {
     }
 };
 
+/**
+ * Service for getTeamById. Returns team by given id.
+ * 
+ * @param teamId id to retrieve team by.
+ * @returns team with given id.
+ */
 export const getTeamById = async (teamId: string): Promise<Team> => {
 
     try {
@@ -103,6 +119,14 @@ export const getTeamById = async (teamId: string): Promise<Team> => {
 
 };
 
+/**
+ * Service for updateTeamName. Updates specified team by id with 
+ * given newName.
+ * 
+ * @param teamId the team to update.
+ * @param newName the new name to change to.
+ * @returns 
+ */
 export const updateTeamName = async (teamId: string, newName: string): Promise<Team> => {
 
     try {
@@ -123,6 +147,14 @@ export const updateTeamName = async (teamId: string, newName: string): Promise<T
     }
 };
 
+/**
+ * Service for updateRecord. Updates team record.
+ * 
+ * 
+ * @param teamId the team to update.
+ * @param win boolean, true if won, false if lost.
+ * @returns updated team.
+ */
 export const updateRecord = async (teamId: string, win: boolean): Promise<Team> => {
 
     try {
@@ -156,21 +188,33 @@ export const updateRecord = async (teamId: string, win: boolean): Promise<Team> 
     }
 };
 
+/**
+ * Service for updatePlayer. Updates player into given position.
+ * Warning, player must also be approved again by admin once updated.
+ * 
+ * 
+ * @param teamId the team to update
+ * @param playerId the player to add
+ * @returns updated team
+ */
 export const updatePlayer = async (teamId: string, playerId: string): Promise<Team> => {
-
     try {
+
+        // Retrieve team
         const team: Team = await getTeamById(teamId);
 
-        //This gets a player
-
+        // Retrieve player
         const updatedPlayer: Player = await playerService.getPlayerById(playerId);
+
+        // Update player position.
+        await playerService.updatePlayer(playerId, { currentTeam: teamId });
 
         const updatedTeam: Team = {
             ...team,
             updatedAt: new Date()
         };
 
-
+        // Find player position, assign to team position.
         switch (updatedPlayer.position) {
             case Position.PointGuard:
                 updatedTeam.pointGuard = updatedPlayer;
@@ -193,9 +237,7 @@ export const updatePlayer = async (teamId: string, playerId: string): Promise<Te
                 break;
         }
 
-        await playerService.updatePlayer(playerId, { currentTeam: teamId });
-
-
+        // Update team.
         await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
         return structuredClone(updatedTeam);
 
@@ -204,24 +246,33 @@ export const updatePlayer = async (teamId: string, playerId: string): Promise<Te
     }
 };
 
+/**
+ * Service for assignCoach. Assigns new coach to team.
+ * 
+ * @param teamId team id to assign new coach
+ * @param coachId coach id to assign
+ * @returns updated team
+ */
 export const assignCoach = async (teamId: string, coachId: string): Promise<Team> => {
-
     try {
+
+        // Retrieve team
         const team: Team = await getTeamById(teamId);
 
-        //This gets a player
-
+        // This gets a coach.
         const updatedCoach: Coach = await coachService.getCoachById(coachId);
+        // Update coach status
+        await coachService.updateCoach(coachId, { currentTeam: team.id });
 
         const updatedTeam: Team = {
             ...team,
             updatedAt: new Date()
         };
 
+        // Assign the coach.
         updatedTeam.coach = updatedCoach;
 
-        await coachService.updateCoach(coachId, { currentTeam: team.id });
-
+        // Update to firebase.
         await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
         return structuredClone(updatedTeam);
 
@@ -232,23 +283,11 @@ export const assignCoach = async (teamId: string, coachId: string): Promise<Team
 
 export const deletePlayer = async (teamId: string, playerId: string): Promise<Team> => {
     try {
-        // This gets a team
-        const doc: DocumentSnapshot | null = await getDocumentById(
-            COLLECTION,
-            teamId
-        );
 
-        if (!doc) {
-            throw new Error(`No team with id ${teamId} found.`);
-        }
+        // Get team
+        const team: Team = await getTeamById(teamId);
 
-        const data: DocumentData | undefined = doc.data();
-        const team: Team = {
-            id: doc.id,
-            ...data
-        } as Team;
-
-        //This gets a player
+        // This gets a player
 
         const removedPlayer: Player = await playerService.getPlayerById(playerId);
 
@@ -257,6 +296,7 @@ export const deletePlayer = async (teamId: string, playerId: string): Promise<Te
             updatedAt: new Date()
         };
 
+        // Remove player
         switch (removedPlayer.position) {
             case Position.PointGuard:
                 updatedTeam.pointGuard = null;
@@ -279,6 +319,7 @@ export const deletePlayer = async (teamId: string, playerId: string): Promise<Te
                 break;
         }
 
+        // Make updates
         await updateDocument<Team>(COLLECTION, teamId, updatedTeam);
 
         await playerService.updatePlayer(playerId, { currentTeam: null });

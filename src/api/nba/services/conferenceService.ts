@@ -1,7 +1,13 @@
+// Imports
 import { Conference, ConferenceType, TeamRecord } from "../models/standingsSim/conferenceModel";
 import * as teamService from "./teamService";
 import { Team } from "../models/teamModel";
 
+/**
+ * Service for updateConferences. Updates all Conference records based off of team records.
+ * 
+ * @returns non typed object. @easternConference and @westernConference type, and TeamRecord for top seed.
+ */
 export const updateConferences = async (): Promise<{
     easternConference: Conference,
     westernConference: Conference,
@@ -49,7 +55,7 @@ export const updateConferences = async (): Promise<{
         }
 
         const topSeed = (topEastSeedWins > topWestSeedWins) ? easternConference.topSeed! : westernConference.topSeed!;
-        
+
         return structuredClone({
             easternConference: easternConference,
             westernConference: westernConference,

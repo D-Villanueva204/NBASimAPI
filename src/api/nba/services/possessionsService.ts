@@ -1,3 +1,4 @@
+// Imports
 import { Possession, Possessions } from "../models/matchSim/possessionModel";
 import {
     DocumentData,
@@ -10,6 +11,14 @@ import {
 
 const COLLECTION: string = "possessions";
 
+/**
+ * Service for createPossessions. Meant for internal use.
+ * Compiles Possession objects into a Possessions object that can be
+ * easily retrieved.
+ * 
+ * @param events gameEvents to compile
+ * @returns new Possessions object.
+ */
 export const createPossessions = async (
     events: Possession[]
 ): Promise<Possessions> => {
@@ -29,6 +38,12 @@ export const createPossessions = async (
 
 };
 
+/**
+ * Service for getPossessions. Returns Possessions by id.
+ * 
+ * @param id id to retrieve Possessions
+ * @returns retrieved Possessions
+ */
 export const getPossessions = async (id: string): Promise<Possessions> => {
 
     try {
