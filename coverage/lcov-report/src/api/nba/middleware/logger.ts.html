@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/api/nba/routes/conferenceRoutes.ts</title>
+    <title>Code coverage report for src/api/nba/middleware/logger.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/api/nba/routes</a> conferenceRoutes.ts</h1>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/api/nba/middleware</a> logger.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -97,78 +97,75 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span></td><td class="text"><pre class="prettyprint lang-js">import express, { Router } from "express";
-import authenticate from "../middleware/authenticate";
-import isAuthorized from "../middleware/authorize";
-import * as conferenceController from "../controllers/conferenceController";
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import morgan, { StreamOptions } from "morgan";</span>
+<span class="cstat-no" title="statement not covered" >import fs from "fs";</span>
+<span class="cstat-no" title="statement not covered" >import path from "path";</span>
 &nbsp;
-const router: Router = express.Router();
+// Ensure logs directory exists
+const logsDir = <span class="cstat-no" title="statement not covered" >path.join(__dirname, "../../../logs");</span>
+<span class="cstat-no" title="statement not covered" >if (!fs.existsSync(logsDir)) {</span>
+<span class="cstat-no" title="statement not covered" >    fs.mkdirSync(logsDir, { recursive: true });</span>
+}
 &nbsp;
-/**
- * @openapi
- * /api/nba/conference/:
- *   put:
- *     summary: Update conferences.
- *     tags: [Admin]
- *     description: Updates conferences by recalculating all Team Records.
- *     requestBody:
- *       description: no request body.
- *       content: {}
- *     responses:
- *       '200':
- *         description: Conferences updated successfully.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: "Conferences updated."
- */
+// Create a write stream (in append mode) for access logs
+const accessLogStream = <span class="cstat-no" title="statement not covered" >fs.createWriteStream(path.join(logsDir, "access.log"), {</span>
+    flags: "a",
+});
 &nbsp;
-router.put("/", authenticate, isAuthorized({ hasRole: ["admin"] }), conferenceController.updateConferences);
+// Define custom stream options for error logging
+const errorLogStream: StreamOptions = <span class="cstat-no" title="statement not covered" >{</span>
+    write: <span class="fstat-no" title="function not covered" >(m</span>essage) =&gt;
+<span class="cstat-no" title="statement not covered" >        fs.appendFileSync(path.join(logsDir, "error.log"), message),</span>
+};
 &nbsp;
-export default router;</pre></td></tr></table></pre>
+// Setup the logger for access logs (all requests)
+const accessLogger = <span class="cstat-no" title="statement not covered" >morgan("combined", { stream: accessLogStream });</span>
+&nbsp;
+// Setup the logger for error logs (4xx and 5xx status codes only)
+const errorLogger = <span class="cstat-no" title="statement not covered" >morgan("combined", {</span>
+    stream: errorLogStream,
+    skip: <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; <span class="cstat-no" title="statement not covered" >res.statusCode &lt; 400,</span>
+});
+&nbsp;
+// Console logger for development
+const consoleLogger = <span class="cstat-no" title="statement not covered" >morgan("dev");</span>
+&nbsp;
+export { <span class="cstat-no" title="statement not covered" >accessLogger,</span> <span class="cstat-no" title="statement not covered" >errorLogger,</span> <span class="cstat-no" title="statement not covered" >consoleLogger </span>};
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

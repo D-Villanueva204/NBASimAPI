@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/api/nba/services/possessionsService.ts</title>
+    <title>Code coverage report for src/api/nba/middleware/authorize.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/api/nba/services</a> possessionsService.ts</h1>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/api/nba/middleware</a> authorize.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">26.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/21</span>
+                <span class='fraction'>4/15</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
-                <span class="quiet">Branches</span>
+                <span class="quiet">Functions</span>
                 <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">26.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/18</span>
+                <span class='fraction'>4/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -120,32 +120,13 @@
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -155,18 +136,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -175,108 +171,70 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Imports
-import { Possession, Possessions } from "../models/matchSim/possessionModel";
-import {
-    DocumentData,
-    DocumentSnapshot
-} from "firebase-admin/firestore";
-import {
-    createDocument,
-    getDocumentById
-} from "../repositories/firestoreRepositories";
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// External library imports
+import { Request, Response, NextFunction } from "express";
 &nbsp;
-const COLLECTION: string = "possessions";
+// Internal module imports
+import { AuthorizationOptions } from "../models/authorizationOptions";
+import { MiddlewareFunction } from "../types/express";
+import { AuthorizationError } from "../errors/errors";
 &nbsp;
 /**
- * Service for createPossessions. Meant for internal use.
- * Compiles Possession objects into a Possessions object that can be
- * easily retrieved.
- * 
- * @param events gameEvents to compile
- * @returns new Possessions object.
+ * Middleware to check if a user is authorized based on their role or UID.
+ * Now integrated with centralized error handling system.
+ *
+ * This middleware:
+ * - Checks if the user has required roles
+ * - Optionally allows users to access their own resources
+ * - Throws standardized AuthorizationError for access denied scenarios
+ *
+ * @param {AuthorizationOptions} opts - The authorization options.
+ * @returns {MiddlewareFunction} The middleware function.
  */
-export const createPossessions = async (
-    events: Possession[]
-): Promise&lt;Possessions&gt; =&gt; {
-    try {
+const isAuthorized = (opts: AuthorizationOptions): MiddlewareFunction =&gt; {
+    return <span class="fstat-no" title="function not covered" >(r</span>eq: Request, res: Response, next: NextFunction) =&gt; {
+<span class="cstat-no" title="statement not covered" >        try {</span>
+            const { role, uid } = <span class="cstat-no" title="statement not covered" >res.locals;</span>
+            const { id } = <span class="cstat-no" title="statement not covered" >req.params;</span>
 &nbsp;
-        const gameEvent: Partial&lt;Possessions&gt; = {
-            events: events
-        };
+            // Allow if the same user is accessing their own data
+<span class="cstat-no" title="statement not covered" >            if (opts.allowSameUser &amp;&amp; id &amp;&amp; uid === id) {</span>
+<span class="cstat-no" title="statement not covered" >                return next();</span>
+            }
 &nbsp;
-        const teamId: string = await createDocument&lt;Possessions&gt;(COLLECTION, gameEvent);
+            // If no role exists on the user, throw Forbidden response
+<span class="cstat-no" title="statement not covered" >            if (!role) {</span>
+<span class="cstat-no" title="statement not covered" >                throw new AuthorizationError(</span>
+                    "Forbidden: No role found",
+                    "ROLE_NOT_FOUND"
+                );
+            }
 &nbsp;
-        return structuredClone({ id: teamId, ...gameEvent } as Possessions);
+            // Check if the user's role matches one of the allowed roles
+<span class="cstat-no" title="statement not covered" >            if (opts.hasRole.includes(role)) {</span>
+<span class="cstat-no" title="statement not covered" >                return next();</span>
+            }
 &nbsp;
-    } catch (error: unknown) {
-<span class="cstat-no" title="statement not covered" >        throw error;</span>
-    }
-&nbsp;
+            // If the role is not authorized, throw Forbidden response
+<span class="cstat-no" title="statement not covered" >            throw new AuthorizationError(</span>
+                "Forbidden: Insufficient role",
+                "INSUFFICIENT_ROLE"
+            );
+        } catch (error) {
+            // Pass errors to the centralized error handler
+<span class="cstat-no" title="statement not covered" >            next(error);</span>
+        }
+    };
 };
 &nbsp;
-/**
- * Service for getPossessions. Returns Possessions by id.
- * 
- * @param id id to retrieve Possessions
- * @returns retrieved Possessions
- */
-export const getPossessions = async (id: string): Promise&lt;Possessions&gt; =&gt; {
-&nbsp;
-    try {
-        const doc: DocumentSnapshot | null = await getDocumentById(
-            COLLECTION,
-            id
-        );
-&nbsp;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (!doc) {
-<span class="cstat-no" title="statement not covered" >            throw new Error(`No events with id ${id} found.`);</span>
-        }
-&nbsp;
-        const data: DocumentData | undefined = doc.data();
-        const events: Possessions = {
-            id: doc.id,
-            ...data
-        } as Possessions;
-&nbsp;
-        return structuredClone(events);
-&nbsp;
-    }
-    catch (error: unknown) {
-<span class="cstat-no" title="statement not covered" >        throw error;</span>
-    }
-&nbsp;
-};</pre></td></tr></table></pre>
+export default isAuthorized;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

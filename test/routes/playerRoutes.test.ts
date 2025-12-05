@@ -14,6 +14,14 @@ jest.mock("../../src/api/nba/controllers/playerController", () => ({
     updatePlayer: jest.fn((_req, res) => res.status(HTTP_STATUS.OK).send())
 }));
 
+jest.mock("../../src/api/nba/middleware/authenticate", () => {
+    return jest.fn((_req: any, _res: any, next: any) => next());
+});
+
+jest.mock("../../src/api/nba/middleware/authorize", () => {
+    return jest.fn(() => (_req: any, _res: any, next: any) => next());
+});
+
 describe("Player Routes", () => {
 
     afterEach(() => {

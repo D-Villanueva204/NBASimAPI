@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/api/nba/services/possessionsService.ts</title>
+    <title>Code coverage report for src/api/nba/middleware/authenticate.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/api/nba/services</a> possessionsService.ts</h1>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/api/nba/middleware</a> authenticate.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">65% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/21</span>
+                <span class='fraction'>13/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">65% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/18</span>
+                <span class='fraction'>13/20</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -137,15 +137,11 @@
 <a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -155,18 +151,47 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -179,104 +204,79 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Imports
-import { Possession, Possessions } from "../models/matchSim/possessionModel";
-import {
-    DocumentData,
-    DocumentSnapshot
-} from "firebase-admin/firestore";
-import {
-    createDocument,
-    getDocumentById
-} from "../repositories/firestoreRepositories";
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// External library imports
+import { Request, Response, NextFunction } from "express";
+import { DecodedIdToken } from "firebase-admin/auth";
+import { AuthenticationError } from "../errors/errors";
+import { getErrorMessage, getErrorCode } from "../utils/errorUtils";
 &nbsp;
-const COLLECTION: string = "possessions";
+// Internal module imports
+import { auth } from "../../../../config/firebaseConfig";
 &nbsp;
 /**
- * Service for createPossessions. Meant for internal use.
- * Compiles Possession objects into a Possessions object that can be
- * easily retrieved.
- * 
- * @param events gameEvents to compile
- * @returns new Possessions object.
+ * Middleware to authenticate a user using a Firebase ID token.
+ * Now integrated with centralized error handling system.
+ *
+ * This middleware:
+ * - Extracts the token from the Authorization header
+ * - Verifies the token with Firebase Auth
+ * - Stores user information in res.locals for downstream middleware
+ * - Throws standardized AuthenticationError for any failures
+ *
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @param {NextFunction} next - The next middleware function.
+ * @returns {Promise&lt;void&gt;}
  */
-export const createPossessions = async (
-    events: Possession[]
-): Promise&lt;Possessions&gt; =&gt; {
+const authenticate = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise&lt;void&gt; =&gt; {
     try {
+        const authHeader = req.headers.authorization;
+        const token: string | undefined = <span class="branch-1 cbranch-no" title="branch not covered" >authHeader?.startsWith("Bearer ")</span>
+            ? <span class="branch-0 cbranch-no" title="branch not covered" >authHeader.split(" ")[1]</span>
+            : undefined;
 &nbsp;
-        const gameEvent: Partial&lt;Possessions&gt; = {
-            events: events
-        };
-&nbsp;
-        const teamId: string = await createDocument&lt;Possessions&gt;(COLLECTION, gameEvent);
-&nbsp;
-        return structuredClone({ id: teamId, ...gameEvent } as Possessions);
-&nbsp;
-    } catch (error: unknown) {
-<span class="cstat-no" title="statement not covered" >        throw error;</span>
-    }
-&nbsp;
-};
-&nbsp;
-/**
- * Service for getPossessions. Returns Possessions by id.
- * 
- * @param id id to retrieve Possessions
- * @returns retrieved Possessions
- */
-export const getPossessions = async (id: string): Promise&lt;Possessions&gt; =&gt; {
-&nbsp;
-    try {
-        const doc: DocumentSnapshot | null = await getDocumentById(
-            COLLECTION,
-            id
-        );
-&nbsp;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (!doc) {
-<span class="cstat-no" title="statement not covered" >            throw new Error(`No events with id ${id} found.`);</span>
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!token) {
+            throw new AuthenticationError(
+                "Unauthorized: No token provided",
+                "TOKEN_NOT_FOUND"
+            );
         }
 &nbsp;
-        const data: DocumentData | undefined = doc.data();
-        const events: Possessions = {
-            id: doc.id,
-            ...data
-        } as Possessions;
-&nbsp;
-        return structuredClone(events);
-&nbsp;
+        const decodedToken: DecodedIdToken = <span class="cstat-no" title="statement not covered" >await auth.verifyIdToken(</span>
+            token
+        );
+<span class="cstat-no" title="statement not covered" >        res.locals.uid = decodedToken.uid;</span>
+<span class="cstat-no" title="statement not covered" >        res.locals.role = decodedToken.role;</span>
+<span class="cstat-no" title="statement not covered" >        next();</span>
+    } catch (error: unknown) {
+        if (error instanceof AuthenticationError) {
+            // Re-throw authentication errors to be handled by error middleware
+            next(error);
+        } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>if (error instanceof Error) {</span>
+<span class="cstat-no" title="statement not covered" >            next(</span>
+                new AuthenticationError(
+                    `Unauthorized: ${getErrorMessage(error)}`,
+                    getErrorCode(error)
+                )
+            );
+        } else {
+<span class="cstat-no" title="statement not covered" >            next(</span>
+                new AuthenticationError(
+                    "Unauthorized: Invalid token",
+                    "TOKEN_INVALID"
+                )
+            );
+        }
     }
-    catch (error: unknown) {
-<span class="cstat-no" title="statement not covered" >        throw error;</span>
-    }
+};
 &nbsp;
-};</pre></td></tr></table></pre>
+export default authenticate;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

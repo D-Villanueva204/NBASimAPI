@@ -28,28 +28,31 @@ export const createNewStandings = async (): Promise<LeagueStandings> => {
     try {
         const season: string = `${dateNow.getFullYear()}-${(Number(dateNow.getFullYear()) + 1)}`;
         // Checks if standings exist...
-        let existing: LeagueStandings = await getStandingsBySeason(season);
-        if (!existing) {
+        const doc: DocumentSnapshot | null = await getDocumentById(
+            COLLECTION,
+            season
+        );
+        if (!doc) {
             // Creates new standings and returns.
             const newStandings: Partial<LeagueStandings> = {
                 season: season,
                 createdAt: dateNow,
                 updatedAt: dateNow
             };
-
+            
             const updatedConferences = await conferenceService.updateConferences();
-
+            
             newStandings.easternConference = updatedConferences.easternConference;
             newStandings.westernConference = updatedConferences.westernConference;
             newStandings.topSeed = updatedConferences.topSeed;
-
+            
             await createDocument<Team>(COLLECTION, newStandings, season);
-
+            
             return structuredClone({ ...newStandings } as LeagueStandings);
         }
         else {
             // Returns existing standings if exist.
-            return existing;
+            return await getStandingsBySeason(season);
         }
 
     } catch (error: unknown) {
