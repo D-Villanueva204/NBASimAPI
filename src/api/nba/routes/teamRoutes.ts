@@ -15,7 +15,7 @@ const router: Router = express.Router();
  *     description: Creates a new team.
  *     tags: [Teams, Coaches, Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -48,7 +48,7 @@ router.post(
  *     description: Returns all teams in the league.  
  *     tags: [Teams, Users, Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     responses:
  *       '200':
  *         description: List of teams returned.
@@ -68,7 +68,7 @@ router.get(
  *     description: Fetches a single team by its ID.  
  *     tags: [Teams, Users, Coaches, Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -95,7 +95,7 @@ router.get(
  *     description: Updates the name of a team.  
  *     tags: [Teams, Coaches, Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -134,7 +134,7 @@ router.put(
  *     description: Adds a player to a team. The player is deactivated and sent to the Commissioner for review.
  *     tags: [Teams, Coaches, Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -174,7 +174,7 @@ router.put(
  *     description: Assigns or changes the coach of a team.  
  *     tags: [Teams, Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -214,7 +214,7 @@ router.put(
  *     description: Removes a player from a team. The player is deactivated and sent to the Commissioner for review.  
  *     tags: [Teams, Coaches, Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path

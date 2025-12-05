@@ -13,7 +13,6 @@ const router = Router();
  *   get:
  *     summary: Retrieve all possession events for a played match.
  *     description: Returns the full list of play-by-play possession events for a given match.
- *     Accessible to **user** and **admin** roles.
  *     tags: [Matches, Users]
  *     security:
  *       - bearerAuth: []

@@ -17,7 +17,7 @@ const router: Router = express.Router();
  *       Requires authentication and one of the roles: **coach**, **admin**.
  *     tags: [Coaches, Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -69,7 +69,7 @@ router.post(
  *       Restricted to **admin** users.
  *     tags: [Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     responses:
  *       '200':
  *         description: All players retrieved successfully.
@@ -91,7 +91,7 @@ router.get(
  *       Accessible to roles: **user**, **admin**.
  *     tags: [Users, Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     responses:
  *       '200':
  *         description: Approved active players returned.
@@ -113,7 +113,7 @@ router.get(
  *       Restricted to **admin** users only.
  *     tags: [Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     responses:
  *       '200':
  *         description: Pending players returned.
@@ -136,7 +136,7 @@ router.get(
  *       When rejected, the player is returned to the coach.
  *     tags: [Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -178,7 +178,7 @@ router.put(
  *       Accessible to roles **coach** and **admin**.
  *     tags: [Coaches, Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -229,7 +229,7 @@ router.put(
  *       Accessible to **user** and **admin** roles.
  *     tags: [Users, Admin]
  *     security:
- *       - FirebaseAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
