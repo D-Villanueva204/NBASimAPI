@@ -1,14 +1,21 @@
+// Imports
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/httpConstants";
 import { successResponse } from "../models/responseModel";
 import { LeagueStandings } from "../models/standingsSim/leagueStandingsModel";
-
 import * as leagueStandingsService from "../services/leagueStandingsService";
 
+/**
+ * 
+ * Controller for createNewStandings
+ * 
+ * @param res standings created
+ * @param next 
+ */
 export const createNewStandings = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const newStandings: LeagueStandings = await leagueStandingsService.createNewStandings();
-        
+
         res.status(HTTP_STATUS.CREATED).json(
             successResponse(newStandings, "Standings created for new season.")
         );
@@ -18,10 +25,17 @@ export const createNewStandings = async (req: Request, res: Response, next: Next
     }
 };
 
+/**
+ * 
+ * Controller for getStandings
+ * 
+ * @param res All standings retrieved
+ * @param next 
+ */
 export const getStandings = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const standings: LeagueStandings[] = await leagueStandingsService.getStandings();
-        
+
         res.status(HTTP_STATUS.OK).json(
             successResponse(standings, "All standings retrieved.")
         );
@@ -31,12 +45,20 @@ export const getStandings = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
+/**
+ * 
+ * Controller for getStandingsBySeason
+ * 
+ * @param req must contain 'season'
+ * @param res 
+ * @param next 
+ */
 export const getStandingsBySeason = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const season: string = req.params.season;
-        
+
         const standings: LeagueStandings = await leagueStandingsService.getStandingsBySeason(season);
-        
+
         res.status(HTTP_STATUS.OK).json(
             successResponse(standings, "Standings found.")
         );
@@ -46,6 +68,14 @@ export const getStandingsBySeason = async (req: Request, res: Response, next: Ne
     }
 };
 
+/**
+ * 
+ * Controller for updateStandings
+ * 
+ * @param req must contain 'season'
+ * @param res 
+ * @param next 
+ */
 export const updateStandings = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const season: string = req.params.season;

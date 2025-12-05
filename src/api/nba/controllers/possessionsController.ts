@@ -1,9 +1,18 @@
+// Imports
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/httpConstants";
 import { successResponse } from "../models/responseModel";
 import { Possessions } from "../models/matchSim/possessionModel";
 import * as possessionsService from "../services/possessionsService"
 
+/**
+ * 
+ * Controller for getPossessions
+ * 
+ * @param req must contain id
+ * @param res returned possessions
+ * @param next 
+ */
 export const getPossessions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         let id = String(req.params.id);

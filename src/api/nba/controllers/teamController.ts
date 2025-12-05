@@ -1,10 +1,18 @@
+// Imports
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/httpConstants";
 import { successResponse } from "../models/responseModel";
 import { Team } from "../models/teamModel";
 import * as teamService from "../services/teamService"
 
-
+/**
+ * 
+ * Controller for createTeam
+ * 
+ * @param req must include name and conference
+ * @param res created Team
+ * @param next 
+ */
 export const createTeam = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
@@ -25,6 +33,13 @@ export const createTeam = async (req: Request, res: Response, next: NextFunction
     }
 };
 
+/**
+ * 
+ * Controller for getTeams
+ * 
+ * @param res retrieved teams
+ * @param next 
+ */
 export const getTeams = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const teamData: Team[] = await teamService.getTeams();
@@ -43,6 +58,14 @@ export const getTeams = async (req: Request, res: Response, next: NextFunction):
 
 };
 
+/**
+ * 
+ * Controller for getTeamById
+ * 
+ * @param req must require id
+ * @param res returned team
+ * @param next 
+ */
 export const getTeamById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
@@ -60,6 +83,14 @@ export const getTeamById = async (req: Request, res: Response, next: NextFunctio
     };
 };
 
+/**
+ * 
+ * Controller for updateTeamName
+ * 
+ * @param req must require id for team. requires newName in body.
+ * @param res updated team
+ * @param next 
+ */
 export const updateTeamName = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
@@ -78,40 +109,77 @@ export const updateTeamName = async (req: Request, res: Response, next: NextFunc
     }
 };
 
-
-
+/**
+ * 
+ * Controller for updatePlayer
+ * 
+ * @param req must require id for team. requires playerId in body
+ * @param res updated team.
+ * @param next 
+ */
 export const updatePlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    let id = String(req.params.id);
-    
-    const { playerId } = req.body;
-    
-    const updatedTeam: Team = await teamService.updatePlayer(id, playerId);
-    
-    res.status(HTTP_STATUS.OK).json(
-        successResponse({ updatedTeam }, "Team updated")
-    );
+    try {
+        let id = String(req.params.id);
+
+        const { playerId } = req.body;
+
+        const updatedTeam: Team = await teamService.updatePlayer(id, playerId);
+
+        res.status(HTTP_STATUS.OK).json(
+            successResponse({ updatedTeam }, "Team updated")
+        );
+    }
+    catch (error: unknown) {
+        next(error);
+    }
 }
 
+/**
+ * 
+ * Controller for assignCoach
+ * 
+ * @param req must require id for team. requires coachId in body
+ * @param res updated team
+ * @param next 
+ */
 export const assignCoach = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    let id = String(req.params.id);
+    try {
+        let id = String(req.params.id);
 
-    const { coachId } = req.body;
+        const { coachId } = req.body;
 
-    const updatedTeam: Team = await teamService.updatePlayer(id, coachId);
+        const updatedTeam: Team = await teamService.updatePlayer(id, coachId);
 
-    res.status(HTTP_STATUS.OK).json(
-        successResponse({ updatedTeam }, "Team updated")
-    );
+        res.status(HTTP_STATUS.OK).json(
+            successResponse({ updatedTeam }, "Team updated")
+        );
+
+    } catch (error: unknown) {
+        next(error);
+    }
 }
 
+/**
+ * 
+ * Controller for updatePlayer
+ * 
+ * @param req must require id for team. requires playerId in body
+ * @param res updated team.
+ * @param next 
+ */
 export const deletePlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    let id = String(req.params.id);
+    try {
+        let id = String(req.params.id);
 
-    const { playerId } = req.body;
+        const { playerId } = req.body;
 
-    const updatedTeam: Team = await teamService.deletePlayer(id, playerId);
+        const updatedTeam: Team = await teamService.deletePlayer(id, playerId);
 
-    res.status(HTTP_STATUS.OK).json(
-        successResponse({ updatedTeam }, "Team updated")
-    );
+        res.status(HTTP_STATUS.OK).json(
+            successResponse({ updatedTeam }, "Team updated")
+        );
+
+    } catch (error: unknown) {
+        next(error);
+    }
 }

@@ -2,6 +2,10 @@ import { Coach } from "./people/coachModel";
 import { Player } from "./people/playerModel";
 import { ConferenceType } from "./standingsSim/conferenceModel";
 
+/**
+ * Used for holding Team attributes, and players.
+ * 
+ */
 export interface Team {
     id: string;
     name: string; 
@@ -17,6 +21,10 @@ export interface Team {
     updatedAt: Date;
 }
 
+/**
+ * Used for formatting wins and losses of a team.
+ * 
+ */
 export interface Record {
     wins: number,
     losses: number

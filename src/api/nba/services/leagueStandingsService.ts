@@ -1,3 +1,4 @@
+// Imports
 import { Team } from "../models/teamModel";
 import {
     QuerySnapshot,
@@ -10,41 +11,61 @@ import {
     getDocumentById,
     updateDocument
 } from "../repositories/firestoreRepositories";
-
 import { LeagueStandings } from "../models/standingsSim/leagueStandingsModel";
 import * as conferenceService from "./conferenceService";
-
 
 const COLLECTION: string = "standings";
 const dateNow = new Date();
 
+/**
+ * Service for createNewStandings.
+ * Admin use only.
+ * Creates a new set of standings.
+ * If existing, return existing standings.
+ * @returns new standings.
+ */
 export const createNewStandings = async (): Promise<LeagueStandings> => {
     try {
         const season: string = `${dateNow.getFullYear()}-${(Number(dateNow.getFullYear()) + 1)}`;
-        const newStandings: Partial<LeagueStandings> = {
-            season: season,
-            createdAt: dateNow,
-            updatedAt: dateNow
-        };
+        // Checks if standings exist...
+        let existing: LeagueStandings = await getStandingsBySeason(season);
+        if (!existing) {
+            // Creates new standings and returns.
+            const newStandings: Partial<LeagueStandings> = {
+                season: season,
+                createdAt: dateNow,
+                updatedAt: dateNow
+            };
 
-        const updatedConferences = await conferenceService.updateConferences();
+            const updatedConferences = await conferenceService.updateConferences();
 
-        newStandings.easternConference = updatedConferences.easternConference;
-        newStandings.westernConference = updatedConferences.westernConference;
-        newStandings.topSeed = updatedConferences.topSeed;
+            newStandings.easternConference = updatedConferences.easternConference;
+            newStandings.westernConference = updatedConferences.westernConference;
+            newStandings.topSeed = updatedConferences.topSeed;
 
-        await createDocument<Team>(COLLECTION, newStandings, season);
+            await createDocument<Team>(COLLECTION, newStandings, season);
 
-        return structuredClone({ ...newStandings } as LeagueStandings);
+            return structuredClone({ ...newStandings } as LeagueStandings);
+        }
+        else {
+            // Returns existing standings if exist.
+            return existing;
+        }
 
     } catch (error: unknown) {
         throw error;
     }
 };
 
-
+/**
+ * Service for getStandingsBySeason.
+ * Returns Standings based off of season.
+ * General use.
+ * 
+ * @param season to retrieve standings
+ * @returns retrieved Standings
+ */
 export const getStandingsBySeason = async (season: string): Promise<LeagueStandings> => {
-
     try {
         const doc: DocumentSnapshot | null = await getDocumentById(
             COLLECTION,
@@ -62,16 +83,21 @@ export const getStandingsBySeason = async (season: string): Promise<LeagueStandi
         } as LeagueStandings;
 
         return structuredClone(standings);
-        
+
     }
     catch (error: unknown) {
         throw error;
     }
-    
+
 };
 
+/**
+ * Service for getStandings.
+ * General use. Returns all standings.
+ * 
+ * @returns all standings
+ */
 export const getStandings = async (): Promise<LeagueStandings[]> => {
-    
     try {
         const snapshot: QuerySnapshot = await getDocuments(COLLECTION);
         const standings: LeagueStandings[] = snapshot.docs.map(doc => {
@@ -83,17 +109,23 @@ export const getStandings = async (): Promise<LeagueStandings[]> => {
                 updatedAt: data.updatedAt,
             } as LeagueStandings;
         });
-        
+
         if (standings.length == 0) {
             throw new Error("No standings found");
         }
-        
+
         return standings;
     } catch (error: unknown) {
         throw error;
     }
 };
 
+/**
+ * Service for updateStandings
+ * 
+ * @param season season to retrieve Standings for
+ * @returns retrieved standings
+ */
 export const updateStandings = async (
     season: string
 ): Promise<LeagueStandings> => {

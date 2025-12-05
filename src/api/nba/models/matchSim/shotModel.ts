@@ -1,3 +1,7 @@
+/**
+ * Used for determining shot value.
+ * 
+ */
 export enum Shot {
     THREE = 3,
     LAYUP = 2,

@@ -1,9 +1,18 @@
+// Imports
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/httpConstants";
 import { successResponse } from "../models/responseModel";
 import { Match, archivedMatch } from "../models/matchSim/matchModel";
 import * as matchService from "../services/matchService";
 
+/**
+ * 
+ * Controller for setupMatch
+ * 
+ * @param req must contain homeTeam and awayTeam id's.
+ * @param res outcome of scheduled match
+ * @param next 
+ */
 export const setupMatch = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
@@ -23,6 +32,13 @@ export const setupMatch = async (req: Request, res: Response, next: NextFunction
     }
 };
 
+/**
+ * 
+ * Controller for getMatches
+ * 
+ * @param res returned pending matches
+ * @param next 
+ */
 export const getMatches = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const matchData: Match[] = await matchService.getMatches();
@@ -40,6 +56,13 @@ export const getMatches = async (req: Request, res: Response, next: NextFunction
     }
 };
 
+/**
+ * 
+ * Controller for getGames
+ * 
+ * @param res returned approved matches
+ * @param next 
+ */
 export const getGames = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const matchData: archivedMatch[] = await matchService.getGames();
@@ -57,6 +80,14 @@ export const getGames = async (req: Request, res: Response, next: NextFunction):
     }
 };
 
+/**
+ * 
+ * Controller for getMatch
+ * 
+ * @param req must contain id
+ * @param res returned match
+ * @param next 
+ */
 export const getMatch = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         let id = String(req.params.id);
@@ -73,6 +104,14 @@ export const getMatch = async (req: Request, res: Response, next: NextFunction):
 
 };
 
+/**
+ * 
+ * Controller for playMatch
+ * 
+ * @param req must contain id
+ * @param res status of match
+ * @param next 
+ */
 export const playMatch = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         let id = String(req.params.id);
@@ -88,6 +127,14 @@ export const playMatch = async (req: Request, res: Response, next: NextFunction)
     }
 }
 
+/**
+ * 
+ * Controller for reviewMatch
+ * 
+ * @param req must contain approved in body. Must contain id in params.
+ * @param res returns approved match.
+ * @param next 
+ */
 export const reviewMatch = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         let id = String(req.params.id);
@@ -95,8 +142,13 @@ export const reviewMatch = async (req: Request, res: Response, next: NextFunctio
 
         const reviewedMatch: Match = await matchService.reviewMatch(id, approved);
 
-        res.status(HTTP_STATUS.OK).json
-            (successResponse(reviewedMatch, "Game reviewed."));
+        if (reviewedMatch.approved == false) {
+            (successResponse(reviewedMatch, "Game reviewed and removed."));
+        }
+        else {
+            res.status(HTTP_STATUS.OK).json
+                (successResponse(reviewedMatch, "Game reviewed."));
+        }
     }
     catch (error: unknown) {
         next(error);

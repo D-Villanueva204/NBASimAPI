@@ -1,9 +1,18 @@
+// Imports
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/httpConstants";
 import { successResponse } from "../models/responseModel";
 import { Coach } from "../models/people/coachModel";
 import * as coachService from "../services/coachService"
 
+/**
+ * 
+ * Controller for createCoach.
+ * 
+ * @param req contains name, currentTeam.
+ * @param res response of operation
+ * @param next 
+ */
 export const createCoach = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
@@ -12,7 +21,7 @@ export const createCoach = async (req: Request, res: Response, next: NextFunctio
         const createdCoach: Coach = await coachService.createCoach({
             name: name,
             currentTeam: currentTeam
-        })
+        });
 
 
         res.status(HTTP_STATUS.CREATED).json(
@@ -24,6 +33,14 @@ export const createCoach = async (req: Request, res: Response, next: NextFunctio
     }
 };
 
+/**
+ * 
+ * Controller for getCoaches.
+ * 
+ * @param req 
+ * @param res Data received.
+ * @param next 
+ */
 export const getCoaches = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const coachData: Coach[] = await coachService.getCoaches();
@@ -33,7 +50,6 @@ export const getCoaches = async (req: Request, res: Response, next: NextFunction
                 successResponse(coachData, "Coaches found and returned.")
             );
         }
-
     }
     catch (error) {
         next(error);
@@ -41,6 +57,14 @@ export const getCoaches = async (req: Request, res: Response, next: NextFunction
     }
 };
 
+/**
+ * 
+ * Controller for getCoachById
+ * 
+ * @param req path parameters must contain id.
+ * @param res returned coach.
+ * @param next 
+ */
 export const getCoachById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const id = String(req.params.id);
@@ -51,14 +75,20 @@ export const getCoachById = async (req: Request, res: Response, next: NextFuncti
             successResponse(returnedCoach, "Coach found")
         );
 
-
-
     } catch (error) {
         next(error);
     }
 
 }
 
+/**
+ * 
+ * Controller for updateCoach
+ * 
+ * @param req path parameters must contain id. May contain name or currentTeam.
+ * @param res updatedCoach
+ * @param next 
+ */
 export const updateCoach = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
 
