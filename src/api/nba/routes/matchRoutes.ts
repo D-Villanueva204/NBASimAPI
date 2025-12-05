@@ -11,9 +11,10 @@ const router = Router();
  * @openapi
  * /api/nba/match/:
  *   post:
- *     summary: Create a new pending match request
- *     description: Sends a match to the Commissioner (admin) for approval by providing the home and away teams.
+ *     summary: Create a new match request. (Coaches & Admin)
  *     tags: [Matches, Coaches]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -26,13 +27,13 @@ const router = Router();
  *             properties:
  *               homeTeam:
  *                 type: string
- *                 example: "Lakers"
+ *                 example: "Los Angeles Lakers"
  *               awayTeam:
  *                 type: string
- *                 example: "Celtics"
+ *                 example: "Boston Celtics"
  *     responses:
  *       '201':
- *         description: Game sent to Commissioner for Approval.
+ *         description: Match sent to Commissioner for approval.
  *         content:
  *           application/json:
  *             schema:
@@ -43,22 +44,29 @@ const router = Router();
  *                   example: true
  *                 message:
  *                   type: string
- *                   example: "Match created and sent to Commissioner"
+ *                   example: "Match created and sent to Commissioner."
  *                 data:
  *                   type: object
  */
-router.post("/", authenticate, isAuthorized({ hasRole: ["coach", "admin"] }), validateRequest(matchSchemas.setupMatch), matchController.setupMatch);
+router.post(
+  "/",
+  authenticate,
+  isAuthorized({ hasRole: ["coach", "admin"] }),
+  validateRequest(matchSchemas.setupMatch),
+  matchController.setupMatch
+);
 
 /**
  * @openapi
  * /api/nba/match/pending:
  *   get:
- *     summary: Get all pending matches
- *     description: Retrieves all unapproved matches waiting for commissioner review.
+ *     summary: Retrieve all pending matches. (Admin only)
  *     tags: [Matches, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       '200':
- *         description: All pending matches returned.
+ *         description: Pending matches retrieved.
  *         content:
  *           application/json:
  *             schema:
@@ -67,26 +75,32 @@ router.post("/", authenticate, isAuthorized({ hasRole: ["coach", "admin"] }), va
  *                 success:
  *                   type: boolean
  *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Pending matches retrieved."
  *                 data:
  *                   type: array
  *                   items:
  *                     type: object
- *                 message:
- *                   type: string
- *                   example: "Pending matches retrieved"
  */
-router.get("/pending", authenticate, isAuthorized({ hasRole: ["admin"] }), matchController.getMatches);
+router.get(
+  "/pending",
+  authenticate,
+  isAuthorized({ hasRole: ["admin"] }),
+  matchController.getMatches
+);
 
 /**
  * @openapi
  * /api/nba/match/:
  *   get:
- *     summary: Get all completed and approved games
- *     description: Returns all archived games that have been played and approved.
+ *     summary: Retrieve all completed matches. (Users & Admin)
  *     tags: [Matches, Users]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       '200':
- *         description: Games found and returned.
+ *         description: Games retrieved.
  *         content:
  *           application/json:
  *             schema:
@@ -95,32 +109,38 @@ router.get("/pending", authenticate, isAuthorized({ hasRole: ["admin"] }), match
  *                 success:
  *                   type: boolean
  *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Games returned."
  *                 data:
  *                   type: array
  *                   items:
  *                     type: object
- *                 message:
- *                   type: string
- *                   example: "Completed games returned"
  */
-router.get("/", authenticate, isAuthorized({ hasRole: ["user", "admin"] }), matchController.getGames);
+router.get(
+  "/",
+  authenticate,
+  isAuthorized({ hasRole: ["user", "admin"] }),
+  matchController.getGames
+);
 
 /**
  * @openapi
  * /api/nba/match/pending/{id}:
  *   get:
- *     summary: Get a single pending match by ID
+ *     summary: Retrieve a pending match by ID. (Admin only)
  *     tags: [Matches, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
- *         description: matchId to retrieve
  *         schema:
  *           type: string
  *     responses:
  *       '200':
- *         description: Match found
+ *         description: Pending match found.
  *         content:
  *           application/json:
  *             schema:
@@ -129,31 +149,37 @@ router.get("/", authenticate, isAuthorized({ hasRole: ["user", "admin"] }), matc
  *                 success:
  *                   type: boolean
  *                   example: true
- *                 data:
- *                   type: object
  *                 message:
  *                   type: string
- *                   example: "Pending match retrieved"
+ *                   example: "Pending match retrieved."
+ *                 data:
+ *                   type: object
  */
-router.get("/pending/:id", authenticate, isAuthorized({ hasRole: ["admin"] }), validateRequest(matchSchemas.getMatch), matchController.getMatch);
+router.get(
+  "/pending/:id",
+  authenticate,
+  isAuthorized({ hasRole: ["admin"] }),
+  validateRequest(matchSchemas.getMatch),
+  matchController.getMatch
+);
 
 /**
  * @openapi
  * /api/nba/match/play/{id}:
  *   post:
- *     summary: Simulate a match
- *     description: Plays a pending match, then sends it to the Commissioner for approval.
- *     tags: [Matches, Admin]
+ *     summary: Simulate and play a match. (Coaches & Admin)
+ *     tags: [Matches, Coaches]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
- *         description: ID of the match to simulate
  *         schema:
  *           type: string
  *     responses:
  *       '200':
- *         description: Match successfully simulated and sent to Commissioner for approval.
+ *         description: Match simulated and sent to Commissioner for approval.
  *         content:
  *           application/json:
  *             schema:
@@ -162,26 +188,32 @@ router.get("/pending/:id", authenticate, isAuthorized({ hasRole: ["admin"] }), v
  *                 success:
  *                   type: boolean
  *                   example: true
- *                 data:
- *                   type: object
  *                 message:
  *                   type: string
- *                   example: "Match simulated"
+ *                   example: "Match simulated."
+ *                 data:
+ *                   type: object
  */
-router.post("/play/:id", authenticate, isAuthorized({ hasRole: ["coach", "admin"] }), validateRequest(matchSchemas.playMatch), matchController.playMatch);
+router.post(
+  "/play/:id",
+  authenticate,
+  isAuthorized({ hasRole: ["coach", "admin"] }),
+  validateRequest(matchSchemas.playMatch),
+  matchController.playMatch
+);
 
 /**
  * @openapi
  * /api/nba/match/review/{id}:
  *   put:
- *     summary: Approve or Decline Match
- *     description: If approved, match is archived. If declined, returned.
+ *     summary: Review (approve or decline) a match. (Admin only)
  *     tags: [Matches, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
- *         description: Match ID to review
  *         schema:
  *           type: string
  *     requestBody:
@@ -198,7 +230,7 @@ router.post("/play/:id", authenticate, isAuthorized({ hasRole: ["coach", "admin"
  *                 example: true
  *     responses:
  *       '200':
- *         description: Match reviewed successfully.
+ *         description: Match reviewed.
  *         content:
  *           application/json:
  *             schema:
@@ -209,8 +241,16 @@ router.post("/play/:id", authenticate, isAuthorized({ hasRole: ["coach", "admin"
  *                   example: true
  *                 message:
  *                   type: string
- *                   example: "Match reviewed"
+ *                   example: "Match reviewed."
+ *                 data:
+ *                   type: object
  */
-router.put("/review/:id", authenticate, isAuthorized({ hasRole: ["admin"] }), validateRequest(matchSchemas.reviewMatch), matchController.reviewMatch);
+router.put(
+  "/review/:id",
+  authenticate,
+  isAuthorized({ hasRole: ["admin"] }),
+  validateRequest(matchSchemas.reviewMatch),
+  matchController.reviewMatch
+);
 
 export default router;

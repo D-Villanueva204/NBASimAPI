@@ -12,7 +12,10 @@ const router: Router = express.Router();
  * /api/nba/coach/:
  *   post:
  *     summary: Creates a coach and adds to Firebase Collection. Team can be assigned.
+ *     description: Creates a new coach and stores them in the Firebase Collection.
  *     tags: [Coaches, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -36,31 +39,6 @@ const router: Router = express.Router();
  *           application/json:
  *             schema:
  *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: "Coach created."
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       example: "abc123"
- *                     name:
- *                       type: string
- *                       example: "Phil Jackson"
- *                     currentTeam:
- *                       type: string
- *                       example: "Lakers"
- *                     createdAt:
- *                       type: string
- *                       example: "2025-01-20T12:00:00Z"
- *                     updatedAt:
- *                       type: string
- *                       example: "2025-01-20T12:00:00Z"
  */
 router.post("/", authenticate, isAuthorized({hasRole: ["coach", "admin"]}), validateRequest(coachSchemas.create), coachController.createCoach);
 
@@ -70,6 +48,8 @@ router.post("/", authenticate, isAuthorized({hasRole: ["coach", "admin"]}), vali
  *   get:
  *     summary: Retrieves all coaches.
  *     tags: [Coaches, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       '200':
  *         description: Coaches found and returned.
@@ -98,14 +78,8 @@ router.post("/", authenticate, isAuthorized({hasRole: ["coach", "admin"]}), vali
  *                       currentTeam:
  *                         type: string
  *                         example: "Warriors"
- *                       createdAt:
- *                         type: string
- *                         example: "2025-01-20T12:00:00Z"
- *                       updatedAt:
- *                         type: string
- *                         example: "2025-01-20T12:00:00Z"
  */
-router.get("/", coachController.getCoaches);
+router.get("/", authenticate, isAuthorized({hasRole: ["coach", "admin"]}), coachController.getCoaches);
 
 /**
  * @openapi
@@ -113,6 +87,8 @@ router.get("/", coachController.getCoaches);
  *   get:
  *     summary: Retrieves a single coach by ID.
  *     tags: [Coaches]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -146,12 +122,6 @@ router.get("/", coachController.getCoaches);
  *                     currentTeam:
  *                       type: string
  *                       example: "Spurs"
- *                     createdAt:
- *                       type: string
- *                       example: "2025-01-20T12:00:00Z"
- *                     updatedAt:
- *                       type: string
- *                       example: "2025-01-20T12:00:00Z"
  */
 router.get("/:id", authenticate, isAuthorized({hasRole: ["coach", "admin"]}), validateRequest(coachSchemas.getCoachById), coachController.getCoachById);
 
@@ -161,6 +131,8 @@ router.get("/:id", authenticate, isAuthorized({hasRole: ["coach", "admin"]}), va
  *   put:
  *     summary: Updates a coach in Firebase.
  *     tags: [Coaches, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -207,12 +179,6 @@ router.get("/:id", authenticate, isAuthorized({hasRole: ["coach", "admin"]}), va
  *                     currentTeam:
  *                       type: string
  *                       example: "76ers"
- *                     createdAt:
- *                       type: string
- *                       example: "2025-01-20T12:00:00Z"
- *                     updatedAt:
- *                       type: string
- *                       example: "2025-01-20T12:01:00Z"
  */
 router.put("/:id", authenticate, isAuthorized({hasRole: ["coach", "admin"]}),  validateRequest(coachSchemas.update), coachController.updateCoach);
 

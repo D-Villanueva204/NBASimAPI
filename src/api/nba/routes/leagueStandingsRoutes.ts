@@ -11,9 +11,11 @@ const router = express.Router();
  * @openapi
  * /api/nba/standings/:
  *   post:
- *     summary: Create new standings for a new season.
+ *     summary: Create new standings for a new season. (Admin)
  *     description: Automatically generates standings for a new season.
  *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       description: This endpoint does not require a request body.
  *       content: {}
@@ -32,15 +34,23 @@ const router = express.Router();
  *                   type: string
  *                   example: "Standings created for new season"
  */
-router.post("/", authenticate, isAuthorized({ hasRole: ["admin"] }), validateRequest(standingsSchemas.create), leagueStandingsController.createNewStandings);
+router.post(
+  "/",
+  authenticate,
+  isAuthorized({ hasRole: ["admin"] }),
+  validateRequest(standingsSchemas.create),
+  leagueStandingsController.createNewStandings
+);
 
 /**
  * @openapi
  * /api/nba/standings/:
  *   get:
- *     summary: Get all league standings.
+ *     summary: Get all league standings. (Users & Admin)
  *     description: Retrieves all standings across all seasons.
  *     tags: [LeagueStandings, Users, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       '200':
  *         description: All standings retrieved successfully.
@@ -60,15 +70,22 @@ router.post("/", authenticate, isAuthorized({ hasRole: ["admin"] }), validateReq
  *                   type: string
  *                   example: "Standings retrieved"
  */
-router.get("/", authenticate, isAuthorized({ hasRole: ["user", "admin", "coach"] }), leagueStandingsController.getStandings);
+router.get(
+  "/",
+  authenticate,
+  isAuthorized({ hasRole: ["user", "admin", "coach"] }),
+  leagueStandingsController.getStandings
+);
 
 /**
  * @openapi
  * /api/nba/standings/{season}:
  *   get:
- *     summary: Get league standings by season.
+ *     summary: Get league standings by season. (Users & Admin)
  *     description: Retrieves standings for a specific season.
  *     tags: [Admin, Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: season
  *         in: path
@@ -94,15 +111,23 @@ router.get("/", authenticate, isAuthorized({ hasRole: ["user", "admin", "coach"]
  *                   type: string
  *                   example: "Standings retrieved"
  */
-router.get("/:season", authenticate, isAuthorized({ hasRole: ["user", "admin"] }), validateRequest(standingsSchemas.getStandingsBySeason), leagueStandingsController.getStandingsBySeason);
+router.get(
+  "/:season",
+  authenticate,
+  isAuthorized({ hasRole: ["user", "admin"] }),
+  validateRequest(standingsSchemas.getStandingsBySeason),
+  leagueStandingsController.getStandingsBySeason
+);
 
 /**
  * @openapi
  * /api/nba/standings/{season}:
  *   put:
- *     summary: Update league standings for a specific season.
+ *     summary: Update league standings for a specific season. (Admin)
  *     description: Updates standings manually for a given season.
  *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: season
  *         in: path
@@ -133,6 +158,11 @@ router.get("/:season", authenticate, isAuthorized({ hasRole: ["user", "admin"] }
  *                   type: string
  *                   example: "Standings updated"
  */
-router.put("/:season", authenticate, isAuthorized({ hasRole: ["admin"] }), leagueStandingsController.updateStandings);
+router.put(
+  "/:season",
+  authenticate,
+  isAuthorized({ hasRole: ["admin"] }),
+  leagueStandingsController.updateStandings
+);
 
 export default router;

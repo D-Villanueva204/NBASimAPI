@@ -11,20 +11,23 @@ const router = Router();
  * @openapi
  * /api/nba/possessions/{id}:
  *   get:
- *     summary: Get all possessions/events for a match
- *     description: Retrieves all possessions for a given match that has been played.
- *     tags: [Matches, Users, Admin]
+ *     summary: Retrieve all possession events for a played match.
+ *     description: Returns the full list of play-by-play possession events for a given match.
+ *     Accessible to **user** and **admin** roles.
+ *     tags: [Matches, Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         description: The ID of the match to retrieve possessions for
+ *         description: Match ID to fetch possession history for
  *         schema:
  *           type: string
  *           example: "match123"
  *     responses:
  *       '200':
- *         description: Match possessions/events retrieved successfully.
+ *         description: Match possessions retrieved successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -35,10 +38,10 @@ const router = Router();
  *                   example: true
  *                 message:
  *                   type: string
- *                   example: "Match events returned"
+ *                   example: "Match events returned."
  *                 data:
  *                   type: object
- *                   description: Compiled Possessions object
+ *                   description: Possessions object
  *                   properties:
  *                     id:
  *                       type: string
@@ -51,14 +54,14 @@ const router = Router();
  *                         properties:
  *                           shot:
  *                             type: object
- *                             description: Shot result details
+ *                             description: Details about the shot attempt
  *                             properties:
+ *                               type:
+ *                                 type: string
+ *                                 example: Shot.THREE
  *                               made:
  *                                 type: boolean
  *                                 example: true
- *                               type:
- *                                 type: string
- *                                 example: "three"
  *                               contested:
  *                                 type: boolean
  *                                 example: false
@@ -93,9 +96,6 @@ const router = Router();
  *                               name:
  *                                 type: string
  *                                 example: "Deandre Ayton"
- *                             example:
- *                               playerId: "player789"
- *                               name: "Deandre Ayton"
  *                           assist:
  *                             type: object
  *                             nullable: true
@@ -106,8 +106,7 @@ const router = Router();
  *                               name:
  *                                 type: string
  *                                 example: "Luka Doncic"
- *                             example: null
  */
-router.get("/:id", authenticate, isAuthorized({hasRole: ["admin", "user", "coach"]}), validateRequest(possessionSchemas.getById), possessionsController.getPossessions);
+router.get("/:id", authenticate, isAuthorized({ hasRole: ["admin", "user", "coach"] }), validateRequest(possessionSchemas.getById), possessionsController.getPossessions);
 
 export default router;
