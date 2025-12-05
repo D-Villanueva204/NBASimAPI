@@ -166,7 +166,7 @@ describe("Match Controller", () => {
             expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
             expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({
                 status: "Success",
-                message: "Game reviewed.",
+                message: "Game reviewed and removed.",
             }));
 
         });

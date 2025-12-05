@@ -2,6 +2,8 @@ import express, { Router } from "express";
 import * as teamController from "../controllers/teamController";
 import { validateRequest } from "../middleware/validate";
 import { TeamSchemas } from "../validations/teamValidations";
+import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 
 const router: Router = express.Router();
 
@@ -9,8 +11,11 @@ const router: Router = express.Router();
  * @openapi
  * /api/nba/team/:
  *   post:
- *     summary: Creates a new team. Meant for Coaches.
- *     tags: [Teams, Coaches]
+ *     summary: Create a new team (Coach or Admin)
+ *     description: Creates a new team.
+ *     tags: [Teams, Coaches, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -25,74 +30,45 @@ const router: Router = express.Router();
  *                 example: "Toronto Raptors"
  *     responses:
  *       '201':
- *         description: Team created.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: "Team created."
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       example: "team123"
- *                     name:
- *                       type: string
- *                       example: "Toronto Raptors"
+ *         description: Team created successfully.
  */
-router.post("/", validateRequest(TeamSchemas.create), teamController.createTeam);
+router.post(
+    "/",
+    authenticate,
+    isAuthorized({ hasRole: ["admin", "coach"] }),
+    validateRequest(TeamSchemas.create),
+    teamController.createTeam
+);
 
 /**
  * @openapi
  * /api/nba/team/:
  *   get:
- *     summary: Retrieves all teams. Meant for Users.
- *     tags: [Teams, Users]
+ *     summary: Retrieve all teams (Users & Admin)
+ *     description: Returns all teams in the league.  
+ *     tags: [Teams, Users, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       '200':
- *         description: List of teams retrieved successfully.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: "Teams found and returned."
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         example: "team123"
- *                       name:
- *                         type: string
- *                         example: "Toronto Raptors"
- *                       coachId:
- *                         type: string
- *                         nullable: true
- *                         example: "coach456"
+ *         description: List of teams returned.
  */
-router.get("/", teamController.getTeams);
+router.get(
+    "/",
+    authenticate,
+    isAuthorized({ hasRole: ["admin", "user"] }),
+    teamController.getTeams
+);
 
 /**
  * @openapi
  * /api/nba/team/{id}:
  *   get:
- *     summary: Get team by ID
- *     tags: [Teams, Users]
+ *     summary: Retrieve a team by ID (All roles)
+ *     description: Fetches a single team by its ID.  
+ *     tags: [Teams, Users, Coaches, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -101,37 +77,25 @@ router.get("/", teamController.getTeams);
  *           type: string
  *     responses:
  *       '200':
- *         description: Team retrieved successfully.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: "Team found."
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                     name:
- *                       type: string
- *                     coachId:
- *                       type: string
- *                       nullable: true
+ *         description: Team found and returned.
  */
-router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamById);
+router.get(
+    "/:id",
+    authenticate,
+    isAuthorized({ hasRole: ["admin", "coach", "user"] }),
+    validateRequest(TeamSchemas.getById),
+    teamController.getTeamById
+);
 
 /**
  * @openapi
  * /api/nba/team/name/{id}:
  *   put:
- *     summary: Updates a team's name. Meant for Coaches.
- *     tags: [Teams, Coaches]
+ *     summary: Update a team's name (Coach or Admin)
+ *     description: Updates the name of a team.  
+ *     tags: [Teams, Coaches, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -144,7 +108,7 @@ router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamB
  *         application/json:
  *           schema:
  *             type: object
- *             required: 
+ *             required:
  *               - newName
  *             properties:
  *               newName:
@@ -152,48 +116,39 @@ router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamB
  *                 example: "LA Lakers"
  *     responses:
  *       '200':
- *         description: Team name updated successfully.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: "Team name updated."
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                     name:
- *                       type: string
- *                       example: "LA Lakers"
+ *         description: Team name updated.
  */
-router.put("/name/:id", validateRequest(TeamSchemas.updateTeamName), teamController.updateTeamName);
+router.put(
+    "/name/:id",
+    authenticate,
+    isAuthorized({ hasRole: ["admin", "coach"] }),
+    validateRequest(TeamSchemas.updateTeamName),
+    teamController.updateTeamName
+);
 
 /**
  * @openapi
  * /api/nba/team/player/{id}:
  *   put:
- *     summary: Adds or updates a player's status on a team. Also updates Player file.
- *     tags: [Teams, Coaches]
+ *     summary: Add or update a player's team assignment (Coach or Admin)
+ *     description: Adds a player to a team. The player is deactivated and sent to the Commissioner for review.
+ *     tags: [Teams, Coaches, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         schema:
  *           type: string
+ *         description: Team ID
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required: 
+ *             required:
  *               - playerId
  *             properties:
  *               playerId:
@@ -201,40 +156,32 @@ router.put("/name/:id", validateRequest(TeamSchemas.updateTeamName), teamControl
  *                 example: "player789"
  *     responses:
  *       '200':
- *         description: Player added or updated for the team.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: "Team updated."
- *                 data:
- *                   type: object
- *                   properties:
- *                     teamId:
- *                       type: string
- *                     playerId:
- *                       type: string
+ *         description: Player assigned or updated for the team.
  */
-router.put("/player/:id", validateRequest(TeamSchemas.updatePlayer), teamController.updatePlayer);
+router.put(
+    "/player/:id",
+    authenticate,
+    isAuthorized({ hasRole: ["admin", "coach"] }),
+    validateRequest(TeamSchemas.updatePlayer),
+    teamController.updatePlayer
+);
 
 /**
  * @openapi
  * /api/nba/team/coach/{id}:
  *   put:
- *     summary: Assign a coach to a team. Meant for Admin.
- *     tags: [Teams, Coaches]
+ *     summary: Assign a coach to a team (Admin only)
+ *     description: Assigns or changes the coach of a team.  
+ *     tags: [Teams, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         schema:
  *           type: string
+ *         description: Team ID
  *     requestBody:
  *       required: true
  *       content:
@@ -250,39 +197,31 @@ router.put("/player/:id", validateRequest(TeamSchemas.updatePlayer), teamControl
  *     responses:
  *       '200':
  *         description: Coach assigned successfully.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: "Team updated."
- *                 data:
- *                   type: object
- *                   properties:
- *                     teamId:
- *                       type: string
- *                     coachId:
- *                       type: string
  */
-router.put("/coach/:id", validateRequest(TeamSchemas.assignCoach), teamController.assignCoach);
+router.put(
+    "/coach/:id",
+    authenticate,
+    isAuthorized({ hasRole: ["admin"] }),
+    validateRequest(TeamSchemas.assignCoach),
+    teamController.assignCoach
+);
 
 /**
  * @openapi
  * /api/nba/team/player/{id}:
  *   delete:
- *     summary: Removes a player from team. Deactivates player and sends to Commissioner for approval.
- *     tags: [Teams, Coaches]
+ *     summary: Remove a player from a team (Coach or Admin)
+ *     description: Removes a player from a team. The player is deactivated and sent to the Commissioner for review.  
+ *     tags: [Teams, Coaches, Admin]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         schema:
  *           type: string
+ *         description: Team ID
  *     requestBody:
  *       required: true
  *       content:
@@ -297,27 +236,14 @@ router.put("/coach/:id", validateRequest(TeamSchemas.assignCoach), teamControlle
  *                 example: "player789"
  *     responses:
  *       '200':
- *         description: Team updated. Player also updated.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: "Team updated"
- *                 data:
- *                   type: object
- *                   properties:
- *                     teamId:
- *                       type: string
- *                     playerId:
- *                       type: string
+ *         description: Player removed and record updated.
  */
-router.delete("/player/:id", validateRequest(TeamSchemas.deletePlayer), teamController.deletePlayer);
-
+router.delete(
+    "/player/:id",
+    authenticate,
+    isAuthorized({ hasRole: ["admin", "coach"] }),
+    validateRequest(TeamSchemas.deletePlayer),
+    teamController.deletePlayer
+);
 
 export default router;

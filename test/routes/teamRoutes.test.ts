@@ -6,6 +6,14 @@ import { ConferenceType } from '../../src/api/nba/models/standingsSim/conference
 
 jest.mock('../../src/api/nba/repositories/firestoreRepositories');
 
+jest.mock("../../src/api/nba/middleware/authenticate", () => {
+    return jest.fn((_req: any, _res: any, next: any) => next());
+});
+
+jest.mock("../../src/api/nba/middleware/authorize", () => {
+    return jest.fn(() => (_req: any, _res: any, next: any) => next());
+});
+
 describe("teamService", () => {
     beforeEach(() => {
         jest.clearAllMocks();
@@ -66,7 +74,7 @@ describe("teamService", () => {
             smallForward: null,
             powerForward: null,
             centre: null,
-            record: { wins: 0, losses: 0},
+            record: { wins: 0, losses: 0 },
             coach: null,
             createdAt: mockDate,
             updatedAt: mockDate,

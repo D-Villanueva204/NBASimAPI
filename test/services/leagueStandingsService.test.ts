@@ -14,7 +14,6 @@ describe("leagueStandingsService", () => {
     const dateNow = new Date();
     const expectedSeason = `${dateNow.getFullYear()}-${(Number(dateNow.getFullYear()) + 1)}`;
 
-
     it("should create a LeagueStandings object", async () => {
 
         (updateConferences as jest.Mock).mockResolvedValue({

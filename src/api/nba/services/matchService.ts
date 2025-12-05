@@ -310,8 +310,9 @@ const generatePossession = (offense: Team, defense: Team): Possession => {
         } else {
             // If made, assist is rewarding to random player on offense team that's not the
             // shooter. No rebounder awarded.
-            offensePlayers.splice(offensePlayers.indexOf(shooter!));
-            assist = offensePlayers[Math.floor(Math.random() * offensePlayers.length)];
+            let noShooter = structuredClone(offensePlayers);
+            noShooter.splice(offensePlayers.indexOf(shooter!), 1);
+            assist = noShooter[Math.floor(Math.random() * noShooter.length)];
             rebounder = null;
         }
     }
@@ -409,7 +410,7 @@ export const reviewMatch = async (matchId: string, approved: boolean): Promise<M
             else {
                 await teamService.updateRecord(approvedMatch.homeTeam, false);
             }
-            
+
             // Update to archivedMatches.
             await createDocument<archivedMatch>(ARCHIVED_MATCHES_COLLECTION, approvedMatch);
 

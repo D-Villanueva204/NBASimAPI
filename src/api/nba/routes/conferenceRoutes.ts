@@ -1,4 +1,6 @@
 import express, { Router } from "express";
+import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 import * as conferenceController from "../controllers/conferenceController";
 
 const router: Router = express.Router();
@@ -8,10 +10,10 @@ const router: Router = express.Router();
  * /api/nba/conference/:
  *   put:
  *     summary: Update conferences.
- *     tags: [Admin]
  *     description: Updates conferences by recalculating all Team Records.
+ *     tags: [Admin]
  *     requestBody:
- *       description: no request body.
+ *       description: This endpoint does not require a request body.
  *       content: {}
  *     responses:
  *       '200':
@@ -28,7 +30,6 @@ const router: Router = express.Router();
  *                   type: string
  *                   example: "Conferences updated."
  */
-
-router.put("/", conferenceController.updateConferences);
+router.put("/", authenticate, isAuthorized({ hasRole: ["admin"] }), conferenceController.updateConferences);
 
 export default router;
