@@ -2,6 +2,8 @@ import express, { Router } from "express";
 import * as playerController from "../controllers/playerController";
 import { validateRequest } from "../middleware/validate";
 import { playerSchemas } from "../validations/playerValidations";
+import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 
 const router: Router = express.Router();
 
@@ -45,7 +47,7 @@ const router: Router = express.Router();
  *       '201':
  *         description: Player sent to Commissioner for Approval.
  */
-router.post("/", validateRequest(playerSchemas.create), playerController.createPlayer);
+router.post("/", authenticate, isAuthorized({ hasRole: ["coach", "admin"] }), validateRequest(playerSchemas.create), playerController.createPlayer);
 
 /**
  * @openapi
@@ -57,7 +59,7 @@ router.post("/", validateRequest(playerSchemas.create), playerController.createP
  *       '200':
  *         description: Players found and returned.
  */
-router.get("/admin/", playerController.getAllPlayers);
+router.get("/admin/", authenticate, isAuthorized({ hasRole: ["admin"] }), playerController.getAllPlayers);
 
 /**
  * @openapi
@@ -69,7 +71,7 @@ router.get("/admin/", playerController.getAllPlayers);
  *       '200':
  *         description: Players found and returned.
  */
-router.get("/", playerController.getPlayers);
+router.get("/", authenticate, isAuthorized({ hasRole: ["user", "admin"] }), playerController.getPlayers);
 
 /**
  * @openapi
@@ -81,7 +83,7 @@ router.get("/", playerController.getPlayers);
  *       '200':
  *         description: Players found and returned.
  */
-router.get("/pending/", playerController.getPendingPlayers);
+router.get("/pending/", authenticate, isAuthorized({ hasRole: ["admin"] }), playerController.getPendingPlayers);
 
 
 /**
@@ -112,7 +114,7 @@ router.get("/pending/", playerController.getPendingPlayers);
  *       200:
  *         description: Player review status updated.
 */
-router.put("/review/:id", validateRequest(playerSchemas.reviewPlayer), playerController.reviewPlayer);
+router.put("/review/:id", authenticate, isAuthorized({ hasRole: ["admin"] }), validateRequest(playerSchemas.reviewPlayer), playerController.reviewPlayer);
 
 /**
  * @openapi
@@ -153,7 +155,7 @@ router.put("/review/:id", validateRequest(playerSchemas.reviewPlayer), playerCon
  *       200:
  *         description: Player updated successfully.
  */
-router.put("/update/:id", validateRequest(playerSchemas.update), playerController.updatePlayer);
+router.put("/update/:id", authenticate, isAuthorized({ hasRole: ["admin", "coach"] }), validateRequest(playerSchemas.update), playerController.updatePlayer);
 
 /**
  * @openapi
@@ -171,6 +173,6 @@ router.put("/update/:id", validateRequest(playerSchemas.update), playerControlle
  *       200:
  *         description: Player found.
  */
-router.get("/:id", validateRequest(playerSchemas.getPlayerById), playerController.getPlayerById);
+router.get("/:id", authenticate, isAuthorized({hasRole: ["admin", "user"]}), validateRequest(playerSchemas.getPlayerById), playerController.getPlayerById);
 
 export default router;

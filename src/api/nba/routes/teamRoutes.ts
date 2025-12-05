@@ -2,6 +2,8 @@ import express, { Router } from "express";
 import * as teamController from "../controllers/teamController";
 import { validateRequest } from "../middleware/validate";
 import { TeamSchemas } from "../validations/teamValidations";
+import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 
 const router: Router = express.Router();
 
@@ -47,7 +49,7 @@ const router: Router = express.Router();
  *                       type: string
  *                       example: "Toronto Raptors"
  */
-router.post("/", validateRequest(TeamSchemas.create), teamController.createTeam);
+router.post("/", authenticate, isAuthorized({ hasRole: ["admin", "coach"] }), validateRequest(TeamSchemas.create), teamController.createTeam);
 
 /**
  * @openapi
@@ -85,7 +87,7 @@ router.post("/", validateRequest(TeamSchemas.create), teamController.createTeam)
  *                         nullable: true
  *                         example: "coach456"
  */
-router.get("/", teamController.getTeams);
+router.get("/", authenticate, isAuthorized({ hasRole: ["admin", "user"] }), teamController.getTeams);
 
 /**
  * @openapi
@@ -124,7 +126,7 @@ router.get("/", teamController.getTeams);
  *                       type: string
  *                       nullable: true
  */
-router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamById);
+router.get("/:id", authenticate, isAuthorized({ hasRole: ["admin", "coach", "user"] }), validateRequest(TeamSchemas.getById), teamController.getTeamById);
 
 /**
  * @openapi
@@ -173,7 +175,7 @@ router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamB
  *                       type: string
  *                       example: "LA Lakers"
  */
-router.put("/name/:id", validateRequest(TeamSchemas.updateTeamName), teamController.updateTeamName);
+router.put("/name/:id", authenticate, isAuthorized({hasRole: ["admin", "coach"]}), validateRequest(TeamSchemas.updateTeamName), teamController.updateTeamName);
 
 /**
  * @openapi

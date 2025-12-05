@@ -1,6 +1,8 @@
 import express, { Router } from "express";
 import * as coachController from "../controllers/coachController";
 import { validateRequest } from "../middleware/validate";
+import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 import { coachSchemas } from "../validations/coachValidations";
 
 const router: Router = express.Router();
@@ -60,7 +62,7 @@ const router: Router = express.Router();
  *                       type: string
  *                       example: "2025-01-20T12:00:00Z"
  */
-router.post("/", validateRequest(coachSchemas.create), coachController.createCoach);
+router.post("/", authenticate, isAuthorized({hasRole: ["coach", "admin"]}), validateRequest(coachSchemas.create), coachController.createCoach);
 
 /**
  * @openapi
@@ -151,7 +153,7 @@ router.get("/", coachController.getCoaches);
  *                       type: string
  *                       example: "2025-01-20T12:00:00Z"
  */
-router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.getCoachById);
+router.get("/:id", authenticate, isAuthorized({hasRole: ["coach", "admin"]}), validateRequest(coachSchemas.getCoachById), coachController.getCoachById);
 
 /**
  * @openapi
@@ -212,6 +214,6 @@ router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.g
  *                       type: string
  *                       example: "2025-01-20T12:01:00Z"
  */
-router.put("/:id", validateRequest(coachSchemas.update), coachController.updateCoach);
+router.put("/:id", authenticate, isAuthorized({hasRole: ["coach", "admin"]}),  validateRequest(coachSchemas.update), coachController.updateCoach);
 
 export default router;

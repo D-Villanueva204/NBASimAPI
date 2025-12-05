@@ -1,5 +1,7 @@
 import { Router } from "express";
 import * as matchController from "../controllers/matchController";
+import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 import { validateRequest } from "../middleware/validate";
 import { matchSchemas } from "../validations/matchValidations";
 
@@ -45,7 +47,7 @@ const router = Router();
  *                 data:
  *                   type: object
  */
-router.post("/", validateRequest(matchSchemas.setupMatch), matchController.setupMatch);
+router.post("/", authenticate, isAuthorized({ hasRole: ["coach", "admin"] }), validateRequest(matchSchemas.setupMatch), matchController.setupMatch);
 
 /**
  * @openapi
@@ -73,7 +75,7 @@ router.post("/", validateRequest(matchSchemas.setupMatch), matchController.setup
  *                   type: string
  *                   example: "Pending matches retrieved"
  */
-router.get("/pending", matchController.getMatches);
+router.get("/pending", authenticate, isAuthorized({ hasRole: ["admin"] }), matchController.getMatches);
 
 /**
  * @openapi
@@ -101,7 +103,7 @@ router.get("/pending", matchController.getMatches);
  *                   type: string
  *                   example: "Completed games returned"
  */
-router.get("/", matchController.getGames);
+router.get("/", authenticate, isAuthorized({ hasRole: ["user", "admin"] }), matchController.getGames);
 
 /**
  * @openapi
@@ -133,7 +135,7 @@ router.get("/", matchController.getGames);
  *                   type: string
  *                   example: "Pending match retrieved"
  */
-router.get("/pending/:id", validateRequest(matchSchemas.getMatch), matchController.getMatch);
+router.get("/pending/:id", authenticate, isAuthorized({ hasRole: ["admin"] }), validateRequest(matchSchemas.getMatch), matchController.getMatch);
 
 /**
  * @openapi
@@ -166,7 +168,7 @@ router.get("/pending/:id", validateRequest(matchSchemas.getMatch), matchControll
  *                   type: string
  *                   example: "Match simulated"
  */
-router.post("/play/:id", validateRequest(matchSchemas.playMatch), matchController.playMatch);
+router.post("/play/:id", authenticate, isAuthorized({ hasRole: ["coach", "admin"] }), validateRequest(matchSchemas.playMatch), matchController.playMatch);
 
 /**
  * @openapi
@@ -209,6 +211,6 @@ router.post("/play/:id", validateRequest(matchSchemas.playMatch), matchControlle
  *                   type: string
  *                   example: "Match reviewed"
  */
-router.put("/review/:id", validateRequest(matchSchemas.reviewMatch), matchController.reviewMatch);
+router.put("/review/:id", authenticate, isAuthorized({ hasRole: ["admin"] }), validateRequest(matchSchemas.reviewMatch), matchController.reviewMatch);
 
 export default router;

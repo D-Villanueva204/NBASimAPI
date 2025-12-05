@@ -2,6 +2,8 @@ import { Router } from "express";
 import * as possessionsController from "../controllers/possessionsController";
 import { validateRequest } from "../middleware/validate";
 import { possessionSchemas } from "../validations/possessionsValidations";
+import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 
 const router = Router();
 
@@ -106,6 +108,6 @@ const router = Router();
  *                                 example: "Luka Doncic"
  *                             example: null
  */
-router.get("/:id", validateRequest(possessionSchemas.getById), possessionsController.getPossessions);
+router.get("/:id", authenticate, isAuthorized({hasRole: ["admin", "user", "coach"]}), validateRequest(possessionSchemas.getById), possessionsController.getPossessions);
 
 export default router;

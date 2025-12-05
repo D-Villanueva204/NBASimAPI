@@ -5,7 +5,7 @@ import { AuthenticationError } from "../errors/errors";
 import { getErrorMessage, getErrorCode } from "../utils/errorUtils";
 
 // Internal module imports
-import { auth } from "../../../config/firebaseConfig";
+import { auth } from "../../../../config/firebaseConfig";
 
 /**
  * Middleware to authenticate a user using a Firebase ID token.

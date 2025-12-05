@@ -1,4 +1,6 @@
 import express, { Router } from "express";
+import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 import * as conferenceController from "../controllers/conferenceController";
 
 const router: Router = express.Router();
@@ -29,6 +31,6 @@ const router: Router = express.Router();
  *                   example: "Conferences updated."
  */
 
-router.put("/", conferenceController.updateConferences);
+router.put("/", authenticate, isAuthorized({ hasRole: ["admin"] }), conferenceController.updateConferences);
 
 export default router;
