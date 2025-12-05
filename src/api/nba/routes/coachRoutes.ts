@@ -97,10 +97,10 @@ router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.g
  *       - name: id
  *         in: path
  *         required: true
+ *         description: The ID of the Coach to update
  *         schema:
  *           type: string
- *         description: The id of the Coach to update
- *       requestBody:
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -121,8 +121,8 @@ router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.g
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ResponseSchema'
- * 
  */
+
 router.put("/:id", validateRequest(coachSchemas.update), coachController.updateCoach);
 
 export default router;

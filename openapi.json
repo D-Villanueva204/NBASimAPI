@@ -25,6 +25,989 @@
       "bearerAuth": []
     }
   ],
-  "paths": {},
+  "paths": {
+    "/api/nba/coach/": {
+      "post": {
+        "summary": "Creates a coach and adds to Firebase Collection. Team can be assigned.",
+        "tags": [
+          "Coaches",
+          "Admin"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Phil Jackson"
+                  },
+                  "currentTeam": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "Lakers"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Coach created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coach"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieves all coaches by method",
+        "tags": [
+          "Coaches",
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Coaches found and returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/coach/{id}": {
+      "get": {
+        "summary": "Retrieves a single coach by ID",
+        "tags": [
+          "Coaches"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The id of the coach"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coach found and returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Coach found"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Coach"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a Coach from Firebase.",
+        "tags": [
+          "Coaches",
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the Coach to update",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Phil Jackson"
+                  },
+                  "currentTeam": {
+                    "type": "string",
+                    "example": "LA Lakers"
+                  }
+                },
+                "description": "Fields to update on the Coach."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Coach updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/conference/": {
+      "put": {
+        "summary": "Update conferences.",
+        "tags": [
+          "Admin"
+        ],
+        "description": "Updates conferences by all Team Record",
+        "responses": {
+          "200": {
+            "description": "Conferences updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Conferences updated."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/standings/": {
+      "post": {
+        "summary": "Create new standings for a new season.",
+        "description": "Automatically generates standings for a new season.",
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "201": {
+            "description": "Standings created for the new season."
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all league standings.",
+        "description": "Retrieves all standings across all seasons.",
+        "tags": [
+          "LeagueStandings",
+          "Users",
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "All standings retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/standings/{season}": {
+      "get": {
+        "summary": "Get league standings by season.",
+        "description": "Retrieves standings for a specific season.",
+        "tags": [
+          "Admin",
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "season",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Season for standings to be retrieved",
+              "example": "2024-2025"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Standings found for the given season.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update league standings for a specific season.",
+        "description": "Updates standings manually for a given season.",
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "season",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Season for standings to be retrieved",
+              "example": "2024-2025"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Standings updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/match/": {
+      "post": {
+        "summary": "Create a new pending match request",
+        "description": "Sends a match to the commissioner (admin) for approval by providing the home and away teams.",
+        "tags": [
+          "Matches",
+          "Coaches"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "homeTeam",
+                  "awayTeam"
+                ],
+                "properties": {
+                  "homeTeam": {
+                    "type": "string",
+                    "example": "Lakers"
+                  },
+                  "awayTeam": {
+                    "type": "string",
+                    "example": "Celtics"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Game sent to Commissioner for Approval.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all completed and approved games",
+        "description": "Returns all archived games that have been played and approved.",
+        "tags": [
+          "Matches",
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Games found and returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/match/pending": {
+      "get": {
+        "summary": "Get all pending matches",
+        "description": "Retrieves all unapproved matches waiting for commissioner review.",
+        "tags": [
+          "Matches",
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "All pending matches returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/match/pending/{id}": {
+      "get": {
+        "summary": "Get a single pending match by ID",
+        "tags": [
+          "Matches",
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "matchId to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Match found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/match/play/{id}": {
+      "post": {
+        "summary": "Simulate a match",
+        "description": "Plays a pending match, once finished, sent to Commissioner for approval.",
+        "tags": [
+          "Matches",
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the match to simulate",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Match successfully simulated and sent to Commissioner for approval.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/match/review/{id}": {
+      "put": {
+        "summary": "Approve or Decline Match. If approved, then sent to archive. If not, returned.",
+        "tags": [
+          "Matches",
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Match ID to review",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "approved"
+                ],
+                "properties": {
+                  "approved": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Match reviewed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/player/": {
+      "post": {
+        "summary": "Create a new player. Automatically sends to Commissioner (Admin) to approval.",
+        "tags": [
+          "Coaches",
+          "Admin"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "currentTeam",
+                  "position",
+                  "possession",
+                  "three",
+                  "layup",
+                  "defense"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "currentTeam": {
+                    "type": "string"
+                  },
+                  "position": {
+                    "type": "string"
+                  },
+                  "possession": {
+                    "type": "number",
+                    "description": "The likelihood of taking the shot during a team possession."
+                  },
+                  "three": {
+                    "type": "number"
+                  },
+                  "layup": {
+                    "type": "number"
+                  },
+                  "defense": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Player sent to Commissioner for Approval."
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve all approved active players. Meant for general users.",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Players found and returned."
+          }
+        }
+      }
+    },
+    "/api/nba/player/admin/": {
+      "get": {
+        "summary": "Retrieve all players, pending and approved. Meant for Commissioner.",
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Players found and returned."
+          }
+        }
+      }
+    },
+    "/api/nba/player/pending/": {
+      "get": {
+        "summary": "Retrieve all pending. Meant for Commissioner.",
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Players found and returned."
+          }
+        }
+      }
+    },
+    "/api/nba/player/review/{id}": {
+      "put": {
+        "summary": "Approves or Rejects Player by Id. Meant for Commissioner.",
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "approved"
+                ],
+                "properties": {
+                  "approved": {
+                    "type": "boolean",
+                    "description": "true approves player and updates status, false returns player."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Player review status updated."
+          }
+        }
+      }
+    },
+    "/api/nba/player/update/{id}": {
+      "put": {
+        "summary": "Update an existing player. Meant for Coaches. Player is deactivated and sent to Commissioner for approval.",
+        "tags": [
+          "Coaches"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the player to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "position": {
+                    "type": "string"
+                  },
+                  "currentTeam": {
+                    "type": "string"
+                  },
+                  "possession": {
+                    "type": "number",
+                    "description": "Likelihood of taking a shot during team possession"
+                  },
+                  "three": {
+                    "type": "number"
+                  },
+                  "layup": {
+                    "type": "number"
+                  },
+                  "defense": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Player updated successfully."
+          }
+        }
+      }
+    },
+    "/api/nba/player/{id}": {
+      "get": {
+        "summary": "Gets a player by Id. Meant for all users.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Player found."
+          }
+        }
+      }
+    },
+    "/api/nba/possessions/{id}": {
+      "get": {
+        "summary": "Get all possessions/events for a match",
+        "description": "Retrieves all possessions for a given match (that is played).",
+        "tags": [
+          "Matches",
+          "Users",
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the match to retrieve possessions for",
+            "schema": {
+              "type": "string",
+              "example": "match123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Match possessions/events retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/team/": {
+      "post": {
+        "summary": "Creates a new team. Meant for Coaches.",
+        "tags": [
+          "Teams",
+          "Coaches"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Toronto Raptors"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Team created."
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieves all teams. Meant for Users.",
+        "tags": [
+          "Teams",
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of teams retrieved successfully."
+          }
+        }
+      }
+    },
+    "/api/nba/team/{id}": {
+      "get": {
+        "summary": "Get team by ID",
+        "tags": [
+          "Teams",
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Team retrieved successfully."
+          }
+        }
+      }
+    },
+    "/api/nba/team/name/{id}": {
+      "put": {
+        "summary": "Updates a team's name. Meant for Coaches.",
+        "tags": [
+          "Teams",
+          "Coaches"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "newName"
+                ],
+                "properties": {
+                  "newName": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Team name updated successfully."
+          }
+        }
+      }
+    },
+    "/api/nba/team/player/{id}": {
+      "put": {
+        "summary": "Adds or updates a player's status on a team. Also updates Player file.",
+        "tags": [
+          "Teams",
+          "Coaches"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "playerId"
+                ],
+                "properties": {
+                  "playerId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Player added or updated for the team."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Removes a player from team. Deactivates player and sends to Commissioner for approval. Also updates Player file.",
+        "tags": [
+          "Teams",
+          "Coaches"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "playerId"
+                ],
+                "properties": {
+                  "playerId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Team updated. Player also updated."
+          }
+        }
+      }
+    },
+    "/api/nba/team/coach/{id}": {
+      "put": {
+        "summary": "Assign a coach to a team. Meant for Admin.",
+        "tags": [
+          "Teams",
+          "Coaches"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "coachId"
+                ],
+                "properties": {
+                  "coachId": {
+                    "type": "string",
+                    "example": "coach456"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Coach assigned successfully."
+          }
+        }
+      }
+    }
+  },
   "tags": []
 }
