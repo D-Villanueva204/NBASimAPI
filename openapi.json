@@ -59,57 +59,7 @@
         },
         "responses": {
           "201": {
-            "description": "Coach created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Coach"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "Retrieves all coaches by method",
-        "tags": [
-          "Coaches",
-          "Admin"
-        ],
-        "responses": {
-          "200": {
-            "description": "Coaches found and returned",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/nba/coach/{id}": {
-      "get": {
-        "summary": "Retrieves a single coach by ID",
-        "tags": [
-          "Coaches"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The id of the coach"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Coach found and returned",
+            "description": "Coach created.",
             "content": {
               "application/json": {
                 "schema": {
@@ -121,10 +71,155 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Coach found"
+                      "example": "Coach created."
                     },
                     "data": {
-                      "$ref": "#/components/schemas/Coach"
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "abc123"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Phil Jackson"
+                        },
+                        "currentTeam": {
+                          "type": "string",
+                          "example": "Lakers"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2025-01-20T12:00:00Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2025-01-20T12:00:00Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieves all coaches.",
+        "tags": [
+          "Coaches",
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Coaches found and returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Coaches retrieved."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "abc123"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Steve Kerr"
+                          },
+                          "currentTeam": {
+                            "type": "string",
+                            "example": "Warriors"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2025-01-20T12:00:00Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2025-01-20T12:00:00Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nba/coach/{id}": {
+      "get": {
+        "summary": "Retrieves a single coach by ID.",
+        "tags": [
+          "Coaches"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the coach to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coach found and returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Coach found."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "abc123"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Gregg Popovich"
+                        },
+                        "currentTeam": {
+                          "type": "string",
+                          "example": "Spurs"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2025-01-20T12:00:00Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2025-01-20T12:00:00Z"
+                        }
+                      }
                     }
                   }
                 }
@@ -134,7 +229,7 @@
         }
       },
       "put": {
-        "summary": "Updates a Coach from Firebase.",
+        "summary": "Updates a coach in Firebase.",
         "tags": [
           "Coaches",
           "Admin"
@@ -144,7 +239,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "The ID of the Coach to update",
+            "description": "The ID of the Coach to update.",
             "schema": {
               "type": "string"
             }
@@ -159,14 +254,13 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "example": "Phil Jackson"
+                    "example": "Doc Rivers"
                   },
                   "currentTeam": {
                     "type": "string",
-                    "example": "LA Lakers"
+                    "example": "76ers"
                   }
-                },
-                "description": "Fields to update on the Coach."
+                }
               }
             }
           }
@@ -177,7 +271,42 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Coach updated."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "abc123"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Doc Rivers"
+                        },
+                        "currentTeam": {
+                          "type": "string",
+                          "example": "76ers"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2025-01-20T12:00:00Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2025-01-20T12:01:00Z"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -191,7 +320,11 @@
         "tags": [
           "Admin"
         ],
-        "description": "Updates conferences by all Team Record",
+        "description": "Updates conferences by recalculating all Team Records.",
+        "requestBody": {
+          "description": "no request body.",
+          "content": {}
+        },
         "responses": {
           "200": {
             "description": "Conferences updated successfully.",
@@ -223,9 +356,30 @@
         "tags": [
           "Admin"
         ],
+        "requestBody": {
+          "description": "This endpoint does not require a request body.",
+          "content": {}
+        },
         "responses": {
           "201": {
-            "description": "Standings created for the new season."
+            "description": "Standings created for the new season.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Standings created for new season"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -243,7 +397,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Standings retrieved"
+                    }
+                  }
                 }
               }
             }
@@ -265,10 +435,10 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "description": "Season for standings to be retrieved",
-              "example": "2024-2025"
-            }
+              "type": "string"
+            },
+            "example": "2024-2025",
+            "description": "Season for the standings being requested."
           }
         ],
         "responses": {
@@ -277,7 +447,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Standings retrieved"
+                    }
+                  }
                 }
               }
             }
@@ -296,19 +479,40 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "description": "Season for standings to be retrieved",
-              "example": "2024-2025"
-            }
+              "type": "string"
+            },
+            "example": "2024-2025",
+            "description": "Season for the standings to update."
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "Fields used to update standings."
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Standings updated successfully.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Standings updated"
+                    }
+                  }
                 }
               }
             }
@@ -319,7 +523,7 @@
     "/api/nba/match/": {
       "post": {
         "summary": "Create a new pending match request",
-        "description": "Sends a match to the commissioner (admin) for approval by providing the home and away teams.",
+        "description": "Sends a match to the Commissioner (admin) for approval by providing the home and away teams.",
         "tags": [
           "Matches",
           "Coaches"
@@ -354,7 +558,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Match created and sent to Commissioner"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
                 }
               }
             }
@@ -374,7 +591,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Completed games returned"
+                    }
+                  }
                 }
               }
             }
@@ -396,7 +629,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Pending matches retrieved"
+                    }
+                  }
                 }
               }
             }
@@ -428,7 +677,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Pending match retrieved"
+                    }
+                  }
                 }
               }
             }
@@ -439,7 +701,7 @@
     "/api/nba/match/play/{id}": {
       "post": {
         "summary": "Simulate a match",
-        "description": "Plays a pending match, once finished, sent to Commissioner for approval.",
+        "description": "Plays a pending match, then sends it to the Commissioner for approval.",
         "tags": [
           "Matches",
           "Admin"
@@ -461,7 +723,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Match simulated"
+                    }
+                  }
                 }
               }
             }
@@ -471,7 +746,8 @@
     },
     "/api/nba/match/review/{id}": {
       "put": {
-        "summary": "Approve or Decline Match. If approved, then sent to archive. If not, returned.",
+        "summary": "Approve or Decline Match",
+        "description": "If approved, match is archived. If declined, returned.",
         "tags": [
           "Matches",
           "Admin"
@@ -512,7 +788,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Match reviewed"
+                    }
+                  }
                 }
               }
             }
@@ -740,7 +1026,7 @@
     "/api/nba/possessions/{id}": {
       "get": {
         "summary": "Get all possessions/events for a match",
-        "description": "Retrieves all possessions for a given match (that is played).",
+        "description": "Retrieves all possessions for a given match that has been played.",
         "tags": [
           "Matches",
           "Users",
@@ -764,7 +1050,117 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseSchema"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Match events returned"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "Compiled Possessions object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "match123"
+                        },
+                        "events": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "description": "A single possession event",
+                            "properties": {
+                              "shot": {
+                                "type": "object",
+                                "description": "Shot result details",
+                                "properties": {
+                                  "made": {
+                                    "type": "boolean",
+                                    "example": true
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "example": "three"
+                                  },
+                                  "contested": {
+                                    "type": "boolean",
+                                    "example": false
+                                  }
+                                }
+                              },
+                              "currentTeam": {
+                                "type": "string",
+                                "example": "LAL"
+                              },
+                              "shooter": {
+                                "type": "object",
+                                "properties": {
+                                  "playerId": {
+                                    "type": "string",
+                                    "example": "player123"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "example": "LeBron James"
+                                  }
+                                }
+                              },
+                              "defender": {
+                                "type": "object",
+                                "properties": {
+                                  "playerId": {
+                                    "type": "string",
+                                    "example": "player456"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "example": "Marcus Smart"
+                                  }
+                                }
+                              },
+                              "rebound": {
+                                "type": "object",
+                                "nullable": true,
+                                "properties": {
+                                  "playerId": {
+                                    "type": "string",
+                                    "example": "player789"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "example": "Deandre Ayton"
+                                  }
+                                },
+                                "example": {
+                                  "playerId": "player789",
+                                  "name": "Deandre Ayton"
+                                }
+                              },
+                              "assist": {
+                                "type": "object",
+                                "nullable": true,
+                                "properties": {
+                                  "playerId": {
+                                    "type": "string",
+                                    "example": "player321"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "example": "Luka Doncic"
+                                  }
+                                },
+                                "example": null
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -800,7 +1196,37 @@
         },
         "responses": {
           "201": {
-            "description": "Team created."
+            "description": "Team created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Team created."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "team123"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Toronto Raptors"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -812,7 +1238,45 @@
         ],
         "responses": {
           "200": {
-            "description": "List of teams retrieved successfully."
+            "description": "List of teams retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Teams found and returned."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "team123"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Toronto Raptors"
+                          },
+                          "coachId": {
+                            "type": "string",
+                            "nullable": true,
+                            "example": "coach456"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -836,7 +1300,39 @@
         ],
         "responses": {
           "200": {
-            "description": "Team retrieved successfully."
+            "description": "Team retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Team found."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "coachId": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -869,7 +1365,8 @@
                 ],
                 "properties": {
                   "newName": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "LA Lakers"
                   }
                 }
               }
@@ -878,7 +1375,36 @@
         },
         "responses": {
           "200": {
-            "description": "Team name updated successfully."
+            "description": "Team name updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Team name updated."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "LA Lakers"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -911,7 +1437,8 @@
                 ],
                 "properties": {
                   "playerId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "player789"
                   }
                 }
               }
@@ -920,12 +1447,40 @@
         },
         "responses": {
           "200": {
-            "description": "Player added or updated for the team."
+            "description": "Player added or updated for the team.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Team updated."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "teamId": {
+                          "type": "string"
+                        },
+                        "playerId": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
       "delete": {
-        "summary": "Removes a player from team. Deactivates player and sends to Commissioner for approval. Also updates Player file.",
+        "summary": "Removes a player from team. Deactivates player and sends to Commissioner for approval.",
         "tags": [
           "Teams",
           "Coaches"
@@ -951,7 +1506,8 @@
                 ],
                 "properties": {
                   "playerId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "player789"
                   }
                 }
               }
@@ -960,7 +1516,35 @@
         },
         "responses": {
           "200": {
-            "description": "Team updated. Player also updated."
+            "description": "Team updated. Player also updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Team updated"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "teamId": {
+                          "type": "string"
+                        },
+                        "playerId": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1003,7 +1587,35 @@
         },
         "responses": {
           "200": {
-            "description": "Coach assigned successfully."
+            "description": "Coach assigned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Team updated."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "teamId": {
+                          "type": "string"
+                        },
+                        "coachId": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
