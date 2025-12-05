@@ -26,6 +26,26 @@ const router: Router = express.Router();
  *     responses:
  *       '201':
  *         description: Team created.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Team created."
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: "team123"
+ *                     name:
+ *                       type: string
+ *                       example: "Toronto Raptors"
  */
 router.post("/", validateRequest(TeamSchemas.create), teamController.createTeam);
 
@@ -38,6 +58,32 @@ router.post("/", validateRequest(TeamSchemas.create), teamController.createTeam)
  *     responses:
  *       '200':
  *         description: List of teams retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Teams found and returned."
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "team123"
+ *                       name:
+ *                         type: string
+ *                         example: "Toronto Raptors"
+ *                       coachId:
+ *                         type: string
+ *                         nullable: true
+ *                         example: "coach456"
  */
 router.get("/", teamController.getTeams);
 
@@ -56,6 +102,27 @@ router.get("/", teamController.getTeams);
  *     responses:
  *       '200':
  *         description: Team retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Team found."
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                     coachId:
+ *                       type: string
+ *                       nullable: true
  */
 router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamById);
 
@@ -82,9 +149,29 @@ router.get("/:id", validateRequest(TeamSchemas.getById), teamController.getTeamB
  *             properties:
  *               newName:
  *                 type: string
+ *                 example: "LA Lakers"
  *     responses:
  *       '200':
  *         description: Team name updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Team name updated."
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                       example: "LA Lakers"
  */
 router.put("/name/:id", validateRequest(TeamSchemas.updateTeamName), teamController.updateTeamName);
 
@@ -111,9 +198,28 @@ router.put("/name/:id", validateRequest(TeamSchemas.updateTeamName), teamControl
  *             properties:
  *               playerId:
  *                 type: string
+ *                 example: "player789"
  *     responses:
  *       '200':
  *         description: Player added or updated for the team.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Team updated."
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     teamId:
+ *                       type: string
+ *                     playerId:
+ *                       type: string
  */
 router.put("/player/:id", validateRequest(TeamSchemas.updatePlayer), teamController.updatePlayer);
 
@@ -144,6 +250,24 @@ router.put("/player/:id", validateRequest(TeamSchemas.updatePlayer), teamControl
  *     responses:
  *       '200':
  *         description: Coach assigned successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Team updated."
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     teamId:
+ *                       type: string
+ *                     coachId:
+ *                       type: string
  */
 router.put("/coach/:id", validateRequest(TeamSchemas.assignCoach), teamController.assignCoach);
 
@@ -151,7 +275,7 @@ router.put("/coach/:id", validateRequest(TeamSchemas.assignCoach), teamControlle
  * @openapi
  * /api/nba/team/player/{id}:
  *   delete:
- *     summary: Removes a player from team. Deactivates player and sends to Commissioner for approval. Also updates Player file.
+ *     summary: Removes a player from team. Deactivates player and sends to Commissioner for approval.
  *     tags: [Teams, Coaches]
  *     parameters:
  *       - name: id
@@ -170,10 +294,30 @@ router.put("/coach/:id", validateRequest(TeamSchemas.assignCoach), teamControlle
  *             properties:
  *               playerId:
  *                 type: string
+ *                 example: "player789"
  *     responses:
  *       '200':
  *         description: Team updated. Player also updated.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Team updated"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     teamId:
+ *                       type: string
+ *                     playerId:
+ *                       type: string
  */
 router.delete("/player/:id", validateRequest(TeamSchemas.deletePlayer), teamController.deletePlayer);
+
 
 export default router;

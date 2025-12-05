@@ -10,7 +10,7 @@ const router = Router();
  * /api/nba/match/:
  *   post:
  *     summary: Create a new pending match request
- *     description: Sends a match to the commissioner (admin) for approval by providing the home and away teams.
+ *     description: Sends a match to the Commissioner (admin) for approval by providing the home and away teams.
  *     tags: [Matches, Coaches]
  *     requestBody:
  *       required: true
@@ -34,7 +34,16 @@ const router = Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ResponseSchema"
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Match created and sent to Commissioner"
+ *                 data:
+ *                   type: object
  */
 router.post("/", validateRequest(matchSchemas.setupMatch), matchController.setupMatch);
 
@@ -51,7 +60,18 @@ router.post("/", validateRequest(matchSchemas.setupMatch), matchController.setup
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ResponseSchema"
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 message:
+ *                   type: string
+ *                   example: "Pending matches retrieved"
  */
 router.get("/pending", matchController.getMatches);
 
@@ -59,7 +79,7 @@ router.get("/pending", matchController.getMatches);
  * @openapi
  * /api/nba/match/:
  *   get:
- *     summary: Get all completed and approved games 
+ *     summary: Get all completed and approved games
  *     description: Returns all archived games that have been played and approved.
  *     tags: [Matches, Users]
  *     responses:
@@ -68,7 +88,18 @@ router.get("/pending", matchController.getMatches);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ResponseSchema"
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 message:
+ *                   type: string
+ *                   example: "Completed games returned"
  */
 router.get("/", matchController.getGames);
 
@@ -91,7 +122,16 @@ router.get("/", matchController.getGames);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ResponseSchema"
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                 message:
+ *                   type: string
+ *                   example: "Pending match retrieved"
  */
 router.get("/pending/:id", validateRequest(matchSchemas.getMatch), matchController.getMatch);
 
@@ -100,7 +140,7 @@ router.get("/pending/:id", validateRequest(matchSchemas.getMatch), matchControll
  * /api/nba/match/play/{id}:
  *   post:
  *     summary: Simulate a match
- *     description: Plays a pending match, once finished, sent to Commissioner for approval.
+ *     description: Plays a pending match, then sends it to the Commissioner for approval.
  *     tags: [Matches, Admin]
  *     parameters:
  *       - in: path
@@ -115,7 +155,16 @@ router.get("/pending/:id", validateRequest(matchSchemas.getMatch), matchControll
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ResponseSchema"
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                 message:
+ *                   type: string
+ *                   example: "Match simulated"
  */
 router.post("/play/:id", validateRequest(matchSchemas.playMatch), matchController.playMatch);
 
@@ -123,7 +172,8 @@ router.post("/play/:id", validateRequest(matchSchemas.playMatch), matchControlle
  * @openapi
  * /api/nba/match/review/{id}:
  *   put:
- *     summary: Approve or Decline Match. If approved, then sent to archive. If not, returned.
+ *     summary: Approve or Decline Match
+ *     description: If approved, match is archived. If declined, returned.
  *     tags: [Matches, Admin]
  *     parameters:
  *       - in: path
@@ -150,7 +200,14 @@ router.post("/play/:id", validateRequest(matchSchemas.playMatch), matchControlle
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ResponseSchema"
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Match reviewed"
  */
 router.put("/review/:id", validateRequest(matchSchemas.reviewMatch), matchController.reviewMatch);
 

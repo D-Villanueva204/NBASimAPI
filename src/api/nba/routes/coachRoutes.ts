@@ -3,10 +3,8 @@ import * as coachController from "../controllers/coachController";
 import { validateRequest } from "../middleware/validate";
 import { coachSchemas } from "../validations/coachValidations";
 
-
 const router: Router = express.Router();
 
-// Routes
 /**
  * @openapi
  * /api/nba/coach/:
@@ -31,46 +29,7 @@ const router: Router = express.Router();
  *                 example: "Lakers"
  *     responses:
  *       '201':
- *         description: Coach created
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Coach'
- */
-router.post("/", validateRequest(coachSchemas.create), coachController.createCoach);
-/**
- * @openapi
- * /api/nba/coach/:
- *   get:
- *     summary: Retrieves all coaches by method
- *     tags: [Coaches, Admin]
- *     responses:
- *       '200':
- *         description: Coaches found and returned
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ResponseSchema'
- */
-
-router.get("/", coachController.getCoaches);
-
-/**
- * @openapi
- * /api/nba/coach/{id}:
- *   get:
- *     summary: Retrieves a single coach by ID
- *     tags: [Coaches]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *         description: The id of the coach
- *     responses:
- *       '200':
- *         description: Coach found and returned
+ *         description: Coach created.
  *         content:
  *           application/json:
  *             schema:
@@ -81,9 +40,116 @@ router.get("/", coachController.getCoaches);
  *                   example: true
  *                 message:
  *                   type: string
- *                   example: "Coach found"
+ *                   example: "Coach created."
  *                 data:
- *                   $ref: '#/components/schemas/Coach'
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: "abc123"
+ *                     name:
+ *                       type: string
+ *                       example: "Phil Jackson"
+ *                     currentTeam:
+ *                       type: string
+ *                       example: "Lakers"
+ *                     createdAt:
+ *                       type: string
+ *                       example: "2025-01-20T12:00:00Z"
+ *                     updatedAt:
+ *                       type: string
+ *                       example: "2025-01-20T12:00:00Z"
+ */
+router.post("/", validateRequest(coachSchemas.create), coachController.createCoach);
+
+/**
+ * @openapi
+ * /api/nba/coach/:
+ *   get:
+ *     summary: Retrieves all coaches.
+ *     tags: [Coaches, Admin]
+ *     responses:
+ *       '200':
+ *         description: Coaches found and returned.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Coaches retrieved."
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "abc123"
+ *                       name:
+ *                         type: string
+ *                         example: "Steve Kerr"
+ *                       currentTeam:
+ *                         type: string
+ *                         example: "Warriors"
+ *                       createdAt:
+ *                         type: string
+ *                         example: "2025-01-20T12:00:00Z"
+ *                       updatedAt:
+ *                         type: string
+ *                         example: "2025-01-20T12:00:00Z"
+ */
+router.get("/", coachController.getCoaches);
+
+/**
+ * @openapi
+ * /api/nba/coach/{id}:
+ *   get:
+ *     summary: Retrieves a single coach by ID.
+ *     tags: [Coaches]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the coach to retrieve.
+ *     responses:
+ *       '200':
+ *         description: Coach found and returned.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Coach found."
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: "abc123"
+ *                     name:
+ *                       type: string
+ *                       example: "Gregg Popovich"
+ *                     currentTeam:
+ *                       type: string
+ *                       example: "Spurs"
+ *                     createdAt:
+ *                       type: string
+ *                       example: "2025-01-20T12:00:00Z"
+ *                     updatedAt:
+ *                       type: string
+ *                       example: "2025-01-20T12:00:00Z"
  */
 router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.getCoachById);
 
@@ -91,13 +157,13 @@ router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.g
  * @openapi
  * /api/nba/coach/{id}:
  *   put:
- *     summary: Updates a Coach from Firebase.
+ *     summary: Updates a coach in Firebase.
  *     tags: [Coaches, Admin]
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         description: The ID of the Coach to update
+ *         description: The ID of the Coach to update.
  *         schema:
  *           type: string
  *     requestBody:
@@ -109,20 +175,43 @@ router.get("/:id", validateRequest(coachSchemas.getCoachById), coachController.g
  *             properties:
  *               name:
  *                 type: string
- *                 example: "Phil Jackson"
+ *                 example: "Doc Rivers"
  *               currentTeam:
  *                 type: string
- *                 example: "LA Lakers"
- *             description: Fields to update on the Coach.
+ *                 example: "76ers"
  *     responses:
  *       '200':
  *         description: Coach updated successfully.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ResponseSchema'
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Coach updated."
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: "abc123"
+ *                     name:
+ *                       type: string
+ *                       example: "Doc Rivers"
+ *                     currentTeam:
+ *                       type: string
+ *                       example: "76ers"
+ *                     createdAt:
+ *                       type: string
+ *                       example: "2025-01-20T12:00:00Z"
+ *                     updatedAt:
+ *                       type: string
+ *                       example: "2025-01-20T12:01:00Z"
  */
-
 router.put("/:id", validateRequest(coachSchemas.update), coachController.updateCoach);
 
 export default router;

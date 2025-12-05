@@ -9,7 +9,10 @@ const router: Router = express.Router();
  *   put:
  *     summary: Update conferences.
  *     tags: [Admin]
- *     description: Updates conferences by all Team Record
+ *     description: Updates conferences by recalculating all Team Records.
+ *     requestBody:
+ *       description: no request body.
+ *       content: {}
  *     responses:
  *       '200':
  *         description: Conferences updated successfully.
@@ -24,8 +27,8 @@ const router: Router = express.Router();
  *                 message:
  *                   type: string
  *                   example: "Conferences updated."
- * 
  */
+
 router.put("/", conferenceController.updateConferences);
 
 export default router;
