@@ -12,9 +12,23 @@ const router = express.Router();
  *     summary: Create new standings for a new season.
  *     description: Automatically generates standings for a new season.
  *     tags: [Admin]
+ *     requestBody:
+ *       description: This endpoint does not require a request body.
+ *       content: {}
  *     responses:
  *       '201':
  *         description: Standings created for the new season.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Standings created for new season"
  */
 router.post("/", validateRequest(standingsSchemas.create), leagueStandingsController.createNewStandings);
 
@@ -31,7 +45,18 @@ router.post("/", validateRequest(standingsSchemas.create), leagueStandingsContro
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ResponseSchema"
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 message:
+ *                   type: string
+ *                   example: "Standings retrieved"
  */
 router.get("/", leagueStandingsController.getStandings);
 
@@ -48,15 +73,24 @@ router.get("/", leagueStandingsController.getStandings);
  *         required: true
  *         schema:
  *           type: string
- *           description: "Season for standings to be retrieved"
- *           example: "2024-2025"
+ *         example: "2024-2025"
+ *         description: Season for the standings being requested.
  *     responses:
  *       '200':
  *         description: Standings found for the given season.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ResponseSchema"
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                 message:
+ *                   type: string
+ *                   example: "Standings retrieved"
  */
 router.get("/:season", validateRequest(standingsSchemas.getStandingsBySeason), leagueStandingsController.getStandingsBySeason);
 
@@ -73,15 +107,29 @@ router.get("/:season", validateRequest(standingsSchemas.getStandingsBySeason), l
  *         required: true
  *         schema:
  *           type: string
- *           description: "Season for standings to be retrieved"
- *           example: "2024-2025"
+ *         example: "2024-2025"
+ *         description: Season for the standings to update.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             description: Fields used to update standings.
  *     responses:
  *       '200':
  *         description: Standings updated successfully.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ResponseSchema"
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Standings updated"
  */
 router.put("/:season", leagueStandingsController.updateStandings);
 
